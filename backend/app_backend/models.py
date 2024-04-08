@@ -12,6 +12,28 @@ class FerramentaManager(models.Manager):
             status=status
         )
         return ferramenta
+    
+    def get_ferramenta_por_id(self, id):
+        try:
+            return self.get(id=id)
+        except self.model.DoesNotExist:
+            return None
+
+    def atualizar_ferramenta(self, id, **kwargs):
+        ferramenta = self.get_ferramenta_por_id(id)
+        if ferramenta:
+            for key, value in kwargs.items():
+                setattr(ferramenta, key, value)
+            ferramenta.save()
+            return ferramenta
+        return None
+
+    def deletar_ferramenta(self, id):
+        ferramenta = self.get_ferramenta_por_id(id)
+        if ferramenta:
+            ferramenta.delete()
+            return True
+        return False
 
 class Ferramenta(models.Model):
     nome = models.CharField(max_length=255)
@@ -89,3 +111,52 @@ class Cargo(models.Model):
 
     def __str__(self):
         return self.nomeCargo
+
+
+class Emprestimo:
+    def __init__(self, codigoEmprestimo, numSerie, matriculaFuncionario, dataEmprestimo, dataDevolucao, observacoes):
+        self.codigoEmprestimo = codigoEmprestimo
+        self.numSerie = numSerie
+        self.matriculaFuncionario = matriculaFuncionario
+        self.dataEmprestimo = dataEmprestimo
+        self.dataDevolucao = dataDevolucao
+        self.observacoes = observacoes
+
+    def __str__(self):
+        return f"Emprestimo: {self.codigoEmprestimo}, Numero de Serie: {self.numSerie}, Matricula do Funcionario: {self.matriculaFuncionario}, Data de Emprestimo: {self.dataEmprestimo}, Data de Devolucao: {self.dataDevolucao}, Observacoes: {self.observacoes}"
+
+
+class EmprestimoManager:
+    def __init__(self):
+        self.emprestimos = []
+
+    def adicionar_emprestimo(self, codigoEmprestimo, numSerie, matriculaFuncionario, dataEmprestimo, dataDevolucao, observacoes):
+        emprestimo = Emprestimo(codigoEmprestimo, numSerie, matriculaFuncionario, dataEmprestimo, dataDevolucao, observacoes)
+        self.emprestimos.append(emprestimo)
+        return emprestimo
+
+    def mostrar_emprestimos(self):
+        for emprestimo in self.emprestimos:
+            print(emprestimo)
+
+    def apagar_emprestimo(self, codigoEmprestimo):
+        for i, emprestimo in enumerate(self.emprestimos):
+            if emprestimo.codigoEmprestimo == codigoEmprestimo:
+                del self.emprestimos[i]
+                return True
+        return False
+
+    def alterar_emprestimo(self, codigoEmprestimo, **kwargs):
+        for emprestimo in self.emprestimos:
+            if emprestimo.codigoEmprestimo == codigoEmprestimo:
+                for key, value in kwargs.items():
+                    setattr(emprestimo, key, value)
+                return emprestimo
+        return None
+
+    def adicionar_observacoes(self, codigoEmprestimo, observacoes):
+        for emprestimo in self.emprestimos:
+            if emprestimo.codigoEmprestimo == codigoEmprestimo:
+                emprestimo.observacoes += f" {observacoes}"
+                return emprestimo
+        return None
