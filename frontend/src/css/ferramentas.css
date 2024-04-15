@@ -1,0 +1,219 @@
+/* Importar a fonte LATO do Google Fontes */
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+/* Resetar o CSS */
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+body {
+    line-height: 1;
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/* Fim do reset do CSS */
+
+html {
+    height: 62.5%;
+    width: 62.5%;
+    font-size: 62.5%;
+}
+
+body {
+    background-color: #353535;
+}
+
+.texto_menu{
+    color: rgba(0, 0, 0, 0.70);
+    font: normal 500 1.75rem 'Lato';
+    margin: 8%;
+}
+
+#texto_ferramentas {
+    color: white;
+}
+
+#menu {
+    background-color: white;
+    width: 13.25vw;
+    height: 100vh;
+    min-width: 23rem;
+}
+
+.div_navbar{
+    border-bottom: 1px solid black ;
+    display: flex;
+}
+
+
+.quadradinho{
+    height: 5.6vh;
+    width: 5.6vh;
+    min-height: 6.1rem;
+    min-width: 6.1rem;
+}
+
+#ferramentas{
+    background-color: #F46524;
+}
+
+a {
+    text-decoration: none;
+}
+
+#tela{
+    height: 100vh;
+    width: 86.75vw;
+    background-color: rgba(255, 0, 0, 0);
+    display: flex;
+    margin-left: 13.25vw;
+    position: fixed;
+}
+
+nav {
+    position: fixed;
+}
+
+#cadastro{
+    height: 40vh;
+    width: 37.5vw;
+    background-color: #444444;
+    margin: auto;
+    border-radius: 2rem;
+    box-shadow: 0 0 50px 5px rgba(0, 0, 0, 0.185);
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    justify-content:center;
+    align-items: center;
+    min-height: 40rem;
+    min-width: 37.5vw;  
+}
+
+input:not(#cadastro_ferramenta,.foto,#foto_texto,#foto_arquivo,#data_aquisicao_datepicker,#data_aquisicao){
+    padding: 0.9rem;
+    margin: 0rem 1rem 0rem 1rem;
+    border-radius: 0.6rem;
+    background-color: #353535;
+    width: 35vw;
+    margin: 0.5rem;
+    box-shadow: none;
+    border: 0;
+    outline: 0;
+    color: white;
+    font: normal 500 2rem 'Lato';
+}
+
+::-webkit-file-upload-button {
+    display: none;
+ }
+
+#foto_arquivo{
+    padding: 0.9rem;
+    border-radius: 0.6rem;
+    background-color: #353535;
+    width: 25.5vw;
+    margin: 0.5rem;
+    box-shadow: none;
+    border: 0;
+    outline: 0;
+    color: #ffffff7e;
+    font: normal 100 2rem 'Lato';
+ }
+
+#foto_texto{
+    padding: 0.9rem;
+    border-radius: 0.6rem;
+    background-color: #353535;
+    width: 8vw;
+    margin-left: auto;
+    margin: 0.5rem;
+    box-shadow: none;
+    border: 0;
+    outline: 0;
+    color: white;
+    font: normal 500 2rem 'Lato';
+}
+
+#data_aquisicao_datepicker,#data_aquisicao{
+    width: 45.8%;
+    align-self: flex-end;
+    margin: 0.5rem 1rem 0.5rem 0.5rem;
+    height: 4.5vh;
+    background-color: #353535;
+    box-shadow: none;
+    border: 0;
+    padding-left: 1%;
+    outline: 0;
+    color: white;
+    font: normal 300 2rem 'Lato';
+    color: rgba(255, 255, 255, 0.5);
+    border-radius: 0.6rem;
+}
+
+.spacer{
+    display: flex;
+}
+
+input::placeholder{
+    color: rgba(255, 255, 255, 0.5);
+    font: normal 300 1.75rem 'Lato';
+}
+
+#enviar{
+    background-color: #E1E1E1;
+    border: 0;
+    font: normal 600 2rem 'Lato';
+    color: black;
+    height: 3.8vh;
+    width: 35vw;
+    border-radius: 1rem;
+    margin-top: 0.8rem;
+    min-width: 35vw;
+    min-height: 4rem;
+}
+
+#cadastro_ferramenta{
+    position: inherit;
+    font: normal 700 4rem 'Lato';
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    color: white;
+}
