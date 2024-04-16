@@ -3,6 +3,10 @@
 
 /* Resetar o CSS */
 
+*{
+    box-sizing: border-box;
+}
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -126,7 +130,7 @@ nav {
     min-width: 37.5vw;  
 }
 
-input:not(#cadastro_funcionario,.foto,#setor,#cargo,#foto_texto,#foto_arquivo){
+input:not(#cadastro_funcionario,.foto,#setor,#cargo,#foto_texto,#foto_arquivo,#cpf_label,#nome_label,#nome_input,#cpf_input){
     padding: 0.9rem;
     margin: 0rem 1rem 0rem 1rem;
     border-radius: 0.6rem;
@@ -144,39 +148,24 @@ input:not(#cadastro_funcionario,.foto,#setor,#cargo,#foto_texto,#foto_arquivo){
     display: none;
  }
 
-#foto_arquivo{
+#setor,#cargo,#foto_texto,#nome_label,#cpf_label{
     padding: 0.9rem;
     border-radius: 0.6rem;
     background-color: #353535;
-    width: 25.5vw;
-    margin: 0.5rem;
-    box-shadow: none;
-    border: 0;
-    outline: 0;
-    color: rgba(255, 255, 255, 0.463);
-    font: normal 100 2rem 'Lato';
- }
-
-#setor,#cargo,#foto_texto{
-    padding: 0.9rem;
-    border-radius: 0.6rem;
-    background-color: #353535;
-    width: 8vw;
+    width: 4vw;
     margin-left: auto;
     margin: 0.5rem;
     box-shadow: none;
     border: 0;
     outline: 0;
-    color: white;
-    font: normal 500 2rem 'Lato';
 }
 
 .spacer{
     display: flex;
 }
 
-#setor_select,#cargo_select{
-    width: 70%;
+#setor_select,#cargo_select,#cpf_input,#nome_input,#foto_arquivo{
+    width: 80%;
     align-self: flex-end;
     margin: 0.5rem -1.2rem 0.5rem 1rem;
     height: 4.5vh;
@@ -185,14 +174,18 @@ input:not(#cadastro_funcionario,.foto,#setor,#cargo,#foto_texto,#foto_arquivo){
     border: 0;
     outline: 0;
     color: white;
-    font: normal 300 2rem 'Lato';
-    color: rgba(255, 255, 255, 0.5);
+    font: normal 400 2rem 'Lato';
     border-radius: 0.6rem;
+    padding-left: 1rem;
+}
+
+#foto_arquivo{
+    text-align: center;
 }
 
 input::placeholder{
-    color: rgba(255, 255, 255, 0.5);
-    font: normal 300 1.75rem 'Lato';
+    color: rgb(255, 255, 255);
+    font: normal 500 1.75rem 'Lato';
 }
 
 #enviar{
