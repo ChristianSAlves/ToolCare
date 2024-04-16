@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,50 +14,74 @@
     <div id="tela">
         <form action="#" method="post" autocomplete="off" id="cadastro">
             <div id="teste">
-            <p id="cadastro_ferramenta">Cadastro de Ferramenta</p>
-            <input type="text" id="nome" name="nome" required placeholder="Nome">
-            <input type="text" id="categoria" name="categoria" required  placeholder="Categoria">
-            <input type="text" id="descricao" name="descricao" placeholder="Descrição">
-            <div class="spacer"><input type="text" id="data_aquisicao" name="data_aquisicao" placeholder="Data de Aquisição" disabled>
-            <input type="date" id="data_aquisicao_datepicker" required></div>
-            <div class="spacer"><input type="text" id="foto_texto" disabled placeholder="Foto">
-            <input type="file" id="foto_arquivo" name="foto" accept=".png,.jpg,.jpeg" required></div>
-            <button id="enviar" type="submit">ENVIAR</button>
-        </div>
+                <p id="cadastro_ferramenta">Cadastro de Ferramenta</p>
+                <input type="text" id="nome" name="nome" required placeholder="Nome">
+                <input type="text" id="categoria" name="categoria" required placeholder="Categoria">
+                <input type="text" id="descricao" name="descricao" placeholder="Descrição">
+                <div class="spacer"><input type="text" id="data_aquisicao" name="data_aquisicao"
+                        placeholder="Data de Aquisição" disabled>
+                    <input type="date" id="data_aquisicao_datepicker" required>
+                </div>
+                <div class="spacer"><input type="text" id="foto_texto" disabled placeholder="Foto">
+                    <input type="file" id="foto_arquivo" name="foto" accept=".png,.jpg,.jpeg" required>
+                </div>
+                <button id="enviar" type="submit">ENVIAR</button>
+            </div>
         </form>
     </div>
 
     <nav id="menu">
         <ul>
-        <a href="http://127.0.0.1:5500/ToolCare-main/frontend/src/html/visao_geral.html"><li id="visao_geral" class="div_navbar">
-            <img src="../assets/icones/visao_geral.png" class="quadradinho quadradinho_visao_geral" alt="Ícone de visão geral"></img>
-            <h4 id="texto_visao_geral" class="texto_menu">VISÃO GERAL</h4>
-        </li></a>
-        <a href="http://127.0.0.1:5500/ToolCare-main/frontend/src/html/emprestimos.html"><li id="emprestimos" class="div_navbar">
-            <img src="../assets/icones/emprestimos.png" class="quadradinho_emprestimos quadradinho" alt="Ícone de empréstimos">
-            <h4 id="texto_emprestimos" class="texto_menu">EMPRÉSTIMOS</h4>
-        </li></a>
-        <a href="http://127.0.0.1:5500/ToolCare-main/frontend/src/html/ferramentas.html"><li id="ferramentas" class="div_navbar">
-            <img src="../assets/icones/ferramentas_laranja.png" class="quadradinho_ferramentas quadradinho" alt="Ícone de ferramentas">
-            <h4 id="texto_ferramentas" class="texto_menu">FERRAMENTAS</h4>
-        </li></a>
-        <a href="http://127.0.0.1:5500/ToolCare-main/frontend/src/html/funcionarios.html"><li id="funcionarios" class="div_navbar">
-            <img src="../assets/icones/funcionarios.png" class="quadradinho_funcionarios quadradinho" alt="Ícone de funcionários">
-            <h4 id="texto_funcionarios" class="texto_menu" >FUNCIONÁRIOS</h4>
-        </li></a>
-        <a href="http://127.0.0.1:5500/ToolCare-main/frontend/src/html/manutencoes.html"><li id="manutencoes" class="div_navbar">
-            <img src="../assets/icones/manutencoes.png" class="quadradinho_manutencoes quadradinho" alt="Ícone de manutenções">
-            <h4 id="texto_manutencoes" class="texto_menu">MANUTENÇÕES</h4>
-        </li></a>
-        <a href="http://127.0.0.1:5500/ToolCare-main/frontend/src/html/cargos.html"><li id="cargos" class="div_navbar">
-            <img src="../assets/icones/cargos.png" class="quadradinho_cargos quadradinho" alt="Ícone de cargos">
-            <h4 id="texto_cargos" class="texto_menu">CARGOS</h4>
-        </li></a>
-        <a href="http://127.0.0.1:5500/ToolCare-main/frontend/src/html/setores.html"><li id="setores" class="div_navbar">
-            <img src="..//assets/icones/setores.png" class="quadradinho_setores quadradinho" alt="Ícone de setores">
-            <h4 id="texto_setores" class="texto_menu">SETORES</h4>
-        </li></a>
+            <a href="http://127.0.0.1:5500/frontend/src/html/visao_geral.html">
+                <li id="visao_geral" class="div_navbar">
+                    <img src="../assets/icones/visao_geral.png" class="quadradinho quadradinho_visao_geral"
+                        alt="Ícone de visão geral"></img>
+                    <h4 id="texto_visao_geral" class="texto_menu">VISÃO GERAL</h4>
+                </li>
+            </a>
+            <a href="http://127.0.0.1:5500/frontend/src/html/emprestimos.html">
+                <li id="emprestimos" class="div_navbar">
+                    <img src="../assets/icones/emprestimos.png" class="quadradinho_emprestimos quadradinho"
+                        alt="Ícone de empréstimos">
+                    <h4 id="texto_emprestimos" class="texto_menu">EMPRÉSTIMOS</h4>
+                </li>
+            </a>
+            <a href="http://127.0.0.1:5500/frontend/src/html/ferramentas.html">
+                <li id="ferramentas" class="div_navbar">
+                    <img src="../assets/icones/ferramentas_laranja.png" class="quadradinho_ferramentas quadradinho"
+                        alt="Ícone de ferramentas">
+                    <h4 id="texto_ferramentas" class="texto_menu">FERRAMENTAS</h4>
+                </li>
+            </a>
+            <a href="http://127.0.0.1:5500/frontend/src/html/funcionarios.html">
+                <li id="funcionarios" class="div_navbar">
+                    <img src="../assets/icones/funcionarios.png" class="quadradinho_funcionarios quadradinho"
+                        alt="Ícone de funcionários">
+                    <h4 id="texto_funcionarios" class="texto_menu">FUNCIONÁRIOS</h4>
+                </li>
+            </a>
+            <a href="http://127.0.0.1:5500/frontend/src/html/manutencoes.html">
+                <li id="manutencoes" class="div_navbar">
+                    <img src="../assets/icones/manutencoes.png" class="quadradinho_manutencoes quadradinho"
+                        alt="Ícone de manutenções">
+                    <h4 id="texto_manutencoes" class="texto_menu">MANUTENÇÕES</h4>
+                </li>
+            </a>
+            <a href="http://127.0.0.1:5500/frontend/src/html/cargos.html">
+                <li id="cargos" class="div_navbar">
+                    <img src="../assets/icones/cargos.png" class="quadradinho_cargos quadradinho" alt="Ícone de cargos">
+                    <h4 id="texto_cargos" class="texto_menu">CARGOS</h4>
+                </li>
+            </a>
+            <a href="http://127.0.0.1:5500/frontend/src/html/setores.html">
+                <li id="setores" class="div_navbar">
+                    <img src="..//assets/icones/setores.png" class="quadradinho_setores quadradinho"
+                        alt="Ícone de setores">
+                    <h4 id="texto_setores" class="texto_menu">SETORES</h4>
+                </li>
+            </a>
         </ul>
     </nav>
 </body>
+
 </html>
