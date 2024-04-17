@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'app_backend',
     'backend',
+    'cpf_field',
 ]
 
 MIDDLEWARE = [

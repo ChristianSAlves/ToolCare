@@ -1,17 +1,18 @@
 from django.contrib import admin
-from django.urls import path
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from app_backend.views import FerramentaViewSet
 from django.http import HttpResponse
+from app_backend.views import FerramentaViewSet
+from app_backend.views import UserViewSet, GroupViewSet
+
 
 router = DefaultRouter()
+router.register(r'users', UserViewSet)
+router.register(r'groups', GroupViewSet)
 router.register(r'ferramentas', FerramentaViewSet)
-
-def myView(request):
-    return HttpResponse('ola')
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('sobre/', myView),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('admin/', admin.site.urls),
 ]

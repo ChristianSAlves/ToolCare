@@ -1,26 +1,26 @@
 from django.db import models
+from cpf_field.models import CPFField
 
 class FerramentaManager(models.Manager):
-    def adicionar_ferramenta(self, nome, numSerie, descricao, imgFerramenta, dataAquisicao, dataManutencaoFerramenta, status):
+    def adicionarFerramenta(self, nome, numSerie, descricao, imgFerramenta, dataAquisicao, status):
         ferramenta = self.create(
             nome=nome,
             numSerie=numSerie,
             descricao=descricao,
             imgFerramenta=imgFerramenta,
             dataAquisicao=dataAquisicao,
-            dataManutencaoFerramenta=dataManutencaoFerramenta,
             status=status
         )
         return ferramenta
     
-    def get_ferramenta_por_id(self, id):
+    def getFerramentaPorId(self, id):
         try:
             return self.get(id=id)
         except self.model.DoesNotExist:
             return None
 
-    def atualizar_ferramenta(self, id, **kwargs):
-        ferramenta = self.get_ferramenta_por_id(id)
+    def atualizarFerramenta(self, id, **kwargs):
+        ferramenta = self.getFerramentaPorId(id)
         if ferramenta:
             for key, value in kwargs.items():
                 setattr(ferramenta, key, value)
@@ -28,8 +28,8 @@ class FerramentaManager(models.Manager):
             return ferramenta
         return None
 
-    def deletar_ferramenta(self, id):
-        ferramenta = self.get_ferramenta_por_id(id)
+    def deletarFerramenta(self, id):
+        ferramenta = self.getFerramentaPorId(id)
         if ferramenta:
             ferramenta.delete()
             return True
@@ -41,28 +41,27 @@ class Ferramenta(models.Model):
     descricao = models.TextField()
     imgFerramenta = models.ImageField(upload_to='ferramentas/')
     dataAquisicao = models.DateField()
-    dataManutencaoFerramenta = models.DateField()
     dataBaixa = models.DateField(null=True, blank=True)
-    status = models.CharField(max_length=255)
+    status = models.CharField(max_length=30)
 
     def __str__(self):
         return self.nome
 
 class SetorManager(models.Manager):
-    def adicionar_setor(self, nomeSetor, descricaoSetor=None):
+    def adicionarSetor(self, nomeSetor, descricaoSetor=None):
         setor = self.create(
             nomeSetor=nomeSetor,
             descricaoSetor=descricaoSetor
         )
         return setor
 
-    def mostrar_setor(self):
+    def mostrarSetor(self):
         return self.all()
 
-    def apagar_setor(self, codigoSetor):
+    def apagarSetor(self, codigoSetor):
         self.filter(codigoSetor=codigoSetor).delete()
 
-    def alterar_setor(self, codigoSetor, nomeSetor, descricaoSetor=None):
+    def alterarSetor(self, codigoSetor, nomeSetor, descricaoSetor=None):
         setor = self.get(codigoSetor=codigoSetor)
         setor.nomeSetor = nomeSetor
         setor.descricaoSetor = descricaoSetor
@@ -82,20 +81,20 @@ class Setor(models.Model):
     
 
 class CargoManager(models.Manager):
-    def adicionar_cargo(self, nomeCargo, descricaoCargo=None):
+    def adicionarCargo(self, nomeCargo, descricaoCargo=None):
         cargo = self.create(
             nomeCargo=nomeCargo,
             descricaoCargo=descricaoCargo
         )
         return cargo
 
-    def mostrar_cargo(self):
+    def mostrarCargo(self):
         return self.all()
 
-    def apagar_cargo(self, codigoCargo):
+    def apagarCargo(self, codigoCargo):
         self.filter(codigoCargo=codigoCargo).delete()
 
-    def alterar_cargo(self, codigoCargo, nomeCargo, descricaoCargo=None):
+    def alterarCargo(self, codigoCargo, nomeCargo, descricaoCargo=None):
         cargo = self.get(codigoCargo=codigoCargo)
         cargo.nomeCargo = nomeCargo
         cargo.descricaoCargo = descricaoCargo
@@ -112,51 +111,237 @@ class Cargo(models.Model):
     def __str__(self):
         return self.nomeCargo
 
+from django.db import models
 
-class Emprestimo:
-    def __init__(self, codigoEmprestimo, numSerie, matriculaFuncionario, dataEmprestimo, dataDevolucao, observacoes):
-        self.codigoEmprestimo = codigoEmprestimo
-        self.numSerie = numSerie
-        self.matriculaFuncionario = matriculaFuncionario
-        self.dataEmprestimo = dataEmprestimo
-        self.dataDevolucao = dataDevolucao
-        self.observacoes = observacoes
+class EmprestimoManager(models.Manager):
 
-    def __str__(self):
-        return f"Emprestimo: {self.codigoEmprestimo}, Numero de Serie: {self.numSerie}, Matricula do Funcionario: {self.matriculaFuncionario}, Data de Emprestimo: {self.dataEmprestimo}, Data de Devolucao: {self.dataDevolucao}, Observacoes: {self.observacoes}"
+    def adicionarEmprestimo(self, matriculaFuncionario, dataEmprestimo):
+        if not matriculaFuncionario or not dataEmprestimo:
+            raise ValueError("Campos obrigatórios: matriculaFuncionario, dataEmprestimo")
 
-
-class EmprestimoManager:
-    def __init__(self):
-        self.emprestimos = []
-
-    def adicionar_emprestimo(self, codigoEmprestimo, numSerie, matriculaFuncionario, dataEmprestimo, dataDevolucao, observacoes):
-        emprestimo = Emprestimo(codigoEmprestimo, numSerie, matriculaFuncionario, dataEmprestimo, dataDevolucao, observacoes)
-        self.emprestimos.append(emprestimo)
+        emprestimo = self.create(
+            matriculaFuncionario=matriculaFuncionario,
+            dataEmprestimo=dataEmprestimo,
+        )
         return emprestimo
 
-    def mostrar_emprestimos(self):
-        for emprestimo in self.emprestimos:
-            print(emprestimo)
+    def buscarTodosEmprestimos(self):
+        return self.all()
 
-    def apagar_emprestimo(self, codigoEmprestimo):
-        for i, emprestimo in enumerate(self.emprestimos):
-            if emprestimo.codigoEmprestimo == codigoEmprestimo:
-                del self.emprestimos[i]
-                return True
-        return False
+    def buscarEmprestimoPorId(self, id):
+        try:
+            return self.get(pk=id)
+        except models.DoesNotExist:
+            return None
 
-    def alterar_emprestimo(self, codigoEmprestimo, **kwargs):
-        for emprestimo in self.emprestimos:
-            if emprestimo.codigoEmprestimo == codigoEmprestimo:
-                for key, value in kwargs.items():
-                    setattr(emprestimo, key, value)
-                return emprestimo
-        return None
+    def atualizarEmprestimo(self, id, matriculaFuncionario=None, dataEmprestimo=None):
+        try:
+            emprestimo = self.get(pk=id)
+        except models.DoesNotExist:
+            raise self.model.DoesNotExist("Empréstimo não encontrado")
 
-    def adicionar_observacoes(self, codigoEmprestimo, observacoes):
-        for emprestimo in self.emprestimos:
-            if emprestimo.codigoEmprestimo == codigoEmprestimo:
-                emprestimo.observacoes += f" {observacoes}"
-                return emprestimo
-        return None
+        # Atualiza campos conforme a necessidade (evita atualizações desnecessárias)
+        if matriculaFuncionario:
+            emprestimo.matriculaFuncionario = matriculaFuncionario
+        if dataEmprestimo:
+            emprestimo.dataEmprestimo = dataEmprestimo
+
+        emprestimo.save()
+        return emprestimo
+
+    def deletarEmprestimo(self, id):
+        try:
+            emprestimo = self.get(pk=id)
+        except models.DoesNotExist:
+            raise self.model.DoesNotExist("Empréstimo não encontrado")
+
+        emprestimo.delete()
+
+
+class Emprestimo(models.Model):
+    codigoEmprestimo = models.AutoField(primary_key=True)
+    matriculaFuncionario = models.CharField(max_length=20)
+    dataEmprestimo = models.DateField
+
+
+class ItemEmprestimoManager(models.Manager):
+
+    def adicionarItemEmprestimo(self, codigoEmprestimo, numSerie, dataDevolucao=None, observacoes=""):
+        if not codigoEmprestimo or not numSerie:
+            raise ValueError("Campos obrigatórios: codigoEmprestimo, numSerie")
+
+        itemEmprestimo = self.create(
+            codigoEmprestimo=codigoEmprestimo,
+            numSerie=numSerie,
+            dataDevolucao=dataDevolucao,
+            observacoes=observacoes,
+        )
+        return itemEmprestimo
+
+    def buscarItensEmprestimoPorEmprestimo(self, codigoEmprestimo):
+        return self.filter(codigoEmprestimo=codigoEmprestimo)
+
+    def atualizarItemEmprestimo(self, id, dataDevolucao=None, observacoes=""):
+        try:
+            item_emprestimo = self.get(pk=id)
+        except models.DoesNotExist:
+            raise self.model.DoesNotExist("Item de empréstimo não encontrado")
+
+        # Atualiza campos conforme a necessidade (evita atualizações desnecessárias)
+        if dataDevolucao:
+            item_emprestimo.dataDevolucao = dataDevolucao
+        if observacoes:
+            item_emprestimo.observacoes = observacoes
+
+        item_emprestimo.save()
+        return item_emprestimo
+
+    def deletar_item_emprestimo(self, id):
+        try:
+            item_emprestimo = self.get(pk=id)
+        except models.DoesNotExist:
+            raise self.model.DoesNotExist("Item de empréstimo não encontrado")
+
+        item_emprestimo.delete()
+
+
+class itemEmprestimo(models.Model):
+    codigoEmprestimo = models.ForeignKey(
+        Emprestimo, on_delete=models.SET_NULL, null=True
+    )
+    numSerie = models.ForeignKey(
+        Ferramenta, on_delete=models.SET_NULL, null=True
+    )
+    dataDevolucao = models.DateField
+    observacoes = models.TextField
+
+class FuncionarioManager(models.Manager):
+
+    def adicionarFuncionario(self, nome, matriculaFuncionario, cpf, codigoSetor=None, codigoCargo=None, imgFunc=None):
+        if not nome or not matriculaFuncionario or not cpf:
+            raise ValueError("Required fields: nome, matriculaFuncionario, cpf")
+
+        funcionario = self.create(
+            nome=nome,
+            matriculaFuncionario=matriculaFuncionario,
+            cpf=cpf,
+            codigoSetor=codigoSetor,
+            codigoCargo=codigoCargo,
+            imgFunc=imgFunc,
+        )
+        return funcionario
+
+    def getAllFuncionarios(self):
+        return self.all()
+
+    def getFuncionarioById(self, id):
+        try:
+            return self.get(pk=id)
+        except models.DoesNotExist:
+            return None
+
+    def atualizarFuncionario(self, id, nome=None, matriculaFuncionario=None, cpf=None, codigoSetor=None, codigoCargo=None, imgFunc=None):
+        try:
+            funcionario = self.get(pk=id)
+        except models.DoesNotExist:
+            raise self.model.DoesNotExist("Funcionario não encontrado")
+
+        if nome:
+            funcionario.nome = nome
+        if matriculaFuncionario:
+            funcionario.matriculaFuncionario = matriculaFuncionario
+        # CPF nao pode ser alterado
+        if codigoSetor:
+            funcionario.codigoSetor = codigoSetor
+        if codigoCargo:
+            funcionario.codigoCargo = codigoCargo
+        if imgFunc:
+            funcionario.imgFunc = imgFunc
+
+        funcionario.save()
+        return funcionario
+
+    def deletarFuncionario(self, id):
+        try:
+            funcionario = self.get(pk=id)
+        except models.DoesNotExist:
+            raise self.model.DoesNotExist("Funcionario não encontrado")
+
+        funcionario.delete()
+
+class Funcionario(models.Model):
+    nome = models.CharField(max_length=30)
+    matriculaFuncionario = models.CharField(max_length=15)
+    cpf = CPFField
+    codigoSetor = models.ForeignKey(
+      Setor, on_delete=models.SET_NULL, null=True
+    )
+    codigoCargo = models.ForeignKey(
+        Cargo, on_delete=models.SET_NULL, null=True
+    )
+    imgFunc = models.ImageField(upload_to='funcionarios/')
+
+    def __str__(self):
+        return self.nome
+
+from django.db import models
+
+class ManutencaoFerramentaManager(models.Manager):
+
+    def adicionarManutencaoFerramenta(self, numSerie, tipoManutencao, dataInicio, dataFinal):
+        if not numSerie or not tipoManutencao or not dataInicio or not dataFinal:
+            raise ValueError("Campos obrigatórios: numSerie, tipoManutencao, dataInicio, dataFinal")
+
+        manutencao_ferramenta = self.create(
+            numSerie=numSerie,
+            tipoManutencao=tipoManutencao,
+            dataInicio=dataInicio,
+            dataFinal=dataFinal,
+        )
+        return manutencao_ferramenta
+
+    def buscarTodasManutencoes(self):
+        return self.all()
+
+    def buscarManutencaoPorId(self, id):
+        try:
+            return self.get(pk=id)
+        except models.DoesNotExist:
+            return None
+
+    def atualizarManutencaoFerramenta(self, id, numSerie=None, tipoManutencao=None, dataInicio=None, dataFinal=None):
+        try:
+            manutencao_ferramenta = self.get(pk=id)
+        except models.DoesNotExist:
+            raise self.model.DoesNotExist("Manutenção de ferramenta não encontrada")
+
+        # Atualiza campos conforme a necessidade (evita atualizações desnecessárias)
+        if numSerie:
+            manutencao_ferramenta.numSerie = numSerie
+        if tipoManutencao:
+            manutencao_ferramenta.tipoManutencao = tipoManutencao
+        if dataInicio:
+            manutencao_ferramenta.dataInicio = dataInicio
+        if dataFinal:
+            manutencao_ferramenta.dataFinal = dataFinal
+
+        manutencao_ferramenta.save()
+        return manutencao_ferramenta
+
+    def deletarManutencaoFerramenta(self, id):
+        try:
+            manutencao_ferramenta = self.get(pk=id)
+        except models.DoesNotExist:
+            raise self.model.DoesNotExist("Manutenção de ferramenta não encontrada")
+
+        manutencao_ferramenta.delete()
+
+
+class ManutencaoFerramenta(models.Model):
+    codigoManutencao = models.AutoField
+    numSerie = models.ForeignKey(
+        Ferramenta, on_delete=models.SET_NULL, null=True
+    )
+    tipoManutencao = models.CharField(max_length=15)
+    dataInicio = models.DateField
+    dataFinal = models.DateField
