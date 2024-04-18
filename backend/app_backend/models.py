@@ -1,5 +1,6 @@
 from django.db import models
-from cpf_field.models import CPFField
+# from cpf_field.models import CPFField
+from django_cpf_cnpj.fields import CPFField, CNPJField
 
 class FerramentaManager(models.Manager):
     def adicionarFerramenta(self, nome, numSerie, descricao, imgFerramenta, dataAquisicao, status):
@@ -69,7 +70,7 @@ class SetorManager(models.Manager):
         return setor
 
 class Setor(models.Model):
-    codigoSetor = models.IntegerField(primary_key=True)
+    codigoSetor = models.AutoField(primary_key=True)
     nomeSetor = models.CharField(max_length=255)
     descricaoSetor = models.CharField(max_length=255, null=True, blank=True)
 
@@ -111,7 +112,6 @@ class Cargo(models.Model):
     def __str__(self):
         return self.nomeCargo
 
-from django.db import models
 
 class EmprestimoManager(models.Manager):
 
@@ -272,7 +272,7 @@ class FuncionarioManager(models.Manager):
 class Funcionario(models.Model):
     nome = models.CharField(max_length=30)
     matriculaFuncionario = models.CharField(max_length=15)
-    cpf = CPFField
+    cpf = CPFField(masked=True)  # To enable auto-mask xxx.xxx.xxx-xx
     codigoSetor = models.ForeignKey(
       Setor, on_delete=models.SET_NULL, null=True
     )
@@ -284,7 +284,6 @@ class Funcionario(models.Model):
     def __str__(self):
         return self.nome
 
-from django.db import models
 
 class ManutencaoFerramentaManager(models.Manager):
 

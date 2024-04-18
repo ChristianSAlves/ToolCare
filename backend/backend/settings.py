@@ -29,7 +29,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'app_backend',
     'backend',
-    'cpf_field',
+    # 'cpf_field',
+    'django_cpf_cnpj',
     'corsheaders',
 ]
 
