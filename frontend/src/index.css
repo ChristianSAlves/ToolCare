@@ -114,7 +114,7 @@ nav {
     position: fixed;
 }
 
-#cadastro_funcionario_form,#cadastro_ferramenta_form,#cadastro_manutencao_form{
+#cadastro_funcionario_form,#cadastro_ferramenta_form,#cadastro_manutencao_form,#cadastro_emprestimo_form{
     height: 30vh;
     width: 37.5vw;
     background-color: #444444;
@@ -146,7 +146,7 @@ nav {
   min-width: 37.5vw;  
 }
 
-#data_aquisicao_datepicker,#data_baixa_datepicker,#status_select,#data_inicio_datepicker,#data_fim_datepicker{
+#data_aquisicao_datepicker,#data_baixa_datepicker,#status_select,#data_inicio_datepicker,#data_fim_datepicker,#data_emprestimo_datepicker,#data_devolucao_datepicker{
   width: 45.8%;
   align-self: flex-end;
   margin: 0.5rem 1rem 0.5rem 0.5rem;
@@ -194,7 +194,7 @@ label{
     font: normal 500 2rem 'Lato';
 }
 
-#setor_select,#cargo_select,#foto,#ferramenta_select,#tipo_manutencao_select{
+#setor_select,#cargo_select,#foto,#ferramenta_select,#tipo_manutencao_select,#funcionario_select{
     width: 30vw;
     align-self: flex-end;
     margin: 0.5rem -1.2rem 0.5rem 1rem;
