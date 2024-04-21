@@ -7,6 +7,7 @@ import Ferramenta from './cadastro/ferramenta'
 import Funcionario from './cadastro/funcionario'
 import Manutencao from './cadastro/manutencao'
 import Setor from './cadastro/setor'
+import Login from './login'
 
 function App() {
     return(
@@ -19,6 +20,7 @@ function App() {
                 <Route path='/funcionario' element={<Funcionario/>} />
                 <Route path='/manutencao' element={<Manutencao/>}/>
                 <Route path='/setor' element={<Setor/>}/>
+                <Route path='/login' element={<Login/>}/>
             </Routes>
         </Router>
     )

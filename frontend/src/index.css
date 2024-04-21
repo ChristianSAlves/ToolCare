@@ -244,3 +244,73 @@ input::placeholder{
     color: white;
 }
 
+.login_container{
+  background-color: #F46524;
+  height: 45vh;
+  width: 22.5vw;
+  display: flex;
+  flex-direction: column;
+  margin-top: 20%;
+  margin-left: 62.5%;
+  justify-content: center;
+  align-items: center;
+  min-height: 25rem;
+  min-width: 20vw;
+  border-radius: 0.8rem;
+}
+
+#form_login{
+  height: 45vh;
+  width: 22.5vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.login_item{
+  width: 82.5%;
+  margin-bottom: 1rem;
+}
+
+.input{
+  padding: 0.8rem 0.6rem 0.8rem 0.6rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  border: 0;
+  outline: 0;
+  background-color: white;
+}
+
+.input::placeholder{
+  font-weight: normal;
+  border: none;
+  font: normal 300 2rem "Lato";
+  color: rgba(0, 0, 0, 0.493);
+}
+
+#botao_entrar{
+  padding: 1rem;
+  border: none;
+  width: 35rem;
+  height: 5rem;
+  border-radius: 0.5rem;
+  font-size: 8rem;
+  font-weight: bold;
+  background-color: #353535;
+  color: white;
+  margin-top: 1rem;
+  font: normal 500 1.5rem "Lato";
+}
+
+#botao_entrar:hover{
+  cursor: pointer;
+  background-color: #515151;
+}
+
+#logo{
+  height: 14rem;
+  margin-top: 3rem;
+  margin-bottom: 0.3rem;
+}
+
