@@ -111,7 +111,7 @@ nav {
 }
 
 #cadastro{
-    height: 15vh;
+    height: 50vh;
     width: 37.5vw;
     background-color: #444444;
     margin: auto;
@@ -166,7 +166,3 @@ input::placeholder{
     text-align: center;
     color: white;
 }
-
-
-/*#F46524
-/*#E9500B
