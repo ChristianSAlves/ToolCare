@@ -115,7 +115,7 @@ nav {
 }
 
 #cadastro{
-    height: 40vh;
+    height: 50vh;
     width: 37.5vw;
     background-color: #444444;
     margin: auto;
@@ -130,7 +130,7 @@ nav {
     min-width: 37.5vw;  
 }
 
-input:not(#cadastro_funcionario,.foto,#setor,#cargo,#foto_texto,#foto_arquivo,#cpf_label,#nome_label,#nome_input,#cpf_input){
+input{
     padding: 0.9rem;
     margin: 0rem 1rem 0rem 1rem;
     border-radius: 0.6rem;
@@ -148,24 +148,22 @@ input:not(#cadastro_funcionario,.foto,#setor,#cargo,#foto_texto,#foto_arquivo,#c
     display: none;
  }
 
-#setor,#cargo,#foto_texto,#nome_label,#cpf_label{
+#setor_label,#cargo_label,#foto_label{
     padding: 0.9rem;
     border-radius: 0.6rem;
     background-color: #353535;
     width: 4vw;
-    margin-left: auto;
     margin: 0.5rem;
+    margin-left: -2rem;
     box-shadow: none;
     border: 0;
     outline: 0;
+    color: white;
+    font: normal 500 2rem 'Lato';
 }
 
-.spacer{
-    display: flex;
-}
-
-#setor_select,#cargo_select,#cpf_input,#nome_input,#foto_arquivo{
-    width: 80%;
+#setor_select,#cargo_select,#foto{
+    width: 30vw;
     align-self: flex-end;
     margin: 0.5rem -1.2rem 0.5rem 1rem;
     height: 4.5vh;
@@ -179,8 +177,12 @@ input:not(#cadastro_funcionario,.foto,#setor,#cargo,#foto_texto,#foto_arquivo,#c
     padding-left: 1rem;
 }
 
-#foto_arquivo{
+#foto{
     text-align: center;
+}
+
+#spacer{
+    display: flex;
 }
 
 input::placeholder{
@@ -210,6 +212,3 @@ input::placeholder{
     color: white;
 }
 
-
-/*#F46524
-/*#E9500B
