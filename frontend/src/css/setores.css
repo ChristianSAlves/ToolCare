@@ -3,6 +3,10 @@
 
 /* Resetar o CSS */
 
+*{
+    box-sizing: border-box;
+}
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -111,7 +115,7 @@ nav {
 }
 
 #cadastro{
-    height: 15vh;
+    height: 50vh;
     width: 37.5vw;
     background-color: #444444;
     margin: auto;
@@ -122,7 +126,7 @@ nav {
     padding: 10px;
     justify-content:center;
     align-items: center;
-    min-height: 25rem;
+    min-height: 40rem;
     min-width: 37.5vw;  
 }
 
@@ -140,9 +144,50 @@ input{
     font: normal 500 2rem 'Lato';
 }
 
+::-webkit-file-upload-button {
+    display: none;
+ }
+
+#setor_label,#cargo_label,#foto_label{
+    padding: 0.9rem;
+    border-radius: 0.6rem;
+    background-color: #353535;
+    width: 4vw;
+    margin: 0.5rem;
+    margin-left: -2rem;
+    box-shadow: none;
+    border: 0;
+    outline: 0;
+    color: white;
+    font: normal 500 2rem 'Lato';
+}
+
+#setor_select,#cargo_select,#foto{
+    width: 30vw;
+    align-self: flex-end;
+    margin: 0.5rem -1.2rem 0.5rem 1rem;
+    height: 4.5vh;
+    background-color: #353535;
+    box-shadow: none;
+    border: 0;
+    outline: 0;
+    color: white;
+    font: normal 400 2rem 'Lato';
+    border-radius: 0.6rem;
+    padding-left: 1rem;
+}
+
+#foto{
+    text-align: center;
+}
+
+#spacer{
+    display: flex;
+}
+
 input::placeholder{
-    color: rgba(255, 255, 255, 0.5);
-    font: normal 300 1.75rem 'Lato';
+    color: rgb(255, 255, 255);
+    font: normal 500 1.75rem 'Lato';
 }
 
 #enviar{
@@ -167,6 +212,3 @@ input::placeholder{
     color: white;
 }
 
-
-/*#F46524
-/*#E9500B
