@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     # 'cpf_field',
     'django_cpf_cnpj',
     'corsheaders',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -114,9 +115,13 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:5500",
+    "http://127.0.0.1:3000",
     "http://127.0.0.1:8000",
+    "http://localhost:3000",
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

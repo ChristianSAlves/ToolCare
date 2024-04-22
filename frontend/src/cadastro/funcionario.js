@@ -7,34 +7,144 @@ import manutencoes from '../assets/icones/manutencoes.png'
 import cargos from '../assets/icones/cargos.png'
 import setores from '../assets/icones/setores.png'
 import { Link } from 'react-router-dom'
+import React from 'react'
 
-function Funcionario(){
+export default class Funcionario extends React.Component{
+
+    async componentDidMount(){
+        var url = 'http://127.0.0.1:8000/funcionarios/';
+        const response = await fetch(url);
+        const data = await response.json();
+        console.log(data);
+    }
+
+    constructor(props) {
+        super(props);
+        this.state = {nome: '', 
+        matriculaFuncionario: '',
+        cpf: '',
+        codigoSetor: '',
+        codigoCargo: '',
+        imgFunc: ''
+    };
+    
+        this.handleChangeNome = this.handleChangeNome.bind(this);
+        this.handleChangeMatricula = this.handleChangeMatricula.bind(this);
+        this.handleChangeCodCargo = this.handleChangeCodCargo.bind(this);
+        this.handleChangeCodSetor = this.handleChangeCodSetor.bind(this);
+        this.handleChangeCpf = this.handleChangeCpf.bind(this);
+        this.handleChangeImage = this. handleChangeImage.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+    
+    
+    handleChangeNome(event) {
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
+    
+        this.setState({
+            [name]: value
+        });
+    }
+
+    handleChangeCpf(event) {
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
+    
+        this.setState({
+            [name]: value
+        });
+    }
+
+    handleChangeCodSetor(event) {
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
+    
+        this.setState({
+            [name]: value
+        });
+    }
+
+    handleChangeCodCargo(event) {
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
+    
+        this.setState({
+            [name]: value
+        });
+    }
+
+
+    handleChangeMatricula(event) {
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
+    
+        this.setState({
+            [name]: value
+        });
+    }
+
+    handleChangeImage(event) {
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
+    
+        this.setState({
+            [name]: value
+        });
+    }
+    
+    
+      handleSubmit = (event) => {
+        event.preventDefault();
+        const data = {
+            nomeCargo: this.state.nomeCargo,
+            descricaoCargo: this.state.descricao,
+           };
+           
+           fetch('http://127.0.0.1:8000/cargos/', {
+            method: 'POST',
+            headers: {
+               'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+           })
+           .then(response => response.json())
+           .then(data => console.log('Success:', data))
+           .catch((error) => console.error('Error:', error));
+      }
+    render(){
         return (
             
             <div className={styles.container}>
               <div id='tela'>
-              <form action="#" method="post" autocomplete="off" id="cadastro_funcionario_form">
+              <form action="#" method="post" autoComplete="off" id="cadastro_funcionario_form">
                 <p id="cadastro">Cadastro de Funcionário</p>
-                <input id="nome" name="nome" type="text" placeholder="Nome" required></input>
-                <input id="matricula" name="matricula" type="text" placeholder="Matrícula" required></input>
-                <input id="cpf" name="cpf" type="text" placeholder="CPF" required></input>
+                <input id="nome" name="nome" type="text" placeholder="Nome" required value={this.state.nome} onChange={this.handleChangeNome}></input>
+                <input id="matriculaFuncionario" name="matriculaFuncionario" type="text" placeholder="Matrícula" required value={this.state.matriculaFuncionario} onChange={this.handleChangeMatricula}></input>
+                <input id="cpf" name="cpf" type="text" placeholder="CPF" required value={this.state.cpf} onChange={this.handleChangeCpf}></input>
                 <div id='spacer'>
-                <label for = "setor" id="setor_label">Setor</label>
-                <select name="setor" id="setor_select" required>
-                  <option value="setor1">Setor 1</option>
-                  <option value="setor2">Setor 2</option>
-                  <option value="setor3">Setor 3</option>
+                <label id="setor_label">Setor</label>
+                <select name="setor" id="setor_select" required value={this.state.setor} onChange={this.handleChangeCodSetor}>
+                  <option value="setor1">1</option>
+                  <option value="setor2">1</option>
+                  <option value="setor3">1</option>
                 </select></div>
                 <div id="spacer">
-                <label for = "cargo" id="cargo_label">Cargo</label>
-                <select name="cargo" id="cargo_select" required>
-                  <option value="cargo1">Cargo 1</option>
-                  <option value="cargo2">Cargo 2</option>
-                  <option value="cargo3">Cargo 3</option>
+                <label id="cargo_label">Cargo</label>
+                <select name="cargo" id="cargo_select" required value={this.state.cargo} onChange={this.handleChangeCodCargo}>
+                  <option value="cargo1">1</option>
+                  <option value="cargo2">2</option>
+                  <option value="cargo3">3</option>
                 </select></div>
                 <div id='spacer'>
-                <label for="foto" id='foto_label'>Foto</label>
-                <input type="file" id="foto" name="foto" accept=".png,.jpg,.jpeg" required></input></div>
+                <label id='foto_label'>Foto</label>
+                <input type="file" id="foto" name="foto" accept=".png,.jpg,.jpeg" value={this.state.imgFunc} onChange={this.handleChangeImage}></input></div>
                 <button id="enviar" type="submit">ENVIAR</button>
               </form></div>
           
@@ -96,5 +206,6 @@ function Funcionario(){
           
             );
     }
+}
 
-export default Funcionario;
+

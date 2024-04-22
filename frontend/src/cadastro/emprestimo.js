@@ -8,20 +8,22 @@ import cargos from '../assets/icones/cargos.png'
 import setores from '../assets/icones/setores.png'
 import { Link } from 'react-router-dom'
 import { MultiSelect } from '../components/ferramentas_multiselect'
+import React from 'react'
 
-function Emprestimo() {
+export default class Emprestimo extends React.Component {
+    render(){
     return (
         <div className={styles.container}>
 
             <div id="tela">
-                <form action="#" method="post" autocomplete="off" id="cadastro_emprestimo_form">
+                <form action="#" method="post" autoComplete="off" id="cadastro_emprestimo_form">
                         <p id="cadastro">Cadastro de Empréstimo</p>
                         <input type="text" id="codigo" placeholder="Código" required></input>
                         <div className='spacer'>
-                        <label for="ferramentas">Ferramentas</label>
+                        <label>Ferramentas</label>
                         <MultiSelect id="ferramentas"/></div>
                         <div className="spacer">
-                            <label for="funcionario_select" id='funcionario_label'>Funcionário</label>
+                            <label id='funcionario_label'>Funcionário</label>
                             <select name="funcionario" id="funcionario_select" required>
                                 <option value="ferramenta">Funcionario 1</option>
                                 <option value="ferramenta2">Funcionario 2</option>
@@ -29,11 +31,11 @@ function Emprestimo() {
                             </select>
                         </div>
                         <div className="spacer">
-                        <label for="data_emprestimo_datepicker" id='data_emprestimo_label'>Data do Empréstimo</label>
+                        <label id='data_emprestimo_label'>Data do Empréstimo</label>
                             <input type="date" name='data_emprestimo' id="data_emprestimo_datepicker" required></input>
                         </div>
                         <div className="spacer">
-                        <label for="data_devolucao_datepicker" id='data_devolucao_label'>Data da Devolução</label>
+                        <label id='data_devolucao_label'>Data da Devolução</label>
                             <input type="date" name='data_devolucao' id="data_devolucao_datepicker" required></input>
                         </div>
                         <input type="text" id="observacoes" name="observacoes" placeholder="Observações"></input>
@@ -99,5 +101,6 @@ function Emprestimo() {
 
     );
 }
+}
 
-export default Emprestimo;
+

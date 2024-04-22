@@ -7,17 +7,77 @@ import manutencoes from '../assets/icones/manutencoes.png'
 import cargos from '../assets/icones/cargos_laranja.png'
 import setores from '../assets/icones/setores.png'
 import { Link } from 'react-router-dom'
+import React from 'react'
 
-function Cargo(){
+export default class Cargo extends React.Component{
 
+    async componentDidMount(){
+        var url = 'http://127.0.0.1:8000/cargos/';
+        const response = await fetch(url);
+        const data = await response.json();
+        console.log(data);
+    }
+
+    constructor(props) {
+        super(props);
+        this.state = {nomeCargo: '', 
+        descricao: ''
+    };
+    
+        this.handleChangeNome = this.handleChangeNome.bind(this);
+        this.handleChangeDescricao = this.handleChangeDescricao.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+    
+    
+    handleChangeNome(event) {
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
+    
+        this.setState({
+            [name]: value
+        });
+    }
+
+    handleChangeDescricao(event) {
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
+      
+        this.setState({
+          [name]: value
+        });
+      }
+    
+    
+      handleSubmit = (event) => {
+        event.preventDefault();
+        const data = {
+            nomeCargo: this.state.nomeCargo,
+            descricaoCargo: this.state.descricao,
+           };
+           
+           fetch('http://127.0.0.1:8000/cargos/', {
+            method: 'POST',
+            headers: {
+               'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+           })
+           .then(response => response.json())
+           .then(data => console.log('Success:', data))
+           .catch((error) => console.error('Error:', error));
+      }
+    render()
+    {
         return (
             <div className={styles.container}>
               <div id='tela'>
-              <form action="#" method="post" autocomplete="off" id="cadastro_cargo_form">
+              <form onSubmit={this.handleSubmit} action="#" method="post" autoComplete="off" id="cadastro_cargo_form">
                 <p id="cadastro">Cadastro de Cargo</p>
-                <input type="text" id="nome" name="nome" required placeholder="Nome"></input>
-                <input type="text" id="codigo" name="codigo" required placeholder="Código"></input>
-                <input type="text" id="descricao" name="descricao" placeholder="Descrição"></input>
+                <input type="text" id="nomeCargo" name="nomeCargo" required placeholder="Nome" value={this.state.nomeCargo} onChange={this.handleChangeNome}></input>
+                <input type="text" id="descricao" name="descricao" placeholder="Descrição" value={this.state.descricao} onChange={this.handleChangeDescricao}></input>
                 <button id="enviar" type="submit">ENVIAR</button>
               </form></div>
             
@@ -78,6 +138,8 @@ function Cargo(){
           
           
             );
-    }
+        }
+    
+}
 
-export default Cargo;
+

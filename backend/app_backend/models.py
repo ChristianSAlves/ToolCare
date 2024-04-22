@@ -163,6 +163,9 @@ class Emprestimo(models.Model):
     matriculaFuncionario = models.CharField(max_length=20)
     dataEmprestimo = models.DateField
 
+    def __str__(self):
+        return self.codigoEmprestimo
+
 
 class ItemEmprestimoManager(models.Manager):
 
