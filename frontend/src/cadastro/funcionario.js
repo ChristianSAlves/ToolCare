@@ -8,6 +8,8 @@ import cargos from '../assets/icones/cargos.png'
 import setores from '../assets/icones/setores.png'
 import { Link } from 'react-router-dom'
 import React from 'react'
+//import React, { useState } from 'react';
+//import axios from 'axios';
 
 export default class Funcionario extends React.Component{
 
@@ -20,7 +22,8 @@ export default class Funcionario extends React.Component{
 
     constructor(props) {
         super(props);
-        this.state = {nome: '', 
+        this.state = {
+        nome: '', 
         matriculaFuncionario: '',
         cpf: '',
         codigoSetor: '',
@@ -69,14 +72,8 @@ export default class Funcionario extends React.Component{
     }
 
     handleChangeCodCargo(event) {
-        const target = event.target;
-        const value = target.value;
-        const name = target.name;
-    
-        this.setState({
-            [name]: value
-        });
-    }
+        this.setState({ cargo: event.target.value });
+     }
 
 
     handleChangeMatricula(event) {
@@ -90,40 +87,54 @@ export default class Funcionario extends React.Component{
     }
 
     handleChangeImage(event) {
-        const target = event.target;
-        const value = target.value;
-        const name = target.name;
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = () => {
+        const binaryString = reader.result;
+        const blob = new Blob([binaryString], { type: file.type });
+        this.setState({ imgFunc: blob });
+    };
+
+    reader.readAsArrayBuffer(file);
+      };
     
-        this.setState({
-            [name]: value
-        });
-    }
     
-    
-      handleSubmit = (event) => {
+      handleSubmit = async (event) => {
         event.preventDefault();
-        const data = {
-            nomeCargo: this.state.nomeCargo,
-            descricaoCargo: this.state.descricao,
-           };
-           
-           fetch('http://127.0.0.1:8000/cargos/', {
+
+    const formData = new FormData();
+    formData.append('nome', this.state.nome);
+    formData.append('matriculaFuncionario', this.state.matriculaFuncionario);
+    formData.append('cpf', this.state.cpf);
+    formData.append('codigoSetor', this.state.codigoSetor);
+    formData.append('codigoCargo', this.state.codigoCargo);
+    formData.append('imgFunc', this.state.imgFunc);
+
+    try {
+        const response = await fetch('http://127.0.0.1:8000/funcionarios/', {
             method: 'POST',
-            headers: {
-               'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-           })
-           .then(response => response.json())
-           .then(data => console.log('Success:', data))
-           .catch((error) => console.error('Error:', error));
+            body: formData,
+        });
+
+        if (!response.ok) {
+            throw new Error('Erro ao enviar imagem');
+        }
+
+        const data = await response.json();
+        console.log('Success:', data);
+        this.setState({ imgFunc: null });
+    } catch (error) {
+        console.error('Error:', error);
+        this.setState({ imgFunc: null });
+    }
       }
     render(){
         return (
             
             <div className={styles.container}>
               <div id='tela'>
-              <form action="#" method="post" autoComplete="off" id="cadastro_funcionario_form">
+              <form onSubmit={this.handleSubmit} action="#" method="post" autoComplete="off" id="cadastro_funcionario_form">
                 <p id="cadastro">Cadastro de Funcionário</p>
                 <input id="nome" name="nome" type="text" placeholder="Nome" required value={this.state.nome} onChange={this.handleChangeNome}></input>
                 <input id="matriculaFuncionario" name="matriculaFuncionario" type="text" placeholder="Matrícula" required value={this.state.matriculaFuncionario} onChange={this.handleChangeMatricula}></input>
@@ -137,14 +148,16 @@ export default class Funcionario extends React.Component{
                 </select></div>
                 <div id="spacer">
                 <label id="cargo_label">Cargo</label>
-                <select name="cargo" id="cargo_select" required value={this.state.cargo} onChange={this.handleChangeCodCargo}>
-                  <option value="cargo1">1</option>
-                  <option value="cargo2">2</option>
-                  <option value="cargo3">3</option>
+                <select name="cargo" id="cargo_select" onChange={this.handleChangeCodCargo} value={this.state.cargo}>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
                 </select></div>
                 <div id='spacer'>
                 <label id='foto_label'>Foto</label>
-                <input type="file" id="foto" name="foto" accept=".png,.jpg,.jpeg" value={this.state.imgFunc} onChange={this.handleChangeImage}></input></div>
+                <input type="file" id="foto" name="foto" accept=".png,.jpg,.jpeg" onChange={this.handleChangeImage}></input>
+                <span>{this.state.imgFunc ? this.state.imgFunc.name : 'Nenhum arquivo selecionado'}</span>
+</div>
                 <button id="enviar" type="submit">ENVIAR</button>
               </form></div>
           

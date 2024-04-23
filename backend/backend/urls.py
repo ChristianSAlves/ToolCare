@@ -5,7 +5,8 @@ from django.http import HttpResponse
 from app_backend.views import FerramentaViewSet, FuncionarioViewSet, SetorViewSet, CargoViewSet, CargoView, SetorView, FuncionarioView, EmprestimoView, EmprestimoViewSet
 from app_backend.views import UserViewSet, GroupViewSet
 from rest_framework.authtoken import views
-
+from django.conf import settings
+from django.conf.urls.static import static
 
 router = DefaultRouter()
 router.register(r'users', UserViewSet)
@@ -25,3 +26,6 @@ urlpatterns = [
     path('funcionarios/', FuncionarioView.as_view, name='funcionarios'),
     path('emprestimos/', EmprestimoView.as_view, name='emprestimos')
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

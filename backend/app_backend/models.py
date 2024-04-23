@@ -1,6 +1,7 @@
 from django.db import models
-# from cpf_field.models import CPFField
 from django_cpf_cnpj.fields import CPFField, CNPJField
+from django.core.files.base import ContentFile
+import base64
 
 class FerramentaManager(models.Manager):
     def adicionarFerramenta(self, nome, numSerie, descricao, imgFerramenta, dataAquisicao, status):
@@ -282,7 +283,21 @@ class Funcionario(models.Model):
     codigoCargo = models.ForeignKey(
         Cargo, on_delete=models.SET_NULL, null=True
     )
-    imgFunc = models.ImageField(upload_to='funcionarios/')
+    imgFunc = models.ImageField(null=True, blank=True, upload_to="funcionarios/")
+
+
+    def save_image_from_base64(self, base64_data):
+        try:
+            # Decodifica a imagem base64 em bytes
+            image_data = base64.b64decode(base64_data)
+            
+            # Salva os dados da imagem no campo BinaryField
+            self.imgFunc = image_data
+            self.save()
+            return True
+        except Exception as e:
+            print(f"Erro ao salvar imagem: {e}")
+            return False
 
     def __str__(self):
         return self.nome

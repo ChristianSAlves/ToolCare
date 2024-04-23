@@ -7,8 +7,11 @@ import manutencoes from '../assets/icones/manutencoes.png'
 import cargos from '../assets/icones/cargos.png'
 import setores from '../assets/icones/setores.png'
 import { Link } from 'react-router-dom'
+import React from 'react'
 
-function Ferramenta(){
+export default class Ferramenta extends React.Component{
+
+    render(){
         return (
             <div className={styles.container}>
               <div id='tela'>
@@ -18,7 +21,7 @@ function Ferramenta(){
                 <input id="numero_serie" name="numero_serie" type="number" placeholder="Número de Série" required></input>
                 <input id="descricao" name="descricao" type="text" placeholder="Descrição" ></input>
                 <div className='spacer'>
-                <label for = "status" id="status_label">Status</label>
+                <label id="status_label">Status</label>
                 <select name="status" id="status_select" required>
                   <option value="emprestada">Emprestada</option>
                   <option value="disponivel">Disponível</option>
@@ -26,15 +29,15 @@ function Ferramenta(){
                   <option value="manutencao">Manutenção</option>
                 </select></div>
                 <div className="spacer">
-                <label for = "data_aquisicao_datepicker" id="data_aquisicao_label">Data de aquisição</label>
+                <label id="data_aquisicao_label">Data de aquisição</label>
                 <input type="date" id="data_aquisicao_datepicker" required></input>
                 </div>
                 <div className="spacer">
-                <label for = "data_baixa_datepicker" id="data_baixa_label">Data de baixa</label>
+                <label  id="data_baixa_label">Data de baixa</label>
                 <input type="date" id="data_baixa_datepicker"></input>
                 </div>
                 <div className='spacer'>
-                <label for="foto" id='foto_label'>Foto</label>
+                <label id='foto_label'>Foto</label>
                 <input type="file" id="foto" name="foto" accept=".png,.jpg,.jpeg" required></input></div>
                 <button id="enviar" type="submit">ENVIAR</button>
               </form></div>
@@ -97,5 +100,5 @@ function Ferramenta(){
           
             );
     }
+}
 
-export default Ferramenta;

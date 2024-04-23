@@ -12,29 +12,29 @@ function Manutencao(){
         return (
             <div className={styles.container}>
               <div id='tela'>
-              <form action="#" method="post" autocomplete="off" id="cadastro_manutencao_form">
+              <form action="#" method="post" autoComplete="off" id="cadastro_manutencao_form">
                 <p id="cadastro">Cadastro de Manutencao</p>
                 <input id="codigo" name="codigo" type="number" placeholder="Código" required></input>
                 <div className='spacer'>
-                <label for = "ferramentas_select" id="ferramenta_label">Ferramenta</label>
+                <label id="ferramenta_label">Ferramenta</label>
                 <select name="ferramentas" id="ferramenta_select" required>
                   <option value="ferramenta1">Ferramenta1</option>
                   <option value="ferramenta2">Ferramenta2</option>
                   <option value="ferramenta3">Ferramenta3</option>
                 </select></div>
                 <div className='spacer'>
-                <label for = "tipo_manutencao_select" id="tipo_manutencao_label">Tipo </label>
+                <label id="tipo_manutencao_label">Tipo </label>
                 <select name="tipo_manutencao" id="tipo_manutencao_select" required>
                   <option value="emprestada">Tipo1</option>
                   <option value="disponivel">Tipo2</option>
                   <option value="perdida">Tipo3</option>
                 </select></div>
                 <div className="spacer">
-                <label for = "data_inicio_datepicker" id="data_inicio_label">Data de início</label>
+                <label id="data_inicio_label">Data de início</label>
                 <input type="date" id="data_inicio_datepicker" required></input>
                 </div>
                 <div className="spacer">
-                <label for = "data_fim_datepicker" id="data_fim_label">Data de término</label>
+                <label id="data_fim_label">Data de término</label>
                 <input type="date" id="data_fim_datepicker"></input>
                 </div>
                 <button id="enviar" type="submit">ENVIAR</button>
