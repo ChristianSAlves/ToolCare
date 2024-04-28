@@ -10,7 +10,9 @@ import Setor from './cadastro/setor'
 import Login from './login'
 
 function App() {
+    
     return(
+        
         <Router>
             <Routes>
                 <Route path='/visao_geral' element={<VisaoGeral/>}/>
