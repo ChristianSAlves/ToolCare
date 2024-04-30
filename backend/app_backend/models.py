@@ -38,7 +38,7 @@ class FerramentaManager(models.Manager):
 
 class Ferramenta(models.Model):
     nome = models.CharField(max_length=255)
-    numSerie = models.IntegerField()
+    numSerie = models.CharField(max_length=30)
     descricao = models.TextField()
     imgFerramenta = models.ImageField(upload_to='ferramentas/')
     dataAquisicao = models.DateField()
@@ -161,7 +161,7 @@ class EmprestimoManager(models.Manager):
 class Emprestimo(models.Model):
     codigoEmprestimo = models.AutoField(primary_key=True)
     matriculaFuncionario = models.CharField(max_length=20)
-    dataEmprestimo = models.DateField
+    dataEmprestimo = models.DateField()
 
 
 class ItemEmprestimoManager(models.Manager):
@@ -212,8 +212,8 @@ class itemEmprestimo(models.Model):
     numSerie = models.ForeignKey(
         Ferramenta, on_delete=models.SET_NULL, null=True
     )
-    dataDevolucao = models.DateField
-    observacoes = models.TextField
+    dataDevolucao = models.DateField()
+    observacoes = models.TextField()
 
 class FuncionarioManager(models.Manager):
 
@@ -302,15 +302,15 @@ class ManutencaoFerramentaManager(models.Manager):
     def buscarTodasManutencoes(self):
         return self.all()
 
-    def buscarManutencaoPorId(self, id):
+    def buscarManutencaoPorId(self, codigoManutencao):
         try:
-            return self.get(pk=id)
+            return self.get(pk=codigoManutencao)
         except models.DoesNotExist:
             return None
 
-    def atualizarManutencaoFerramenta(self, id, numSerie=None, tipoManutencao=None, dataInicio=None, dataFinal=None):
+    def atualizarManutencaoFerramenta(self,codigoManutencao, numSerie=None, tipoManutencao=None, dataInicio=None, dataFinal=None):
         try:
-            manutencao_ferramenta = self.get(pk=id)
+            manutencao_ferramenta = self.get(pk=codigoManutencao)
         except models.DoesNotExist:
             raise self.model.DoesNotExist("Manutenção de ferramenta não encontrada")
 
@@ -327,9 +327,9 @@ class ManutencaoFerramentaManager(models.Manager):
         manutencao_ferramenta.save()
         return manutencao_ferramenta
 
-    def deletarManutencaoFerramenta(self, id):
+    def deletarManutencaoFerramenta(self, codigoManutencao):
         try:
-            manutencao_ferramenta = self.get(pk=id)
+            manutencao_ferramenta = self.get(pk=codigoManutencao)
         except models.DoesNotExist:
             raise self.model.DoesNotExist("Manutenção de ferramenta não encontrada")
 
@@ -337,10 +337,10 @@ class ManutencaoFerramentaManager(models.Manager):
 
 
 class ManutencaoFerramenta(models.Model):
-    codigoManutencao = models.AutoField
+    codigoManutencao = models.AutoField(primary_key=True)
     numSerie = models.ForeignKey(
         Ferramenta, on_delete=models.SET_NULL, null=True
     )
     tipoManutencao = models.CharField(max_length=15)
-    dataInicio = models.DateField
-    dataFinal = models.DateField
+    dataInicio = models.DateField()
+    dataFinal = models.DateField()

@@ -1,4 +1,6 @@
-def login():
+import from django.render
+
+def login(request):
     senha1="1"
     token1="1"
 
