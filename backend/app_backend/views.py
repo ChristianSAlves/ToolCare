@@ -8,6 +8,8 @@ from .serializers import GroupSerializer, UserSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('-date_joined')
@@ -83,3 +85,22 @@ class EmprestimoView(APIView):
             serializer.save()
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
+    
+class FerramentaView(APIView):
+    def post(self, request):
+        serializer = FerramentaSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)    
+
+
+def funcionario_detail(request, matricula):
+    funcionario = get_object_or_404(Funcionario, matricula=matricula)
+    # Lógica para retornar detalhes do funcionário, por exemplo:
+    data = {
+        'matricula': funcionario.matricula,
+        'nome': funcionario.nome,
+        # Outros campos do funcionário
+    }
+    return JsonResponse(data)

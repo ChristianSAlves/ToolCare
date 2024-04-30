@@ -41,7 +41,7 @@ class FerramentaManager(models.Manager):
 
 class Ferramenta(models.Model):
     nome = models.CharField(max_length=255)
-    numSerie = models.IntegerField()
+    numSerie = models.IntegerField(max_length=20, unique=True)
     descricao = models.TextField()
     imgFerramenta = models.ImageField(upload_to='ferramentas/')
     dataAquisicao = models.DateField()
@@ -277,8 +277,8 @@ class FuncionarioManager(models.Manager):
 
 class Funcionario(models.Model):
     nome = models.CharField(max_length=30)
-    matriculaFuncionario = models.CharField(max_length=15)
-    cpf = CPFField(masked=True)  # To enable auto-mask xxx.xxx.xxx-xx
+    matriculaFuncionario = models.CharField(max_length=20, unique=True)
+    cpf = CPFField(masked=True, unique=True)  # To enable auto-mask xxx.xxx.xxx-xx
     codigoSetor = models.ForeignKey(
       Setor, on_delete=models.SET_NULL, null=True
     )

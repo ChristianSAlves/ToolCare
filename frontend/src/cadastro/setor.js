@@ -34,20 +34,20 @@ export default class Setor extends React.Component{
     handleChangeName(event) {
         const target = event.target;
         const value = target.value;
-        const nomeSetor = target.nomeSetor;
+        const name = target.name;
     
         this.setState({
-            [nomeSetor]: value
+            [name]: value
         });
     }
 
     handleChangeDescricao(event) {
         const target = event.target;
         const value = target.value;
-        const descricaoSetor = target.descricaoSetor;
+        const name = target.name;
 
         this.setState({
-            [descricaoSetor]: value
+            [name]: value
         });
     }
     

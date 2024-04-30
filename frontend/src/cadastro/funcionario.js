@@ -34,7 +34,7 @@ const Funcionario = () => {
         formData.append('cpf', cpf);
         formData.append('codigoSetor', linksetor);
         formData.append('codigoCargo', linkcargo);
-        formData.append('imgFunc', imgFunc, imgFunc.name);
+        formData.append('imgFunc', imgFunc);
 
         try {
             const response = await fetch('http://127.0.0.1:8000/funcionarios/', {

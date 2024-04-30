@@ -314,3 +314,7 @@ input::placeholder{
   margin-bottom: 0.3rem;
 }
 
+.teste_multiselect{
+    width: 20vw;
+}
+

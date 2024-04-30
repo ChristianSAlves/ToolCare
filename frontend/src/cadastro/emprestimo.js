@@ -10,15 +10,17 @@ import { Link } from 'react-router-dom'
 import { MultiSelect } from '../components/ferramentas_multiselect'
 import React from 'react'
 
-export default class Emprestimo extends React.Component {
-    render(){
+
+
+const Emprestimo = () => {
+    
+
     return (
         <div className={styles.container}>
 
             <div id="tela">
                 <form action="#" method="post" autoComplete="off" id="cadastro_emprestimo_form">
                         <p id="cadastro">Cadastro de Empréstimo</p>
-                        <input type="text" id="codigo" placeholder="Código" required></input>
                         <div className='spacer'>
                         <label>Ferramentas</label>
                         <MultiSelect id="ferramentas"/></div>
@@ -100,7 +102,7 @@ export default class Emprestimo extends React.Component {
 
 
     );
-}
+
 }
 
-
+export default Emprestimo;
