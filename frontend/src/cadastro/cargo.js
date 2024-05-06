@@ -11,9 +11,17 @@ import React from 'react'
 
 export default class Cargo extends React.Component{
 
-    async componentDidMount(){
-        var url = 'http://127.0.0.1:8000/cargos/';
-        const response = await fetch(url);
+    async componentDidMount() {
+        const url = 'http://127.0.0.1:8000/cargos/';
+    
+        const config = {
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        }
+        config.headers['Authorization'] = 'Token ' + localStorage.getItem('token');
+
+        const response = await fetch(url, config);
         const data = await response.json();
         console.log(data);
     }
@@ -53,22 +61,30 @@ export default class Cargo extends React.Component{
     
       handleSubmit = (event) => {
         event.preventDefault();
+        const token = localStorage.getItem('token');
         const data = {
-            nomeCargo: this.state.nomeCargo,
-            descricaoCargo: this.state.descricao,
-           };
-           
-           fetch('http://127.0.0.1:8000/cargos/', {
-            method: 'POST',
+            nomeSetor: this.state.nomeSetor,
+            descricaoSetor: this.state.descricaoSetor,
+        };
+    
+        const config = {
             headers: {
-               'Content-Type': 'application/json',
-            },
+                'Content-Type': 'application/json'
+            }
+        };
+        config.headers['Authorization'] = 'Token ' + token;
+    
+        fetch('http://127.0.0.1:8000/setores/', {
+            method: 'POST',
+            headers: config.headers,
             body: JSON.stringify(data),
-           })
-           .then(response => response.json())
-           .then(data => console.log('Success:', data))
-           .catch((error) => console.error('Error:', error));
-      }
+        })
+        .then(response => response.json())
+        .then(data => console.log('Success:', data))
+        .catch((error) => console.error('Error:', error));
+    }
+    
+    
     render()
     {
         return (

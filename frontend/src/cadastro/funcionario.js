@@ -24,10 +24,12 @@ const Funcionario = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
+    
+        const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage
+    
         const linksetor = `http://127.0.0.1:8000/setores/${codigoSetor}/`;
         const linkcargo = `http://127.0.0.1:8000/cargos/${codigoCargo}/`;
-
+    
         const formData = new FormData();
         formData.append('nome', nome);
         formData.append('matriculaFuncionario', matriculaFuncionario);
@@ -35,19 +37,22 @@ const Funcionario = () => {
         formData.append('codigoSetor', linksetor);
         formData.append('codigoCargo', linkcargo);
         formData.append('imgFunc', imgFunc);
-
+    
         try {
             const response = await fetch('http://127.0.0.1:8000/funcionarios/', {
                 method: 'POST',
+                headers: {
+                    'Authorization': `Token ${token}`, // Adicionando o token de autorização ao cabeçalho
+                },
                 body: formData,
             });
-
+    
             if (!response.ok) {
                 console.log('Status da resposta:', response.status);
                 console.log('Texto da resposta:', await response.text());
                 throw new Error('Erro ao enviar imagem');
             }
-
+    
             const data = await response.json();
             console.log('Success:', data);
             setImgFunc('');
@@ -56,12 +61,19 @@ const Funcionario = () => {
             console.log('Detalhes do erro:', error.message);
         }
     };
+    
 
     useEffect(() => {
+        const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage
+    
         const fetchData = async () => {
             try {
                 // Busca os cargos
-                const responseCargos = await fetch('http://127.0.0.1:8000/cargos/');
+                const responseCargos = await fetch('http://127.0.0.1:8000/cargos/', {
+                    headers: {
+                        'Authorization': `Token ${token}`, // Adicionando o token de autorização ao cabeçalho
+                    },
+                });
                 if (!responseCargos.ok) {
                     throw new Error('Erro ao carregar os cargos');
                 }
@@ -69,7 +81,11 @@ const Funcionario = () => {
                 setCargos(dataCargos);
     
                 // Busca os setores
-                const responseSetores = await fetch('http://127.0.0.1:8000/setores/');
+                const responseSetores = await fetch('http://127.0.0.1:8000/setores/', {
+                    headers: {
+                        'Authorization': `Token ${token}`, // Adicionando o token de autorização ao cabeçalho
+                    },
+                });
                 if (!responseSetores.ok) {
                     throw new Error('Erro ao carregar os setores');
                 }
@@ -82,6 +98,7 @@ const Funcionario = () => {
     
         fetchData();
     }, []);
+    
     
 
 

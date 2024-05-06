@@ -11,30 +11,31 @@ from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 
+
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
-    #permission_classes = [permissions.IsAuthenticated]
-    #authentication_classes = [authentication.TokenAuthentication, authentication.SessionAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [authentication.TokenAuthentication, authentication.SessionAuthentication]
 
 
 class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all().order_by('name')
     serializer_class = GroupSerializer
-    #permission_classes = [permissions.IsAuthenticated]
-    #authentication_classes = [authentication.TokenAuthentication, authentication.SessionAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [authentication.TokenAuthentication, authentication.SessionAuthentication]
 
 class FerramentaViewSet(viewsets.ModelViewSet):
     queryset = Ferramenta.objects.all().order_by('nome')
     serializer_class = FerramentaSerializer
-    #permission_classes = [permissions.IsAuthenticated]
-    #authentication_classes = [authentication.TokenAuthentication, authentication.SessionAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [authentication.TokenAuthentication, authentication.SessionAuthentication]
 
 class CargoViewSet(viewsets.ModelViewSet):
     queryset = Cargo.objects.all().order_by('codigoCargo')
     serializer_class = CargoSerializer
-    #permission_classes = [permissions.IsAuthenticated]
-    #authentication_classes = [authentication.TokenAuthentication, authentication.SessionAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [authentication.TokenAuthentication, authentication.SessionAuthentication]
 
 class CargoView(APIView):
     def post(self, request):
@@ -47,8 +48,8 @@ class CargoView(APIView):
 class SetorViewSet(viewsets.ModelViewSet):
     queryset = Setor.objects.all().order_by('codigoSetor')
     serializer_class = SetorSerializer
-    #permission_classes = [permissions.IsAuthenticated]
-    #authentication_classes = [authentication.TokenAuthentication, authentication.SessionAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [authentication.TokenAuthentication, authentication.SessionAuthentication]
 
 class SetorView(APIView):
     def post(self, request):
@@ -61,8 +62,8 @@ class SetorView(APIView):
 class FuncionarioViewSet(viewsets.ModelViewSet):
     queryset = Funcionario.objects.all().order_by('nome')
     serializer_class = FuncionarioSerializer
-    #permission_classes = [permissions.IsAuthenticated]
-    #authentication_classes = [authentication.TokenAuthentication, authentication.SessionAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [authentication.TokenAuthentication, authentication.SessionAuthentication]
 
 class FuncionarioView(APIView):
     def post(self, request):
@@ -75,8 +76,8 @@ class FuncionarioView(APIView):
 class EmprestimoViewSet(viewsets.ModelViewSet):
     queryset = Emprestimo.objects.all().order_by('codigoEmprestimo')
     serializer_class = EmprestimoSerializer
-    #permission_classes = [permissions.IsAuthenticated]
-    #authentication_classes = [authentication.TokenAuthentication, authentication.SessionAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [authentication.TokenAuthentication, authentication.SessionAuthentication]
 
 class EmprestimoView(APIView):
     def post(self, request):
@@ -104,3 +105,19 @@ def funcionario_detail(request, matricula):
         # Outros campos do funcionário
     }
     return JsonResponse(data)
+
+class itemEmprestimoView(APIView):
+    def post(self, request):
+        serializer = FerramentaSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)    
+    
+
+class itemEmprestimoViewSet(viewsets.ModelViewSet):
+    queryset = itemEmprestimo.objects.all().order_by('codigoEmprestimo', 'numSerie')
+    serializer_class = itemEmprestimoSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [authentication.TokenAuthentication, authentication.SessionAuthentication]
+    

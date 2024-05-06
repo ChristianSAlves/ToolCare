@@ -1,6 +1,7 @@
 from django.db import models
-from django_cpf_cnpj.fields import CPFField, CNPJField
-from django.core.files.base import ContentFile
+from django_cpf_cnpj.fields import CPFField
+from django.urls import reverse
+import datetime
 
 def upload_path(instance, filename):
     return '/'.join(['funcionarios', str(instance.nome), filename])
@@ -41,8 +42,8 @@ class FerramentaManager(models.Manager):
 
 class Ferramenta(models.Model):
     nome = models.CharField(max_length=255)
-    numSerie = models.IntegerField(max_length=20, unique=True)
-    descricao = models.TextField()
+    numSerie = models.IntegerField(primary_key=True)
+    descricao = models.TextField(null=True)
     imgFerramenta = models.ImageField(upload_to='ferramentas/')
     dataAquisicao = models.DateField()
     dataBaixa = models.DateField(null=True, blank=True)
@@ -164,10 +165,10 @@ class EmprestimoManager(models.Manager):
 class Emprestimo(models.Model):
     codigoEmprestimo = models.AutoField(primary_key=True)
     matriculaFuncionario = models.CharField(max_length=20)
-    dataEmprestimo = models.DateField
+    dataEmprestimo = models.DateField(default=datetime.date.today)
 
     def __str__(self):
-        return self.codigoEmprestimo
+        return f"{self.codigoEmprestimo}"
 
 
 class ItemEmprestimoManager(models.Manager):
@@ -213,13 +214,20 @@ class ItemEmprestimoManager(models.Manager):
 
 class itemEmprestimo(models.Model):
     codigoEmprestimo = models.ForeignKey(
-        Emprestimo, on_delete=models.SET_NULL, null=True
+        Emprestimo, on_delete=models.SET_NULL, null=True, related_name='itens'
     )
     numSerie = models.ForeignKey(
-        Ferramenta, on_delete=models.SET_NULL, null=True
+        Ferramenta, on_delete=models.SET_NULL, null=True, related_name='emprestimos'
     )
-    dataDevolucao = models.DateField
-    observacoes = models.TextField
+    dataDevolucao = models.DateField(null=True)
+    observacoes = models.TextField(null=True)
+
+    def __str__(self):
+     codigo = self.codigoEmprestimo.codigo if self.codigoEmprestimo else ""
+     num_serie = self.numSerie.numero_serie if self.numSerie else ""
+     return f"Código de Empréstimo: {codigo}, Número de Série: {num_serie}"
+
+
 
 class FuncionarioManager(models.Manager):
 
@@ -289,6 +297,9 @@ class Funcionario(models.Model):
 
     def __str__(self):
         return self.nome
+    
+    def get_absolute_url(self):
+        return reverse('FuncionarioView', kwargs={'matriculaFuncionario': self.matriculaFuncionario})
 
 
 class ManutencaoFerramentaManager(models.Manager):
@@ -343,10 +354,13 @@ class ManutencaoFerramentaManager(models.Manager):
 
 
 class ManutencaoFerramenta(models.Model):
-    codigoManutencao = models.AutoField
+    codigoManutencao = models.AutoField(primary_key=True)
     numSerie = models.ForeignKey(
         Ferramenta, on_delete=models.SET_NULL, null=True
     )
     tipoManutencao = models.CharField(max_length=15)
-    dataInicio = models.DateField
-    dataFinal = models.DateField
+    dataInicio = models.DateField(default=datetime.date.today)
+    dataFinal = models.DateField(null=True)
+
+    def __str__(self):
+        return self.codigoManutencao

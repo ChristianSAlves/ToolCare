@@ -1,12 +1,13 @@
 import styles from '../src/index.css'
 import login from '../src/assets/imagens/mario.png'
 import React from 'react'
-import { Link } from "react-router-dom";
+import { Route, Navigate } from "react-router-dom";
+
 
 export default class Login extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { username: 'frontend', password: 'Arroz.000' };
+        this.state = { username: '', password: '' };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChangePassword = this.handleChangePassword.bind(this);
@@ -22,7 +23,7 @@ export default class Login extends React.Component {
 
     handleSubmit(event) {
       event.preventDefault();
-  
+      alert(this.state.username);
       var url = 'http://127.0.0.1:8000/api-token-auth/';
       const requestOptions = {
           method: 'POST',
@@ -50,8 +51,15 @@ export default class Login extends React.Component {
           });
   }
   
+  logout(){
+    localStorage.removeItem('token');
+    this.setState({token: null});
+}
 
     render() {
+        var token = localStorage.getItem('token');
+
+        if(!token)
         return (
             <div className={styles.container}>
                 <div className="login_container">
@@ -64,5 +72,9 @@ export default class Login extends React.Component {
                 </div>
             </div>
         );
+        else
+        return(
+            <Navigate to="/funcionario" />
+    )
     }
 }

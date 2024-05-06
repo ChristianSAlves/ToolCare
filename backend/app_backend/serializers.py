@@ -37,7 +37,11 @@ class FuncionarioSerializer(serializers.HyperlinkedModelSerializer):
 class EmprestimoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Emprestimo
-        fields = ['codigoEmprestimo', 'matriculaFuncionario', 'dataEmprestimo']     
+        fields = ['codigoEmprestimo', 'matriculaFuncionario', 'dataEmprestimo']   
+
+
+    def get_url(self, obj):
+        return obj.get_absolute_url() 
 
 class itemEmprestimoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

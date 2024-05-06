@@ -21,6 +21,8 @@ const Ferramenta = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
     
+        const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage
+    
         const formData = new FormData();
         formData.append('nome', nome);
         formData.append('numSerie', numSerie);
@@ -32,6 +34,9 @@ const Ferramenta = () => {
         try {
             const response = await fetch('http://127.0.0.1:8000/ferramentas/', {
                 method: 'POST',
+                headers: {
+                    'Authorization': `Token ${token}`, // Adicionando o token de autorização ao cabeçalho
+                },
                 body: formData,
             });
     
