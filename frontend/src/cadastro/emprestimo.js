@@ -13,9 +13,14 @@ import React from 'react'
 
 
 
-const Emprestimo = () => {
+export default class Emprestimo extends React.Component{
     
+    logout() {
+        localStorage.removeItem('token');
+        this.setState({ token: null });
+    }
 
+    render(){
     return (
         <div className={styles.container}>
 
@@ -96,13 +101,6 @@ const Emprestimo = () => {
                               <h4 id="texto_setores" className="texto_menu">SETORES</h4>
                           </li>
                       </Link>
-                      <Link to={"/login"}>
-                      <li id="logout" className="div_navbar">
-                              <img src={logoutIcon} className="quadradinho_logout quadradinho"
-                                  alt="Ícone de logout"></img>
-                              <h4 id="texto_logout" className="texto_menu">SAIR</h4>
-                          </li>
-                          </Link>
                   </ul>
             </nav>
 
@@ -110,7 +108,6 @@ const Emprestimo = () => {
 
 
     );
-
+}
 }
 
-export default Emprestimo;

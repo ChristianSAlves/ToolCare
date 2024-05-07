@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom'
 import React, { useState, useEffect } from 'react'
 
 
+
 const Funcionario = () => {
     const [nome, setNome] = useState('');
     const [matriculaFuncionario, setMatriculaFuncionario] = useState('');
@@ -19,8 +20,9 @@ const Funcionario = () => {
     const [codigoCargo, setCodigoCargo] = useState(0);
     const [imgFunc, setImgFunc] = useState();
     const [cargos, setCargos] = useState([]);
-    const [setores, setSetores] = useState([])
-
+    const [setores, setSetores] = useState([]);
+    
+    
 
 
     const handleSubmit = async (event) => {
@@ -63,6 +65,7 @@ const Funcionario = () => {
         }
     };
     
+    
 
     useEffect(() => {
         const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage
@@ -99,7 +102,6 @@ const Funcionario = () => {
     
         fetchData();
     }, []);
-    
     
 
 
@@ -185,18 +187,12 @@ const Funcionario = () => {
                               <h4 id="texto_setores" className="texto_menu">SETORES</h4>
                           </li>
                       </Link>
-                      <Link to={"/login"}>
-                      <li id="logout" className="div_navbar">
-                              <img src={logoutIcon} className="quadradinho_logout quadradinho"
-                                  alt="Ícone de logout"></img>
-                              <h4 id="texto_logout" className="texto_menu">SAIR</h4>
-                          </li>
-                          </Link>
                   </ul>
             </nav>
 
         </div>
     );
 };
+
 
 export default Funcionario;

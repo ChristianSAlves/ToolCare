@@ -74,7 +74,7 @@ export default class Login extends React.Component {
         );
         else
         return(
-            <Navigate to="/funcionario" />
+            <Navigate to="/visao_geral" />
     )
     }
 }
