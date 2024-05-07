@@ -209,6 +209,14 @@ label{
     padding-left: 1rem;
 }
 
+#logout {
+    position: absolute;
+    bottom: 0px;
+    align-items: center;
+    border-top: 1px solid black;
+    min-width: 13.25vw;
+}
+
 #foto{
     text-align: center;
 }
