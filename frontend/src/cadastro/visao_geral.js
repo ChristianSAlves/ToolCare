@@ -8,27 +8,14 @@ import cargosIcon from '../assets/icones/cargos.png'
 import setoresIcon from '../assets/icones/setores.png'
 import logoutIcon from '../assets/icones/logout.png'
 import { Link } from 'react-router-dom'
-import React from 'react'
 
-export default class VisaoGeral extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            token: localStorage.getItem('token') || null,
-        };
-    }
-
-    logout = () => {
-        localStorage.removeItem('token');
-        this.setState({ token: null });
-    };
-
-    render() {
+function VisaoGeral(){
         return (
+            
             <div className={styles.container}>
-                <nav id="menu">
-                    <ul>
-                    <Link to={"/visao_geral"}>
+              <nav id="menu">
+                  <ul>
+                      <Link to={"/visao_geral"}>
                           <li id="visao_geral" className="div_navbar">
                               <img src={visaoGeralIcon} className="quadradinho quadradinho_visao_geral"
                                   alt="Ícone de visão geral"></img>
@@ -69,16 +56,28 @@ export default class VisaoGeral extends React.Component {
                               <h4 id="texto_cargos" className="texto_menu">CARGOS</h4>
                           </li>
                       </Link>
-                        <Link to="/login">
-                            <li id="logout" className="div_navbar" onClick={this.logout}>
-                                <img src={logoutIcon} className="quadradinho_logout quadradinho" alt="Ícone de logout"></img>
-                                <h4 id="texto_logout" className="texto_menu">SAIR</h4>
-                            </li>
-                        </Link>
-                    </ul>
-                </nav>
-            </div>
-        );
+                      <Link to={"/setor"}>
+                          <li id="setores" className="div_navbar">
+                              <img src={setoresIcon} className="quadradinho_setores quadradinho"
+                                  alt="Ícone de setores"></img>
+                              <h4 id="texto_setores" className="texto_menu">SETORES</h4>
+                          </li>
+                      </Link>
+                      <Link to={"/login"}>
+                      <li id="logout" className="div_navbar">
+                              <img src={logoutIcon} className="quadradinho_logout quadradinho"
+                                  alt="Ícone de logout"></img>
+                              <h4 id="texto_logout" className="texto_menu">SAIR</h4>
+                          </li>
+                          </Link>
+                  </ul>
+                  
+              </nav>
+          
+              </div>
+          
+          
+            );
     }
-}
 
+export default VisaoGeral;

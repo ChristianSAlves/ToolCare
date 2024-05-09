@@ -46,9 +46,9 @@ class EmprestimoSerializer(serializers.HyperlinkedModelSerializer):
 class itemEmprestimoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = itemEmprestimo
-        fields = ['codigoEmprestimo', 'numSerie', 'dataDevolucao', 'observacoes']     
+        fields = ['codigoEmprestimo', 'idFerramenta', 'dataDevolucao', 'observacoes']        
 
 class manutencaoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = ManutencaoFerramenta    
-        fields = ['codigoManutencao', 'numSerie', 'tipoManutencao', 'dataInicio', 'dataFinal']                            
+        fields = ['codigoManutencao', 'idFerramenta', 'tipoManutencao', 'dataInicio', 'dataFinal']                         

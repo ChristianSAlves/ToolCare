@@ -6,8 +6,6 @@ import axios from 'axios';
 export const MultiSelect = () => {
     const [options, setOptions] = useState([]);
     const [loading, setLoading] = useState(true);
-
-    
   
     useEffect(() => {
       const carregarDados = async () => {

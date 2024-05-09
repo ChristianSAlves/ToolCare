@@ -116,11 +116,10 @@ class itemEmprestimoView(APIView):
     
 
 class itemEmprestimoViewSet(viewsets.ModelViewSet):
-    queryset = itemEmprestimo.objects.all().order_by('codigoEmprestimo', 'numSerie')
+    queryset = itemEmprestimo.objects.all().order_by('codigoEmprestimo', 'idFerramenta')
     serializer_class = itemEmprestimoSerializer
     permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [authentication.TokenAuthentication, authentication.SessionAuthentication]
-    
 
 class ManutencaoViewSet(viewsets.ModelViewSet):
     queryset = ManutencaoFerramenta.objects.all().order_by('codigoManutencao')
@@ -135,3 +134,4 @@ class ManutencaoView(APIView):
             serializer.save()
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
+    

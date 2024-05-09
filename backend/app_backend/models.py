@@ -218,7 +218,7 @@ class itemEmprestimo(models.Model):
     codigoEmprestimo = models.ForeignKey(
         Emprestimo, on_delete=models.SET_NULL, null=True, related_name='itens'
     )
-    numSerie = models.ForeignKey(
+    idFerramenta = models.ForeignKey(
         Ferramenta, on_delete=models.SET_NULL, null=True, related_name='emprestimos'
     )
     dataDevolucao = models.DateField(null=True)
@@ -228,8 +228,8 @@ class itemEmprestimo(models.Model):
 
     def __str__(self):
      codigo = self.codigoEmprestimo.codigo if self.codigoEmprestimo else ""
-     num_serie = self.numSerie.numero_serie if self.numSerie else ""
-     return f"Código de Empréstimo: {codigo}, Número de Série: {num_serie}"
+     idFerramenta = self.idFerramenta.id_ferramenta if self.idFerramenta else ""
+     return f"Código de Empréstimo: {codigo}, Número de Série: {idFerramenta}"
 
 
 

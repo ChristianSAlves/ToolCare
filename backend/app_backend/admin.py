@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Funcionario, Ferramenta, Setor, Cargo, Setor, ManutencaoFerramenta, Emprestimo, itemEmprestimo
+from .models import Funcionario, Ferramenta, Setor, Cargo, Setor, ManutencaoFerramenta, Emprestimo, itemEmprestimo, ManutencaoFerramenta
 
 # Register your models here.
 admin.site.register(Funcionario)
