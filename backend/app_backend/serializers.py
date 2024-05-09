@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import Group, User
-from .models import Ferramenta, Cargo, Setor, Funcionario, Emprestimo, itemEmprestimo
+from .models import Ferramenta, Cargo, Setor, Funcionario, Emprestimo, itemEmprestimo, ManutencaoFerramenta
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -46,4 +46,9 @@ class EmprestimoSerializer(serializers.HyperlinkedModelSerializer):
 class itemEmprestimoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = itemEmprestimo
-        fields = ['codigoEmprestimo', 'numSerie', 'dataDevolucao', 'observacoes']                               
+        fields = ['codigoEmprestimo', 'numSerie', 'dataDevolucao', 'observacoes']     
+
+class manutencaoSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = ManutencaoFerramenta    
+        fields = ['codigoManutencao', 'numSerie', 'tipoManutencao', 'dataInicio', 'dataFinal']                            
