@@ -7,47 +7,47 @@ def upload_path(instance, filename):
     return '/'.join(['funcionarios', str(instance.nome), filename])
 
 class FerramentaManager(models.Manager):
-    def adicionarFerramenta(self, nome, numSerie, descricao, imgFerramenta, dataAquisicao, status):
-        ferramenta = self.create(
+    def criar_ferramenta(self, nome, num_serie, descricao, img_ferramenta, data_aquisicao, data_baixa, status):
+        ferramenta = self.model(
             nome=nome,
-            numSerie=numSerie,
+            numSerie=num_serie,
             descricao=descricao,
-            imgFerramenta=imgFerramenta,
-            dataAquisicao=dataAquisicao,
+            imgFerramenta=img_ferramenta,
+            dataAquisicao=data_aquisicao,
+            dataBaixa=data_baixa,
             status=status
         )
+        ferramenta.save()
         return ferramenta
-    
-    def getFerramentaPorId(self, id):
-        try:
-            return self.get(id=id)
-        except self.model.DoesNotExist:
-            return None
 
-    def atualizarFerramenta(self, id, **kwargs):
-        ferramenta = self.getFerramentaPorId(id)
-        if ferramenta:
-            for key, value in kwargs.items():
-                setattr(ferramenta, key, value)
-            ferramenta.save()
-            return ferramenta
-        return None
+    def atualizar_ferramenta(self, ferramenta_id, **kwargs):
+        ferramenta = self.get(pk=ferramenta_id)
+        for field, value in kwargs.items():
+            setattr(ferramenta, field, value)
+        ferramenta.save()
+        return ferramenta
 
-    def deletarFerramenta(self, id):
-        ferramenta = self.getFerramentaPorId(id)
-        if ferramenta:
-            ferramenta.delete()
-            return True
-        return False
+    def excluir_ferramenta(self, ferramenta_id):
+        ferramenta = self.get(pk=ferramenta_id)
+        ferramenta.delete()
+
+    def obter_ferramenta_por_numero_serie(self, num_serie):
+        return self.get(numSerie=num_serie)
+
+    def obter_todas_ferramentas(self):
+        return self.all()
 
 class Ferramenta(models.Model):
+    idFerramenta = models.AutoField(primary_key=True)
     nome = models.CharField(max_length=255)
-    numSerie = models.IntegerField(primary_key=True)
-    descricao = models.TextField(null=True)
+    numSerie = models.CharField(max_length=20, unique=True)
+    descricao = models.TextField(null=True) 
     imgFerramenta = models.ImageField(upload_to='ferramentas/')
     dataAquisicao = models.DateField()
     dataBaixa = models.DateField(null=True, blank=True)
     status = models.CharField(max_length=30)
+
+    objects = FerramentaManager()
 
     def __str__(self):
         return self.nome
@@ -167,6 +167,8 @@ class Emprestimo(models.Model):
     matriculaFuncionario = models.CharField(max_length=20)
     dataEmprestimo = models.DateField(default=datetime.date.today)
 
+    objects = EmprestimoManager()
+
     def __str__(self):
         return f"{self.codigoEmprestimo}"
 
@@ -221,6 +223,8 @@ class itemEmprestimo(models.Model):
     )
     dataDevolucao = models.DateField(null=True)
     observacoes = models.TextField(null=True)
+
+    objects = ItemEmprestimoManager()
 
     def __str__(self):
      codigo = self.codigoEmprestimo.codigo if self.codigoEmprestimo else ""
@@ -284,6 +288,7 @@ class FuncionarioManager(models.Manager):
         funcionario.delete()
 
 class Funcionario(models.Model):
+    idFuncionario = models.AutoField(primary_key=True)
     nome = models.CharField(max_length=30)
     matriculaFuncionario = models.CharField(max_length=20, unique=True)
     cpf = CPFField(masked=True, unique=True)  # To enable auto-mask xxx.xxx.xxx-xx
@@ -355,7 +360,7 @@ class ManutencaoFerramentaManager(models.Manager):
 
 class ManutencaoFerramenta(models.Model):
     codigoManutencao = models.AutoField(primary_key=True)
-    numSerie = models.ForeignKey(
+    idFerramenta = models.ForeignKey(
         Ferramenta, on_delete=models.SET_NULL, null=True
     )
     tipoManutencao = models.CharField(max_length=15)

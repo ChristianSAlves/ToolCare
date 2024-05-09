@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets, authentication
-from .models import Ferramenta, Cargo, Setor, Funcionario, Emprestimo, itemEmprestimo
-from .serializers import FerramentaSerializer, CargoSerializer, SetorSerializer, FuncionarioSerializer, EmprestimoSerializer, itemEmprestimoSerializer
+from .models import Ferramenta, Cargo, Setor, Funcionario, Emprestimo, itemEmprestimo, ManutencaoFerramenta
+from .serializers import FerramentaSerializer, CargoSerializer, SetorSerializer, FuncionarioSerializer, EmprestimoSerializer, itemEmprestimoSerializer, manutencaoSerializer
 from django.contrib.auth.models import Group, User
 from rest_framework import permissions, viewsets
 from .serializers import GroupSerializer, UserSerializer
@@ -121,3 +121,17 @@ class itemEmprestimoViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [authentication.TokenAuthentication, authentication.SessionAuthentication]
     
+
+class ManutencaoViewSet(viewsets.ModelViewSet):
+    queryset = ManutencaoFerramenta.objects.all().order_by('codigoManutencao')
+    serializer_class = manutencaoSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [authentication.TokenAuthentication, authentication.SessionAuthentication]
+
+class ManutencaoView(APIView):
+    def post(self, request):
+        serializer = manutencaoSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
