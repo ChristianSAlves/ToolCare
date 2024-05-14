@@ -6,6 +6,7 @@ import Emprestimo from './cadastro/emprestimo'
 import Ferramenta from './cadastro/ferramenta'
 import Funcionario from './cadastro/funcionario'
 import Manutencao from './cadastro/manutencao'
+import Card from './teste_card.js'
 import Setor from './cadastro/setor'
 import Login from './login'
 
@@ -23,6 +24,7 @@ function App() {
                 <Route path='/manutencao' element={<Manutencao/>}/>
                 <Route path='/setor' element={<Setor/>}/>
                 <Route path='/login' element={<Login/>}/>
+                <Route path='/card' element={<Card/>}/>
             </Routes>
         </Router>
     )
