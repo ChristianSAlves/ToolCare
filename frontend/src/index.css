@@ -367,3 +367,17 @@ button{
     font-weight: bolder;
 }
 
+.adicionar{
+    color: white;
+    margin-left: 100rem;
+    font-size: 5rem;
+    float: right;
+}
+
+.link_adicionar{
+    float: right;
+    height: 5rem;
+    width: 5rem;
+}
+
+
