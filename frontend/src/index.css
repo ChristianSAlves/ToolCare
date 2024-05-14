@@ -326,3 +326,58 @@ input::placeholder{
     width: 20vw;
 }
 
+#card{
+    background-color: red;
+    display: flex;
+    flex-direction: column;
+    width: 15vw;
+    border-radius: 2rem;
+    font: normal 500 2rem 'Lato';
+}
+
+#fundo{
+    padding: 1rem;
+    background-color: rgb(255, 255, 255);
+}
+
+#ferramenta{
+    font-weight: bold;
+}
+
+.dado{
+    font-weight: 300;
+}
+
+#nome_func{
+    padding-top: 1rem;
+}
+
+#cod_fer{
+    padding-bottom: 2rem;
+}
+
+button{
+    height: 3.5rem;
+    width: 13.5vw;
+    background-color: #f46524;
+    border: 0;
+    font: normal 500 2rem 'Lato';
+    border-radius: 0.8rem;
+    color: white;
+    font-weight: bolder;
+}
+
+.adicionar{
+    color: white;
+    margin-left: 100rem;
+    font-size: 5rem;
+    float: right;
+}
+
+.link_adicionar{
+    float: right;
+    height: 5rem;
+    width: 5rem;
+}
+
+

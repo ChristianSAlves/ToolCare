@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from django.http import HttpResponse
-from app_backend.views import FerramentaViewSet, FuncionarioViewSet, SetorViewSet, CargoViewSet, CargoView, SetorView, FuncionarioView, EmprestimoView, EmprestimoViewSet, FerramentaView
+from app_backend.views import FerramentaViewSet, FuncionarioViewSet, SetorViewSet, CargoViewSet, CargoView, SetorView, FuncionarioView, EmprestimoView, EmprestimoViewSet, FerramentaView, itemEmprestimoView, itemEmprestimoViewSet
 from app_backend.views import UserViewSet, GroupViewSet, ManutencaoView, ManutencaoViewSet
 from rest_framework.authtoken import views
 from django.conf import settings
@@ -16,6 +16,7 @@ router.register(r'funcionarios', FuncionarioViewSet)
 router.register(r'setores', SetorViewSet)
 router.register(r'cargos', CargoViewSet)
 router.register(r'emprestimos', EmprestimoViewSet)
+router.register(r'itemEmprestimo', itemEmprestimoViewSet)
 router.register(r'manutencoes', ManutencaoViewSet)
 
 urlpatterns = [
@@ -27,6 +28,7 @@ urlpatterns = [
     path('funcionarios/', FuncionarioView.as_view, name='funcionarios'),
     path('emprestimos/', EmprestimoView.as_view, name='emprestimos'),
     path('ferramentas/', FerramentaView.as_view, name='ferramentas'),
+    path('itemEmprestimo/', itemEmprestimoView.as_view, name='itemEmprestimo'),
     path('manutencoes/', ManutencaoView.as_view, name='manutencoes'),
 ]
 
