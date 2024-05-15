@@ -14,6 +14,7 @@ import Funcionario from './pagina_inicial/funcionario'
 import Manutencao from './pagina_inicial/manutencao'
 import Setor from './pagina_inicial/setor'
 import Card from './teste_card.js'
+import Searchbar from './teste_searchbar.js'
 import Login from './login'
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
                 <Route path='/setor_cadastro' element={<SetorCadastro/>}/>
                 <Route path='/login' element={<Login/>}/>
                 <Route path='/card' element={<Card/>}/>
+                <Route path='/searchbar' element={<Searchbar/>}/>
             </Routes>
         </Router>
     )

@@ -162,7 +162,7 @@ nav {
   border-radius: 0.6rem;
 }
 
-input{
+input:not(#input_searchbar){
     padding: 0.9rem;
     margin: 0rem 1rem 0rem 1rem;
     border-radius: 0.6rem;
@@ -378,6 +378,38 @@ button{
     float: right;
     height: 5rem;
     width: 5rem;
+}
+
+#searchbar{
+    width: 40vw;
+    height: 2.5vh;
+    display: flex;
+    flex-direction: row;
+    background-color: white;
+    border-radius: 1rem;
+    justify-content: space-around;
+    margin-left: 10%;
+    margin-top: 10%;
+    min-width: 40vw;
+    min-height: 2.5rem;
+}
+
+#input_searchbar{
+    border: 0;
+    width: 25vw;
+    height: 2.5vh;
+    border: 0;
+}
+
+#filtro,#lupa{
+    padding: 0.2rem;
+}
+
+.options-box{
+    color: white;
+    font-size: 5rem;
+    align-self: center;
+    margin-bottom: -100rem;
 }
 
 
