@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets, authentication
-from .models import Ferramenta, Cargo, Setor, Funcionario, Emprestimo, ManutencaoFerramenta
-from .serializers import FerramentaSerializer, CargoSerializer, SetorSerializer, FuncionarioSerializer, EmprestimoSerializer, manutencaoSerializer
+from .models import Ferramenta, Cargo, Setor, Funcionario, Emprestimo, itemEmprestimo, ManutencaoFerramenta
+from .serializers import FerramentaSerializer, CargoSerializer, SetorSerializer, FuncionarioSerializer, EmprestimoSerializer, itemEmprestimoSerializer, manutencaoSerializer
 from django.contrib.auth.models import Group, User
 from rest_framework import permissions, viewsets
 from .serializers import GroupSerializer, UserSerializer
@@ -105,6 +105,21 @@ def funcionario_detail(request, matricula):
         # Outros campos do funcionário
     }
     return JsonResponse(data)
+
+class itemEmprestimoView(APIView):
+    def post(self, request):
+        serializer = FerramentaSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)    
+    
+
+class itemEmprestimoViewSet(viewsets.ModelViewSet):
+    queryset = itemEmprestimo.objects.all().order_by('codigoEmprestimo', 'idFerramenta')
+    serializer_class = itemEmprestimoSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [authentication.TokenAuthentication, authentication.SessionAuthentication]
 
 class ManutencaoViewSet(viewsets.ModelViewSet):
     queryset = ManutencaoFerramenta.objects.all().order_by('codigoManutencao')
