@@ -9,12 +9,51 @@ import setoresIcon from '../assets/icones/setores.png'
 import logoutIcon from '../assets/icones/logout.png'
 import { Link } from 'react-router-dom'
 import { MultiSelect } from '../components/ferramentas_multiselect'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 
 
-const EmprestimoCadastro = () => {
+const Emprestimo = () => {
+    const [numSerie, setNumSerie] = useState(0);
+    const [ferramentas, setFerramentas] = useState([]);
+    const [funcionarios, setFuncionarios] = useState([]);
     
+
+    useEffect(() => {
+        const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage
+    
+        const fetchData = async () => {
+            try {
+                // Busca as Ferramentas
+                const responseFerramentas = await fetch('http://127.0.0.1:8000/ferramentas/', {
+                    headers: {
+                        'Authorization': `Token ${token}`, // Adicionando o token de autorização ao cabeçalho
+                    },
+                });
+                if (!responseFerramentas.ok) {
+                    throw new Error('Erro ao carregar os Ferramentas');
+                }
+                const dataFerramentas = await responseFerramentas.json();
+                setFerramentas(dataFerramentas); 
+                
+                // Busca Funcionarios
+                const responseFuncionarios = await fetch('http://127.0.0.1:8000/funcionarios/', {
+                    headers: {
+                        'Authorization': `Token ${token}`, // Adicionando o token de autorização ao cabeçalho
+                    },
+                });
+                if (!responseFuncionarios.ok) {
+                    throw new Error('Erro ao carregar os Funcionarios');
+                }
+                const dataFuncionarios = await responseFuncionarios.json();
+                setFuncionarios(dataFuncionarios);
+            } catch (error) {
+                console.error('Erro:', error);
+            }
+        };
+    
+        fetchData();
+    }, []);
 
     return (
         <div className={styles.container}>
@@ -24,7 +63,12 @@ const EmprestimoCadastro = () => {
                         <p id="cadastro">Cadastro de Empréstimo</p>
                         <div className='spacer'>
                         <label>Ferramentas</label>
-                        <MultiSelect id="ferramentas"/></div>
+                        <select name="numSerieFerramenta" id="ferramenta_select" value={numSerie} onChange={evt => setNumSerie(evt.target.value)}>
+                            <option value={0}>Selecione</option>
+                            {ferramentas.map(ferramenta => (
+                                <option key={ferramenta.idFerramenta} value={ferramenta.numSerie}>{ferramenta.numSerie}</option>
+                            ))}
+                        </select></div>
                         <div className="spacer">
                             <label id='funcionario_label'>Funcionário</label>
                             <select name="funcionario" id="funcionario_select" required>
@@ -47,8 +91,8 @@ const EmprestimoCadastro = () => {
             </div>
 
             <nav id="menu">
-            <ul>
-            <Link to={"/visao_geral"}>
+              <ul>
+                      <Link to={"/visao_geral"}>
                           <li id="visao_geral" className="div_navbar">
                               <img src={visaoGeralIcon} className="quadradinho quadradinho_visao_geral"
                                   alt="Ícone de visão geral"></img>
@@ -104,7 +148,7 @@ const EmprestimoCadastro = () => {
                           </li>
                           </Link>
                   </ul>
-            </nav>
+              </nav>
 
         </div>
 
@@ -113,4 +157,4 @@ const EmprestimoCadastro = () => {
 
 }
 
-export default EmprestimoCadastro;
+export default Emprestimo;

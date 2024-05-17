@@ -1,4 +1,3 @@
-import styles from '../index.css'
 import visaoGeralIcon from '../assets/icones/visao_geral.png'
 import emprestimosIcon from '../assets/icones/emprestimos.png'
 import ferramentasIcon from '../assets/icones/ferramentas.png'
@@ -10,7 +9,7 @@ import logoutIcon from '../assets/icones/logout.png'
 import { Link } from 'react-router-dom'
 import React from 'react'
 
-export default class CargoCadastro extends React.Component{
+export default class Cargo extends React.Component{
 
     async componentDidMount() {
         const url = 'http://127.0.0.1:8000/cargos/';
@@ -89,9 +88,7 @@ export default class CargoCadastro extends React.Component{
     render()
     {
         return (
-            <div className={styles.container}>
-                
-            
+            <div>
               <div id='tela'>
               <form onSubmit={this.handleSubmit} action="#" method="post" autoComplete="off" id="cadastro_cargo_form">
                 <p id="cadastro">Cadastro de Cargo</p>
@@ -99,13 +96,6 @@ export default class CargoCadastro extends React.Component{
                 <input type="text" id="descricao" name="descricao" placeholder="Descrição" value={this.state.descricao} onChange={this.handleChangeDescricao}></input>
                 <button id="enviar" type="submit">ENVIAR</button>
               </form></div>
-
-            
-
-              <Link to={"/login"} className='link_adicionar'>
-                <p className='adicionar'>+</p>
-                      </Link>
-
             
               <nav id="menu">
               <ul>
@@ -174,5 +164,4 @@ export default class CargoCadastro extends React.Component{
         }
     
 }
-
 

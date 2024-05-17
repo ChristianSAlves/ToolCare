@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom'
 import React, { useState, useEffect } from 'react'
 
 
-const FuncionarioCadastro = () => {
+const Funcionario = () => {
     const [nome, setNome] = useState('');
     const [matriculaFuncionario, setMatriculaFuncionario] = useState('');
     const [cpf, setCpf] = useState('');
@@ -136,8 +136,8 @@ const FuncionarioCadastro = () => {
                 </form>
             </div>
             <nav id="menu">
-            <ul>
-            <Link to={"/visao_geral"}>
+              <ul>
+                      <Link to={"/visao_geral"}>
                           <li id="visao_geral" className="div_navbar">
                               <img src={visaoGeralIcon} className="quadradinho quadradinho_visao_geral"
                                   alt="Ícone de visão geral"></img>
@@ -193,10 +193,9 @@ const FuncionarioCadastro = () => {
                           </li>
                           </Link>
                   </ul>
-            </nav>
-
+              </nav>
         </div>
     );
 };
 
-export default FuncionarioCadastro;
+export default Funcionario;

@@ -10,7 +10,7 @@ import logoutIcon from '../assets/icones/logout.png'
 import { Link } from 'react-router-dom'
 import React from 'react'
 
-export default class SetorCadastro extends React.Component{
+export default class Setor extends React.Component{
 
     async componentDidMount(){
         var url = 'http://127.0.0.1:8000/setores/';
@@ -84,7 +84,7 @@ export default class SetorCadastro extends React.Component{
           
               <nav id="menu">
               <ul>
-              <Link to={"/visao_geral"}>
+                      <Link to={"/visao_geral"}>
                           <li id="visao_geral" className="div_navbar">
                               <img src={visaoGeralIcon} className="quadradinho quadradinho_visao_geral"
                                   alt="Ícone de visão geral"></img>

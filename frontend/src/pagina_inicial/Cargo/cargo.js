@@ -1,26 +1,23 @@
-import styles from '../index.css'
-import visaoGeralIcon from '../assets/icones/visao_geral.png'
-import emprestimosIcon from '../assets/icones/emprestimos.png'
-import ferramentasIcon from '../assets/icones/ferramentas.png'
-import funcionariosIcon from '../assets/icones/funcionarios.png'
-import manutencoesIcon from '../assets/icones/manutencoes.png'
-import cargosIcon from '../assets/icones/cargos_laranja.png'
-import setoresIcon from '../assets/icones/setores.png'
-import logoutIcon from '../assets/icones/logout.png'
+import visaoGeralIcon from '../../assets/icones/visao_geral.png'
+import emprestimosIcon from '../../assets/icones/emprestimos.png'
+import ferramentasIcon from '../../assets/icones/ferramentas.png'
+import funcionariosIcon from '../../assets/icones/funcionarios.png'
+import manutencoesIcon from '../../assets/icones/manutencoes.png'
+import cargosIcon from '../../assets/icones/cargos_laranja.png'
+import setoresIcon from '../../assets/icones/setores.png'
+import logoutIcon from '../../assets/icones/logout.png'
 import { Link } from 'react-router-dom'
 import React from 'react'
 
 export default class Cargo extends React.Component{
+
+
     
     
     render()
     {
         return (
-            <div className={styles.container}>
-                
-            
-              
-
+            <div>
             
               <nav id="menu">
               <ul>
