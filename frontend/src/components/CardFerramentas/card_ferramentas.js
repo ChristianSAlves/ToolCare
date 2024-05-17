@@ -1,6 +1,6 @@
 import React from "react";
 import{ useEffect, useState } from 'react';
-import defaultFerramenta from '../../../src/assets/imagens/defaultFerramenta.jpg';
+import defaultFerramenta from '../../../src/assets/imagens/defaultFerramenta2.jpg';
 
 export const CardTeste = () => {
     const [data, setData] = useState([]);
@@ -36,9 +36,14 @@ export const CardTeste = () => {
     return (
         <div id="card">
            {data && data.imgFerramenta? (
-            <img src={data.imgFerramenta} alt="imagem ferramenta"></img>
+            <img src={data.imgFerramenta}  alt="imagem ferramenta"></img>
         ) : (
-            <img src={defaultFerramenta} alt="imagem padrão"></img>
+            <img src={defaultFerramenta} style={{
+                
+                height:"27.5vh",
+                width:"15vw"
+
+            }} alt="imagem padrão"></img>
         )}
             <div id="fundo">
                 <p id="nomeFerramenta">{data.nome}</p>
