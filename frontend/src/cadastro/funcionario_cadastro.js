@@ -136,7 +136,7 @@ const Funcionario = () => {
                 </form>
             </div>
             <nav id="menu">
-            <ul>
+              <ul>
                       <Link to={"/visao_geral"}>
                           <li id="visao_geral" className="div_navbar">
                               <img src={visaoGeralIcon} className="quadradinho quadradinho_visao_geral"
@@ -144,41 +144,41 @@ const Funcionario = () => {
                               <h4 id="texto_visao_geral" className="texto_menu">VISÃO GERAL</h4>
                           </li>
                       </Link>
-                      <Link to={"/emprestimo"}>
+                      <Link to={"/emprestimo_cadastro"}>
                           <li id="emprestimos" className="div_navbar">
                               <img src={emprestimosIcon} className="quadradinho_emprestimos quadradinho"
                                   alt="Ícone de empréstimos"></img>
                               <h4 id="texto_emprestimos" className="texto_menu">EMPRÉSTIMOS</h4>
                           </li>
                       </Link>
-                      <Link to={"/ferramenta"}>
+                      <Link to={"/ferramenta_cadastro"}>
                           <li id="ferramentas" className="div_navbar">
                               <img src={ferramentasIcon} className="quadradinho_ferramentas quadradinho"
                                   alt="Ícone de ferramentas"></img>
                               <h4 id="texto_ferramentas" className="texto_menu">FERRAMENTAS</h4>
                           </li>
                       </Link>
-                      <Link to={"/funcionario"}>
+                      <Link to={"/funcionario_cadastro"}>
                           <li id="funcionarios" className="div_navbar">
                               <img src={funcionariosIcon} className="quadradinho_funcionarios quadradinho"
                                   alt="Ícone de funcionários"></img>
                               <h4 id="texto_funcionarios" className="texto_menu">FUNCIONÁRIOS</h4>
                           </li>
                       </Link>
-                      <Link to={"/manutencao"}>
+                      <Link to={"/manutencao_cadastro"}>
                           <li id="manutencoes" className="div_navbar">
                               <img src={manutencoesIcon} className="quadradinho_manutencoes quadradinho"
                                   alt="Ícone de manutenções"></img>
                               <h4 id="texto_manutencoes" className="texto_menu">MANUTENÇÕES</h4>
                           </li>
                       </Link>
-                      <Link to={"/cargo"}>
+                      <Link to={"/cargo_cadastro"}>
                           <li id="cargos" className="div_navbar">
                               <img src={cargosIcon} className="quadradinho_cargos quadradinho" alt="Ícone de cargos"></img>
                               <h4 id="texto_cargos" className="texto_menu">CARGOS</h4>
                           </li>
                       </Link>
-                      <Link to={"/setor"}>
+                      <Link to={"/setor_cadastro"}>
                           <li id="setores" className="div_navbar">
                               <img src={setoresIcon} className="quadradinho_setores quadradinho"
                                   alt="Ícone de setores"></img>
@@ -193,8 +193,7 @@ const Funcionario = () => {
                           </li>
                           </Link>
                   </ul>
-            </nav>
-
+              </nav>
         </div>
     );
 };

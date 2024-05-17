@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { CardTeste } from './components/CardFerramentas/card_ferramentas.js'
+import { CardTeste } from './components/CardFerramentas/Card_ferramentas.js'
 import React from 'react'
 
 
