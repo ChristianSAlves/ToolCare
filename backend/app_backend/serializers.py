@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import Group, User
-from .models import Ferramenta, Cargo, Setor, Funcionario
+from .models import Ferramenta, Cargo, Setor, Funcionario, Emprestimo, ManutencaoFerramenta
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -22,6 +22,7 @@ class CargoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Cargo
         fields = ['codigoCargo', 'nomeCargo', 'descricaoCargo']   
+        
 
 class SetorSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -31,4 +32,18 @@ class SetorSerializer(serializers.HyperlinkedModelSerializer):
 class FuncionarioSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Funcionario
-        fields = ['nome', 'matriculaFuncionario', 'cpf', 'codigoSetor', 'codigoCargo', 'imgFunc']                     
+        fields = ['nome', 'matriculaFuncionario', 'cpf', 'codigoSetor', 'codigoCargo', 'imgFunc']
+
+class EmprestimoSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Emprestimo
+        fields = ['codigoEmprestimo', 'matriculaFuncionario', 'dataEmprestimo', 'numSerie', 'dataDevolucao', 'observacoes']   
+
+
+    def get_url(self, obj):
+        return obj.get_absolute_url()    
+
+class manutencaoSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = ManutencaoFerramenta    
+        fields = ['codigoManutencao', 'idFerramenta', 'tipoManutencao', 'dataInicio', 'dataFinal']                         
