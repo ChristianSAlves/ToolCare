@@ -1,5 +1,5 @@
-import styles from '../src/index.css'
-import login from '../src/assets/imagens/mario.png'
+import styles from '../../../src/index.css'
+import login from '../../../src/assets/imagens/mario.png'
 import React from 'react'
 import { Route, Navigate } from "react-router-dom";
 

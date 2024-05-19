@@ -1,23 +1,26 @@
-import React, { useState } from 'react'
-import { dados } from './ferramenta_json'
-import styles from "../Ferramenta/ferramenta.module.css"
+import React, { useState } from 'react';
+import { dados } from './ferramenta_json';
+import styles from '../Ferramenta/ferramenta.module.css';
+import MenuComponent from '../../../components/Menu/Menu';
 
-const Filtro = () => {
-
+const Ferramenta = () => {
     const [showOptions, setShowOptions] = useState(false);
-
-    const [search, setSearch] = useState("");
+    const [search, setSearch] = useState('');
     const [selectedOption, setSelectedOption] = useState('');
 
     const searchLowerCase = search.toLowerCase();
     const ferramentas = dados.filter(ferramenta =>
-        selectedOption === "num_serie"
+        selectedOption === 'num_serie'
             ? ferramenta.numSerie.includes(searchLowerCase)
             : ferramenta.nome.toLowerCase().includes(searchLowerCase)
     );
 
     return (
-        <>
+        <div id={styles.div_ferramenta}>
+            <MenuComponent id="menu" />
+
+            <p id={styles.adicionar}>+</p>
+
             <div id={styles.searchbar}>
                 <input
                     id={styles.input_searchbar}
@@ -60,17 +63,19 @@ const Filtro = () => {
                     </div>
                 )}
             </div>
-            <ul id={styles.ferramentas_list} class={styles.ferramentas_list}>
-                {ferramentas.map(ferramenta => (
-                    <li key={ferramenta.numSerie} class={styles.ferramenta_item}>
-                        <p class={styles.ferramenta_nome}> {ferramenta.nome}</p>
-                        <p class={styles.ferramenta_numSerie}>{ferramenta.numSerie}</p>
-                    </li>
-                ))}
-            </ul>
 
-        </>
+            <div className={styles.ferramentas_container}>
+                <ul id={styles.ferramentas_list} className={styles.ferramentas_list}>
+                    {ferramentas.map(ferramenta => (
+                        <li key={ferramenta.numSerie} className={styles.ferramenta_item}>
+                            <p className={styles.ferramenta_nome}>{ferramenta.nome}</p>
+                            <p className={styles.ferramenta_numSerie}>{ferramenta.numSerie}</p>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </div>
     );
 }
 
-export default Filtro;
+export default Ferramenta;
