@@ -3,8 +3,7 @@
     flex-direction: column;
 }
 
-/* Container principal */
-#div_ferramenta {
+#div_manutencao {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -14,36 +13,10 @@
     padding-left: 25rem; /* Espaço à esquerda para o menu */
 }
 
-/* Estilos para ocultar a barra de rolagem */
 body::-webkit-scrollbar {
     width: 0; /* Esconde a barra de rolagem */
 }
 
-/* Lista de ferramentas */
-#ferramentas_list {
-    list-style-type: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0;
-    margin-top: 8rem; /* Espaço suficiente para a barra de pesquisa */
-    width: 100%; /* Para garantir que a lista ocupe toda a largura disponível */
-    overflow-y: hidden;
-}
-
-/* Item da lista de ferramentas */
-.ferramenta_item {
-    margin: 1rem 0;
-    text-align: center;
-    font: normal 400 2rem 'Lato';
-    color: white;
-}
-
-.ferramenta_nome, .ferramenta_numSerie {
-    margin: 0.5rem 0;
-}
-
-/* Barra de pesquisa */
 #searchbar {
     width: 30vw;
     height: 2.5rem;
@@ -151,5 +124,5 @@ body::-webkit-scrollbar {
 }
 
 .label_searchbar {
-    margin-right: 1rem; /* Espaço entre o label e o radio */
+    
 }

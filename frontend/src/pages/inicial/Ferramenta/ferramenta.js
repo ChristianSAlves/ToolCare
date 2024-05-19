@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { dados } from './ferramenta_json';
 import styles from '../Ferramenta/ferramenta.module.css';
 import MenuComponent from '../../../components/Menu/Menu';
+import { Link } from 'react-router-dom';
 
 const Ferramenta = () => {
     const [showOptions, setShowOptions] = useState(false);
@@ -19,7 +20,9 @@ const Ferramenta = () => {
         <div id={styles.div_ferramenta}>
             <MenuComponent id="menu" />
 
+            <Link to={'/ferramenta_cadastro'}>
             <p id={styles.adicionar}>+</p>
+            </Link>
 
             <div id={styles.searchbar}>
                 <input

@@ -1,26 +1,64 @@
-import visaoGeralIcon from '../../../assets/icones/visao_geral.png'
-import emprestimosIcon from '../../../assets/icones/emprestimos.png'
-import ferramentasIcon from '../../../assets/icones/ferramentas.png'
-import funcionariosIcon from '../../../assets/icones/funcionarios.png'
-import manutencoesIcon from '../../../assets/icones/manutencoes.png'
-import cargosIcon from '../../../assets/icones/cargos_laranja.png'
-import setoresIcon from '../../../assets/icones/setores.png'
-import logoutIcon from '../../../assets/icones/logout.png'
 import { Link } from 'react-router-dom'
 import MenuComponent from '../../../components/Menu/Menu'
-import React from 'react'
+import styles from './cargo.module.css'
+import React, { useState } from 'react';
 
-export default class Cargo extends React.Component{
+const Cargo = () => {
 
+  const [showOptions, setShowOptions] = useState(false);
+  const [search, setSearch] = useState('');
+  const [selectedOption, setSelectedOption] = useState('');
 
-    
-    
-    render()
-    {
         return (
-            <div>
-            
-              <MenuComponent></MenuComponent>
+            <div id={styles.div_cargo}>
+            <MenuComponent id="menu" />
+
+            <Link to={'/cargo_cadastro'}>
+            <p id={styles.adicionar}>+</p>
+            </Link>
+
+            <div id={styles.searchbar}>
+                <input
+                    id={styles.input_searchbar}
+                    className="conteudo_searchbar"
+                    type='search'
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
+                <p
+                    id={styles.filtro}
+                    onClick={() => setShowOptions(!showOptions)}
+                    className="conteudo_searchbar"
+                >Filtro</p>
+                {showOptions && (
+                    <div className={styles.options_box}>
+                        <div className={styles.option_row}>
+                            <label htmlFor="radio_nome" className={styles.label_searchbar}>Nome</label>
+                            <input
+                                id="radio_nome"
+                                className={styles.radio}
+                                type="radio"
+                                name="option"
+                                value="nome"
+                                checked={selectedOption !== 'num_serie'}
+                                onChange={(e) => setSelectedOption(e.target.value)}
+                            />
+                        </div>
+                        <div className={styles.option_row}>
+                            <label htmlFor="radio_num_serie" className={styles.label_searchbar}>Número de série</label>
+                            <input
+                                id="radio_num_serie"
+                                className={styles.radio}
+                                type="radio"
+                                name="option"
+                                value="num_serie"
+                                checked={selectedOption === 'num_serie'}
+                                onChange={(e) => setSelectedOption(e.target.value)}
+                            />
+                        </div>
+                    </div>
+                )}
+            </div>
           
               </div>
           
@@ -28,6 +66,8 @@ export default class Cargo extends React.Component{
             );
         }
     
-}
+
+
+export default Cargo
 
 
