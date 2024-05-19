@@ -1,0 +1,9 @@
+.emprestimo_container {
+    display: flex;
+}
+
+.emprestimo_content {
+    margin-left: 25rem; /* Margem para evitar sobreposição com o menu fixo */
+    padding: 2rem;
+    width: calc(100% - 25rem); /* Largura do conteúdo principal */
+}
