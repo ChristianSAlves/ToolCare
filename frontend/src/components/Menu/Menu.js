@@ -40,6 +40,11 @@ export const MenuComponent = () => {
         return selectedItem === item ? activeIcon : defaultIcon;
     };
 
+    const logout = () => {
+        localStorage.removeItem('token');
+        
+    };
+
     return (
         <div id={styles.menu_div}>
             <nav id={styles.menu_nav}>
@@ -116,7 +121,7 @@ export const MenuComponent = () => {
                     </Link>
                 </ul>
                 <Link to="/login">
-                    <li id="logout" className={`${styles.div_navbar} ${styles.div_logout}`}>
+                <li id="logout" className={`${styles.div_navbar} ${styles.div_logout}`} onClick={logout}>
                         <img src={logoutIcon} className={`${styles.item} ${styles.quadradinho_logout}`} alt="Ícone de logout" />
                         <h4 id="texto_logout" className={`${styles.item} ${styles.texto_menu}`}>SAIR</h4>
                     </li>
