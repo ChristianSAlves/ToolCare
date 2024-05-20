@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { dados } from './ferramenta_json';
 import styles from '../Ferramenta/ferramenta.module.css';
 import MenuComponent from '../../../components/Menu/Menu';
 import { Link } from 'react-router-dom';
@@ -9,7 +8,6 @@ const Ferramenta = () => {
     const [search, setSearch] = useState('');
     const [selectedOption, setSelectedOption] = useState('');
     const [Ferramentas, setFerramentas] = useState([]);
-
 
     const filterFerramentas = async (newSearch, newSelectedOption) => {
         const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage
@@ -23,17 +21,22 @@ const Ferramenta = () => {
             });
     
             if (!responseFerramentas.ok) {
-                throw new Error('Erro ao carregar os Ferramentas');
+                throw new Error('Erro ao carregar as Ferramentas');
             }
     
             const dataFerramentas = await responseFerramentas.json();
             
-            let filteredFerramentas = [];
+            let filteredFerramentas = dataFerramentas;
     
             if (newSelectedOption === 'num_serie') {
                 filteredFerramentas = dataFerramentas.filter(ferramenta => ferramenta.numSerie.toLowerCase().includes(newSearch.toLowerCase()));
             } else if (newSelectedOption === 'nome') {
                 filteredFerramentas = dataFerramentas.filter(ferramenta => ferramenta.nome.toLowerCase().includes(newSearch.toLowerCase()));
+            } else if (newSearch) {
+                filteredFerramentas = dataFerramentas.filter(ferramenta =>
+                    ferramenta.numSerie.toLowerCase().includes(newSearch.toLowerCase()) ||
+                    ferramenta.nome.toLowerCase().includes(newSearch.toLowerCase())
+                );
             }
     
             setFerramentas(filteredFerramentas);
@@ -54,7 +57,7 @@ const Ferramenta = () => {
                     },
                 });
                 if (!responseFerramentas.ok) {
-                    throw new Error('Erro ao carregar os Ferramentas');
+                    throw new Error('Erro ao carregar as Ferramentas');
                 }
                 const dataFerramentas = await responseFerramentas.json();
                 setFerramentas(dataFerramentas);              
@@ -76,7 +79,7 @@ const Ferramenta = () => {
             <MenuComponent id="menu" />
 
             <Link to={'/ferramenta_cadastro'}>
-            <p id={styles.adicionar}>+</p>
+                <p id={styles.adicionar}>+</p>
             </Link>
 
             <div id={styles.searchbar}>
@@ -102,7 +105,7 @@ const Ferramenta = () => {
                                 type="radio"
                                 name="option"
                                 value="nome"
-                                checked={selectedOption!== 'num_serie'}
+                                checked={selectedOption === 'nome'}
                                 onChange={(e) => setSelectedOption(e.target.value)}
                             />
                         </div>
@@ -124,8 +127,8 @@ const Ferramenta = () => {
 
             <div className={styles.ferramentas_container}>
                 <ul id={styles.ferramentas_list} className={styles.ferramentas_list}>
-                {Ferramentas.map(ferramenta => (
-                        <li key={ferramenta.numSerie} className={styles.ferramenta_item}>
+                    {Ferramentas.map(ferramenta => (
+                        <li key={ferramenta.idFerramenta} className={styles.ferramenta_item}>
                             <p className={styles.ferramenta_nome}>{ferramenta.nome}</p>
                             <p className={styles.ferramenta_numSerie}>{ferramenta.numSerie}</p>
                         </li>

@@ -4,7 +4,6 @@ import styles from './funcionario.module.css'
 import React, {useState, useEffect} from 'react'
 
 const Funcionario = () => {
-
   const [showOptions, setShowOptions] = useState(false);
   const [search, setSearch] = useState('');
   const [selectedOption, setSelectedOption] = useState('');
@@ -27,12 +26,17 @@ const Funcionario = () => {
 
         const dataFuncionarios = await responseFuncionarios.json();
         
-        let filteredFuncionarios = [];
+        let filteredFuncionarios = dataFuncionarios;
 
         if (newSelectedOption === 'nome') {
             filteredFuncionarios = dataFuncionarios.filter(funcionario => funcionario.nome.toLowerCase().includes(newSearch.toLowerCase()));
         } else if (newSelectedOption === 'matriculaFuncionario') {
             filteredFuncionarios = dataFuncionarios.filter(funcionario => funcionario.matriculaFuncionario.toLowerCase().includes(newSearch.toLowerCase()));
+        } else if (newSearch) {
+            filteredFuncionarios = dataFuncionarios.filter(funcionario =>
+                funcionario.matriculaFuncionario.toLowerCase().includes(newSearch.toLowerCase()) ||
+                funcionario.nome.toLowerCase().includes(newSearch.toLowerCase())
+            );
         }
 
         setFuncionarios(filteredFuncionarios);
@@ -140,3 +144,5 @@ useEffect(() => {
 }
 
 export default Funcionario
+
+
