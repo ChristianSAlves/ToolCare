@@ -63,7 +63,7 @@ body {
     background-color: #353535;
 }
 
-.texto_menu{
+/*.texto_menu{
     color: rgba(0, 0, 0, 0.70);
     font: normal 500 1.75rem 'Lato';
     margin: 8%;
@@ -73,7 +73,7 @@ body {
     color: white;
 }*/
 
-#menu {
+/*#menu {
     background-color: white;
     width: 13.25vw;
     height: 100vh;
@@ -97,7 +97,7 @@ body {
     background-color: #F46524;
 }*/
 
-a {
+/*a {
     text-decoration: none;
 }
 
@@ -180,7 +180,7 @@ input{
     display: none;
  }
 
-label{
+/*label{
     padding: 0.9rem;
     border-radius: 0.6rem;
     background-color: #353535;
@@ -192,9 +192,9 @@ label{
     outline: 0;
     color: rgb(255, 255, 255);
     font: normal 500 2rem 'Lato';
-}
+}*/
 
-#setor_select,#cargo_select,#foto,#ferramenta_select,#tipo_manutencao_select,#funcionario_select{
+/* #setor_select,#cargo_select,#foto,#ferramenta_select,#tipo_manutencao_select,#funcionario_select{
     width: 30vw;
     align-self: flex-end;
     margin: 0.5rem -1.2rem 0.5rem 1rem;
@@ -367,8 +367,6 @@ button{
     font-weight: bolder;
 }
 
-<<<<<<< HEAD
-=======
 .adicionar{
     color: white;
     margin-left: 100rem;
@@ -381,6 +379,7 @@ button{
     height: 5rem;
     width: 5rem;
 }
+*/
 
 
->>>>>>> 41f09ff7afb0424087fc5f8d9f2d8aaf1d30d565
+

@@ -38,7 +38,7 @@ class FerramentaManager(models.Manager):
         return self.all()
 
 class Ferramenta(models.Model):
-    idFerramenta = models.AutoField(primary_key=True)
+    codFerramenta = models.AutoField(primary_key=True)
     nome = models.CharField(max_length=255)
     numSerie = models.CharField(max_length=20, unique=True)
     descricao = models.TextField(null=True) 
@@ -165,72 +165,17 @@ class EmprestimoManager(models.Manager):
 class Emprestimo(models.Model):
     codigoEmprestimo = models.AutoField(primary_key=True)
     matriculaFuncionario = models.CharField(max_length=20)
+    numSerie = models.ForeignKey(
+        Ferramenta, on_delete=models.SET_NULL, null=True,
+    )
     dataEmprestimo = models.DateField(default=datetime.date.today)
-
+    dataDevolucao = models.DateField(null=True)
+    observacoes = models.TextField(null=True)
+    
     objects = EmprestimoManager()
 
     def __str__(self):
         return f"{self.codigoEmprestimo}"
-
-
-class ItemEmprestimoManager(models.Manager):
-
-    def adicionarItemEmprestimo(self, codigoEmprestimo, numSerie, dataDevolucao=None, observacoes=""):
-        if not codigoEmprestimo or not numSerie:
-            raise ValueError("Campos obrigatórios: codigoEmprestimo, numSerie")
-
-        itemEmprestimo = self.create(
-            codigoEmprestimo=codigoEmprestimo,
-            numSerie=numSerie,
-            dataDevolucao=dataDevolucao,
-            observacoes=observacoes,
-        )
-        return itemEmprestimo
-
-    def buscarItensEmprestimoPorEmprestimo(self, codigoEmprestimo):
-        return self.filter(codigoEmprestimo=codigoEmprestimo)
-
-    def atualizarItemEmprestimo(self, id, dataDevolucao=None, observacoes=""):
-        try:
-            item_emprestimo = self.get(pk=id)
-        except models.DoesNotExist:
-            raise self.model.DoesNotExist("Item de empréstimo não encontrado")
-
-        # Atualiza campos conforme a necessidade (evita atualizações desnecessárias)
-        if dataDevolucao:
-            item_emprestimo.dataDevolucao = dataDevolucao
-        if observacoes:
-            item_emprestimo.observacoes = observacoes
-
-        item_emprestimo.save()
-        return item_emprestimo
-
-    def deletar_item_emprestimo(self, id):
-        try:
-            item_emprestimo = self.get(pk=id)
-        except models.DoesNotExist:
-            raise self.model.DoesNotExist("Item de empréstimo não encontrado")
-
-        item_emprestimo.delete()
-
-
-class itemEmprestimo(models.Model):
-    codigoEmprestimo = models.ForeignKey(
-        Emprestimo, on_delete=models.SET_NULL, null=True, related_name='itens'
-    )
-    idFerramenta = models.ForeignKey(
-        Ferramenta, on_delete=models.SET_NULL, null=True, related_name='emprestimos'
-    )
-    dataDevolucao = models.DateField(null=True)
-    observacoes = models.TextField(null=True)
-
-    objects = ItemEmprestimoManager()
-
-    def __str__(self):
-     codigo = self.codigoEmprestimo.codigo if self.codigoEmprestimo else ""
-     idFerramenta = self.idFerramenta.id_ferramenta if self.idFerramenta else ""
-     return f"Código de Empréstimo: {codigo}, Número de Série: {idFerramenta}"
-
 
 
 class FuncionarioManager(models.Manager):
@@ -360,7 +305,7 @@ class ManutencaoFerramentaManager(models.Manager):
 
 class ManutencaoFerramenta(models.Model):
     codigoManutencao = models.AutoField(primary_key=True)
-    idFerramenta = models.ForeignKey(
+    codFerramenta = models.ForeignKey(
         Ferramenta, on_delete=models.SET_NULL, null=True
     )
     tipoManutencao = models.CharField(max_length=15)

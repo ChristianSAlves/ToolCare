@@ -1,0 +1,155 @@
+#menu {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Container principal */
+#div_ferramenta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh; /* Altura total da tela */
+    width: 99vw; /* Largura total da tela */
+    position: relative; /* Para posicionar o botão adicionar */
+    padding-left: 25rem; /* Espaço à esquerda para o menu */
+}
+
+/* Estilos para ocultar a barra de rolagem */
+body::-webkit-scrollbar {
+    width: 0; /* Esconde a barra de rolagem */
+}
+
+/* Lista de ferramentas */
+#ferramentas_list {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+    margin-top: 8rem; /* Espaço suficiente para a barra de pesquisa */
+    width: 100%; /* Para garantir que a lista ocupe toda a largura disponível */
+    overflow-y: hidden;
+}
+
+/* Item da lista de ferramentas */
+.ferramenta_item {
+    margin: 1rem 0;
+    text-align: center;
+    font: normal 400 2rem 'Lato';
+    color: white;
+}
+
+.ferramenta_nome, .ferramenta_numSerie {
+    margin: 0.5rem 0;
+}
+
+/* Barra de pesquisa */
+#searchbar {
+    width: 30vw;
+    height: 2.5rem;
+    display: flex;
+    flex-direction: row;
+    background-color: white;
+    border-radius: 4rem;
+    justify-content: space-around;
+    align-items: center;
+    position: inherit;
+    left: 17.5%;
+    top: 4rem;
+    transform: translateX(-50%); /* Centraliza horizontalmente */
+    min-width: 30vw;
+    padding: 0 1rem; /* Adiciona padding para evitar o corte das bordas */
+}
+
+#input_searchbar {
+    border: none; /* Remove a borda */
+    flex: 1;
+    height: 2.5rem;
+    outline: none; /* Remove o contorno ao focar */
+    color: #333; /* Cor do texto */
+    font-size: 1.6rem; /* Tamanho da fonte */
+    font-family: 'Lato', sans-serif; /* Família da fonte */
+    text-align: left; /* Alinhamento do texto */
+}
+
+/* Botão de adicionar */
+#adicionar {
+    color: white;
+    font-size: 5rem;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    cursor: pointer;
+}
+
+/* Radio buttons */
+.radio {
+    position: relative;
+    width: 2rem;
+    height: 2rem;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: #fff;
+    border: 2px solid #353535;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.radio:checked::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1rem;
+    height: 1rem;
+    background-color: #353535;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.label_searchbar {
+    display: flex;
+    align-items: center;
+    margin-left: 2.5%;
+    margin-bottom: 0;
+    margin-top: 0.5rem;
+}
+
+#filtro:hover {
+    cursor: pointer;
+}
+
+#filtro {
+    font: normal 400 1.6rem 'Lato';
+    margin-right: 1rem;
+    color: #353535;
+}
+
+/* Caixa de opções */
+.options_box {
+    position: absolute;
+    left: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    font: normal 500 1.5rem 'Lato';
+    color: white;
+    background-color: #F46524;
+    width: 15rem; /* Ajuste a largura conforme necessário */
+    height: auto;
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+/* Linha de opção */
+.option_row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem; /* Espaço entre as linhas */
+}
+
+.label_searchbar {
+    margin-right: 1rem; /* Espaço entre o label e o radio */
+}

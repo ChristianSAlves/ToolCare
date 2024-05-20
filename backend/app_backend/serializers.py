@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import Group, User
-from .models import Ferramenta, Cargo, Setor, Funcionario, Emprestimo, itemEmprestimo, ManutencaoFerramenta
+from .models import Ferramenta, Cargo, Setor, Funcionario, Emprestimo, ManutencaoFerramenta
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -16,7 +16,7 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 class FerramentaSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Ferramenta
-        fields = ['nome', 'numSerie', 'descricao', 'imgFerramenta', 'dataAquisicao', 'status']
+        fields = ['codFerramenta', 'nome', 'numSerie', 'descricao', 'imgFerramenta', 'dataAquisicao', 'status']
 
 class CargoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -37,18 +37,13 @@ class FuncionarioSerializer(serializers.HyperlinkedModelSerializer):
 class EmprestimoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Emprestimo
-        fields = ['codigoEmprestimo', 'matriculaFuncionario', 'dataEmprestimo']   
+        fields = ['codigoEmprestimo', 'matriculaFuncionario', 'dataEmprestimo', 'numSerie', 'dataDevolucao', 'observacoes']   
 
 
     def get_url(self, obj):
-        return obj.get_absolute_url() 
-
-class itemEmprestimoSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = itemEmprestimo
-        fields = ['codigoEmprestimo', 'idFerramenta', 'dataDevolucao', 'observacoes']        
+        return obj.get_absolute_url()    
 
 class manutencaoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = ManutencaoFerramenta    
-        fields = ['codigoManutencao', 'idFerramenta', 'tipoManutencao', 'dataInicio', 'dataFinal']                         
+        fields = ['codigoManutencao', 'codFerramenta', 'tipoManutencao', 'dataInicio', 'dataFinal']                         

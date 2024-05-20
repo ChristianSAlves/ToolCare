@@ -1,6 +1,6 @@
 import React from "react";
 import{ useEffect, useState } from 'react';
-import defaultFerramenta from '../../../src/assets/imagens/defaultFerramenta.jpg';
+import defaultFerramenta from '../../../src/assets/imagens/defaultFerramenta2.jpg';
 
 export const CardTeste = () => {
     const [data, setData] = useState([]);
@@ -36,9 +36,14 @@ export const CardTeste = () => {
     return (
         <div id="card">
            {data && data.imgFerramenta? (
-            <img src={data.imgFerramenta} alt="imagem ferramenta"></img>
+            <img src={data.imgFerramenta}  alt="imagem ferramenta"></img>
         ) : (
-            <img src={defaultFerramenta} alt="imagem padrão"></img>
+            <img src={defaultFerramenta} style={{
+                
+                height:"27.5vh",
+                width:"15vw"
+
+            }} alt="imagem padrão"></img>
         )}
             <div id="fundo">
                 <p id="nomeFerramenta">{data.nome}</p>
@@ -53,22 +58,3 @@ export const CardTeste = () => {
 }
   
 export default CardTeste;
-=======
-import Mario from '../../../src/assets/imagens/mario.png'
-
-export const CardTeste = () => {
-    
-    return (
-    <div id="card">
-        <img src={Mario} alt="mariano mostrando o rabo"></img>
-        <div id="fundo">
-            <p id="ferramenta">Nome da ferramenta</p>
-            <p id="nome_func" className="dado">Nome do funcionário</p>
-            <p id="cod_fer" className="dado">492498</p>
-            <button>VER MAIS</button>
-        </div>
-    </div>
-    );
-  };
-
->>>>>>> 41f09ff7afb0424087fc5f8d9f2d8aaf1d30d565
