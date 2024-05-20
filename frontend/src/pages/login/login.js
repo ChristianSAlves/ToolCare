@@ -22,7 +22,7 @@ export default class Login extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        alert(this.state.username);
+        //alert(this.state.username);
         var url = 'http://127.0.0.1:8000/api-token-auth/';
         const requestOptions = {
             method: 'POST',
@@ -65,13 +65,15 @@ export default class Login extends React.Component {
                         <form id={styles.form_login} action="#" onSubmit={this.handleSubmit}>
                             <input type="text" id={styles.username} className={styles.login_item} placeholder="token de acesso" value={this.state.username} onChange={this.handleChange}></input>
                             <input type="password" id={styles.password} className={styles.login_item} placeholder="senha" value={this.state.password} onChange={this.handleChangePassword}></input>
-                            <button type="submit" value="submit" className={styles.login_item} id={styles.botao_entrar}>ENTRAR</button>
+                            <button  type="submit" value="submit" className={styles.login_item} id={styles.botao_entrar}>ENTRAR</button>
+                            
                         </form>
                     </div>
                 </div>
             );
         else
             return (
+                
                 <Navigate to="/visao_geral" />
             )
     }
