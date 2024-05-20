@@ -10,7 +10,6 @@ const Ferramenta = () => {
     const [selectedOption, setSelectedOption] = useState('');
     const [Ferramentas, setFerramentas] = useState([]);
 
-    //const searchLowerCase = search.toLowerCase();
 
     const filterFerramentas = async (newSearch, newSelectedOption) => {
         const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage

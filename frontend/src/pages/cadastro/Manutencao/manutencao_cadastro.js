@@ -92,6 +92,7 @@ const Manutencao = () => {
                 <div className={styles.spacer}>
                 <label id={styles.tipo_manutencao_label} >Tipo Manutenção</label>
                 <select name="tipo_manutencao" id={styles.tipo_manutencao_select} required value={tipoManutencao} onChange={(evt) => setTipoManutencao(evt.target.value)}>
+                  <option value={0}>Selecione</option>
                   <option value="preventiva">Preventiva</option>
                   <option value="corretiva">Corretiva</option>
                 </select></div>

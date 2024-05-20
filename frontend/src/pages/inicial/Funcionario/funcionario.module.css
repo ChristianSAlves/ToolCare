@@ -123,6 +123,13 @@ body::-webkit-scrollbar {
     margin-bottom: 0.5rem; /* Espaço entre as linhas */
 }
 
-.label_searchbar {
-    
+.funcionario_item {
+    margin: 1rem 0;
+    text-align: center;
+    font: normal 400 2rem 'Lato';
+    color: white;
+}
+
+.funcionario_nome, .funcionario_matriculaFuncionario {
+    margin: 0.5rem 0;
 }
