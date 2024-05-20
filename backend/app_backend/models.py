@@ -164,7 +164,7 @@ class EmprestimoManager(models.Manager):
 
 class Emprestimo(models.Model):
     codigoEmprestimo = models.AutoField(primary_key=True)
-    matriculaFuncionario = models.CharField(max_length=20)
+    matriculaFuncionario = models.CharField(max_length=50)
     numSerie = models.ForeignKey(
         Ferramenta, on_delete=models.SET_NULL, null=True,
     )

@@ -15,8 +15,10 @@ import Emprestimo from './pages/inicial/Emprestimo/emprestimo.js'
 import Setor from './pages/inicial/Setor/setor.js'
 import Manutencao from './pages/inicial/Manutencao/manutencao.js'
 import Login from './pages/login/login.js'
+import RequireAuth from './RequireAuth.js'
 
-function App() {
+
+/*function App() {
     
     return(
         
@@ -43,6 +45,40 @@ function App() {
             </Routes>
         </Router>
     )
+}
+
+export default App*/ 
+
+
+function App() {
+    return (
+        <Router>
+            <Routes>
+                <Route path='/login' element={<Login />} />
+                <Route path='*' element={
+                    <RequireAuth>
+                        <Routes>
+                        <Route path='/card' element={<Card/>}/>
+                        <Route path='/menu' element={<Menu/>}/>
+                        <Route path='/visao_geral' element={<VisaoGeral/>}/>
+                        <Route path='/cargo_cadastro' element={<CargoCadastro/>}/>
+                        <Route path='/cargo' element={<Cargo/>}/>
+                        <Route path='/emprestimo_cadastro' element={<EmprestimoCadastro/>}/>
+                        <Route path='/emprestimo' element={<Emprestimo/>}/>
+                        <Route path='/ferramenta_cadastro' element={<FerramentaCadastro/>}/>
+                        <Route path='/ferramenta' element={<Ferramenta/>}/>
+                        <Route path='/funcionario_cadastro' element={<FuncionarioCadastro/>} />
+                        <Route path='/funcionario' element={<Funcionario/>} />
+                        <Route path='/manutencao_cadastro' element={<ManutencaoCadastro/>}/>
+                        <Route path='/manutencao' element={<Manutencao/>}/>
+                        <Route path='/setor_cadastro' element={<SetorCadastro/>}/>
+                        <Route path='/setor' element={<Setor/>}/>
+                        </Routes>
+                    </RequireAuth>
+                }/>
+            </Routes>
+        </Router>
+    );
 }
 
 export default App

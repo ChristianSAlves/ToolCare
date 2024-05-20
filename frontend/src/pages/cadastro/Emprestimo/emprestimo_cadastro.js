@@ -59,7 +59,7 @@ const Emprestimo = () => {
         formData.append('matriculaFuncionario', linkFuncionario);
         formData.append('dataEmprestimo', dataEmprestimo);
         formData.append('numSerie', linkFerramenta);
-        formData.append('dataDevolucao', null);
+        formData.append('dataDevolucao', "");
         formData.append('observacoes', observacoes);
     
         try {
