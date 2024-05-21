@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework import viewsets, authentication
+from rest_framework import viewsets, authentication, viewsets
 from .models import Ferramenta, Cargo, Setor, Funcionario, Emprestimo, ManutencaoFerramenta
 from .serializers import FerramentaSerializer, CargoSerializer, SetorSerializer, FuncionarioSerializer, EmprestimoSerializer, manutencaoSerializer
 from django.contrib.auth.models import Group, User
