@@ -16,7 +16,7 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 class FerramentaSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Ferramenta
-        fields = ['nome', 'numSerie', 'descricao', 'imgFerramenta', 'dataAquisicao', 'status']
+        fields = ['codFerramenta', 'nome', 'numSerie', 'descricao', 'imgFerramenta', 'dataAquisicao', 'status']
 
 class CargoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -32,7 +32,7 @@ class SetorSerializer(serializers.HyperlinkedModelSerializer):
 class FuncionarioSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Funcionario
-        fields = ['nome', 'matriculaFuncionario', 'cpf', 'codigoSetor', 'codigoCargo', 'imgFunc']
+        fields = ['idFuncionario', 'nome', 'matriculaFuncionario', 'cpf', 'codigoSetor', 'codigoCargo', 'imgFunc']
 
 class EmprestimoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -46,4 +46,4 @@ class EmprestimoSerializer(serializers.HyperlinkedModelSerializer):
 class manutencaoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = ManutencaoFerramenta    
-        fields = ['codigoManutencao', 'idFerramenta', 'tipoManutencao', 'dataInicio', 'dataFinal']                         
+        fields = ['codigoManutencao', 'codFerramenta', 'tipoManutencao', 'dataInicio', 'dataFinal']                         

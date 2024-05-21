@@ -57,8 +57,8 @@ export default class Cargo extends React.Component{
         event.preventDefault();
         const token = localStorage.getItem('token');
         const data = {
-            nomeSetor: this.state.nomeSetor,
-            descricaoSetor: this.state.descricaoSetor,
+            nomeCargo: this.state.nomeCargo,
+            descricaoCargo: this.state.descricaoCargo,
         };
     
         const config = {
@@ -68,7 +68,7 @@ export default class Cargo extends React.Component{
         };
         config.headers['Authorization'] = 'Token ' + token;
     
-        fetch('http://127.0.0.1:8000/setores/', {
+        fetch('http://127.0.0.1:8000/cargos/', {
             method: 'POST',
             headers: config.headers,
             body: JSON.stringify(data),

@@ -38,7 +38,7 @@ class FerramentaManager(models.Manager):
         return self.all()
 
 class Ferramenta(models.Model):
-    idFerramenta = models.AutoField(primary_key=True)
+    codFerramenta = models.AutoField(primary_key=True)
     nome = models.CharField(max_length=255)
     numSerie = models.CharField(max_length=20, unique=True)
     descricao = models.TextField(null=True) 
@@ -164,7 +164,7 @@ class EmprestimoManager(models.Manager):
 
 class Emprestimo(models.Model):
     codigoEmprestimo = models.AutoField(primary_key=True)
-    matriculaFuncionario = models.CharField(max_length=20)
+    matriculaFuncionario = models.CharField(max_length=50)
     numSerie = models.ForeignKey(
         Ferramenta, on_delete=models.SET_NULL, null=True,
     )
@@ -235,7 +235,7 @@ class FuncionarioManager(models.Manager):
 class Funcionario(models.Model):
     idFuncionario = models.AutoField(primary_key=True)
     nome = models.CharField(max_length=30)
-    matriculaFuncionario = models.CharField(max_length=20, unique=True)
+    matriculaFuncionario = models.CharField(max_length=50, unique=True)
     cpf = CPFField(masked=True, unique=True)  # To enable auto-mask xxx.xxx.xxx-xx
     codigoSetor = models.ForeignKey(
       Setor, on_delete=models.SET_NULL, null=True
@@ -305,7 +305,7 @@ class ManutencaoFerramentaManager(models.Manager):
 
 class ManutencaoFerramenta(models.Model):
     codigoManutencao = models.AutoField(primary_key=True)
-    idFerramenta = models.ForeignKey(
+    codFerramenta = models.ForeignKey(
         Ferramenta, on_delete=models.SET_NULL, null=True
     )
     tipoManutencao = models.CharField(max_length=15)

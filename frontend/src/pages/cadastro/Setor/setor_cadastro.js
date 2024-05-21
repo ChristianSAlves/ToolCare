@@ -6,8 +6,16 @@ import MenuComponent from '../../../components/Menu/Menu';
 export default class Setor extends React.Component {
 
     async componentDidMount() {
-        var url = 'http://127.0.0.1:8000/setores/';
-        const response = await fetch(url);
+        const url = 'http://127.0.0.1:8000/setores/';
+    
+        const config = {
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        }
+        config.headers['Authorization'] = 'Token ' + localStorage.getItem('token');
+
+        const response = await fetch(url, config);
         const data = await response.json();
         console.log(data);
     }
@@ -46,23 +54,29 @@ export default class Setor extends React.Component {
     }
 
 
-    handleSubmit(event) {
+    handleSubmit = (event) => {
         event.preventDefault();
+        const token = localStorage.getItem('token');
         const data = {
             nomeSetor: this.state.nomeSetor,
             descricaoSetor: this.state.descricaoSetor,
         };
-
+    
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        config.headers['Authorization'] = 'Token ' + token;
+    
         fetch('http://127.0.0.1:8000/setores/', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: config.headers,
             body: JSON.stringify(data),
         })
-            .then(response => response.json())
-            .then(data => console.log('Success:', data))
-            .catch((error) => console.error('Error:', error));
+        .then(response => response.json())
+        .then(data => console.log('Success:', data))
+        .catch((error) => console.error('Error:', error));
     }
     render() {
         return (

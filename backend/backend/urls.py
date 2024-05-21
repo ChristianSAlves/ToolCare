@@ -3,7 +3,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from django.http import HttpResponse
 from app_backend.views import FerramentaViewSet, FuncionarioViewSet, SetorViewSet, CargoViewSet, CargoView, SetorView, FuncionarioView, EmprestimoView, EmprestimoViewSet, FerramentaView
-from app_backend.views import UserViewSet, GroupViewSet, ManutencaoView, ManutencaoViewSet
+from app_backend.views import UserViewSet, GroupViewSet, ManutencaoView, ManutencaoViewSet 
 from rest_framework.authtoken import views
 from django.conf import settings
 from django.conf.urls.static import static

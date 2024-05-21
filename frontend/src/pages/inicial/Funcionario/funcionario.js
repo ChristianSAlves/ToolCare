@@ -1,13 +1,78 @@
 import { Link } from 'react-router-dom'
 import MenuComponent from '../../../components/Menu/Menu'
 import styles from './funcionario.module.css'
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 
 const Funcionario = () => {
-
   const [showOptions, setShowOptions] = useState(false);
   const [search, setSearch] = useState('');
   const [selectedOption, setSelectedOption] = useState('');
+  const [Funcionarios, setFuncionarios] = useState([]);
+
+  const filterFuncionarios = async (newSearch, newSelectedOption) => {
+    const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage
+
+    try {
+        // Busca as Ferramentas
+        const responseFuncionarios = await fetch('http://127.0.0.1:8000/funcionarios/', {
+            headers: {
+                'Authorization': `Token ${token}`, // Adicionando o token de autorização ao cabeçalho
+            },
+        });
+
+        if (!responseFuncionarios.ok) {
+            throw new Error('Erro ao carregar os Funcionarios');
+        }
+
+        const dataFuncionarios = await responseFuncionarios.json();
+        
+        let filteredFuncionarios = dataFuncionarios;
+
+        if (newSelectedOption === 'nome') {
+            filteredFuncionarios = dataFuncionarios.filter(funcionario => funcionario.nome.toLowerCase().includes(newSearch.toLowerCase()));
+        } else if (newSelectedOption === 'matriculaFuncionario') {
+            filteredFuncionarios = dataFuncionarios.filter(funcionario => funcionario.matriculaFuncionario.toLowerCase().includes(newSearch.toLowerCase()));
+        } else if (newSearch) {
+            filteredFuncionarios = dataFuncionarios.filter(funcionario =>
+                funcionario.matriculaFuncionario.toLowerCase().includes(newSearch.toLowerCase()) ||
+                funcionario.nome.toLowerCase().includes(newSearch.toLowerCase())
+            );
+        }
+
+        setFuncionarios(filteredFuncionarios);
+    } catch (error) {
+        console.error('Erro:', error);
+    }
+};
+
+
+useEffect(() => {
+    const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage
+
+    const fetchData = async () => {
+        try {
+            // Busca os funcionarios
+            const responseFuncionarios = await fetch('http://127.0.0.1:8000/funcionarios/', {
+                headers: {
+                    'Authorization': `Token ${token}`, // Adicionando o token de autorização ao cabeçalho
+                },
+            });
+            if (!responseFuncionarios.ok) {
+                throw new Error('Erro ao carregar os Funcionarios');
+            }
+            const dataFuncionarios = await responseFuncionarios.json();
+            setFuncionarios(dataFuncionarios);              
+        } catch (error) {
+            console.error('Erro:', error);
+        }
+    };
+
+    fetchData();
+}, []);
+
+useEffect(() => {
+    filterFuncionarios(search, selectedOption);
+    }, [search, selectedOption]);
     
     
         return (
@@ -41,25 +106,35 @@ const Funcionario = () => {
                               type="radio"
                               name="option"
                               value="nome"
-                              checked={selectedOption !== 'num_serie'}
+                              checked={selectedOption !== 'matriculaFuncionario'}
                               onChange={(e) => setSelectedOption(e.target.value)}
                           />
                       </div>
                       <div className={styles.option_row}>
-                          <label htmlFor="radio_num_serie" className={styles.label_searchbar}>Número de série</label>
+                          <label htmlFor="radio_mat_func" className={styles.label_searchbar}>Matricula Funcionario</label>
                           <input
-                              id="radio_num_serie"
+                              id="radio_mat_func"
                               className={styles.radio}
                               type="radio"
                               name="option"
-                              value="num_serie"
-                              checked={selectedOption === 'num_serie'}
+                              value="matriculaFuncionario"
+                              checked={selectedOption === 'matriculaFuncionario'}
                               onChange={(e) => setSelectedOption(e.target.value)}
                           />
                       </div>
                   </div>
               )}
           </div>
+          <div className={styles.funcionarios_container}>
+                <ul id={styles.funcionarios_list} className={styles.funcionarios_list}>
+                {Funcionarios.map(funcionario => (
+                        <li key={funcionario.matriculaFuncionario} className={styles.funcionario_item}>
+                            <p className={styles.funcionario_nome}>{funcionario.nome}</p>
+                            <p className={styles.funcionario_matriculaFuncionario}>{funcionario.matriculaFuncionario}</p>
+                        </li>
+                    ))}
+                </ul>
+            </div>
         
             </div>
           
@@ -69,3 +144,5 @@ const Funcionario = () => {
 }
 
 export default Funcionario
+
+

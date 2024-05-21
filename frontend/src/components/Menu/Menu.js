@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from './Menu.module.css';
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import visaoGeralIcon from '../../assets/icones/visao_geral.png';
 import emprestimosIcon from '../../assets/icones/emprestimos.png';
 import ferramentasIcon from '../../assets/icones/ferramentas.png';
@@ -19,6 +19,7 @@ import setoresIconLaranja from '../../assets/icones/setores_laranja.png';
 
 export const MenuComponent = () => {
     const location = useLocation();
+    const navigate = useNavigate();
     const [selectedItem, setSelectedItem] = useState('');
 
     useEffect(() => {
@@ -42,7 +43,9 @@ export const MenuComponent = () => {
 
     const logout = () => {
         localStorage.removeItem('token');
-        
+        setSelectedItem('visao_geral'); // Redefine o estado selecionado para "visao_geral"
+        localStorage.setItem('selectedItem', 'visao_geral'); // Salva o estado como "visao_geral"
+        navigate('/login');
     };
 
     return (
@@ -120,12 +123,10 @@ export const MenuComponent = () => {
                         </li>
                     </Link>
                 </ul>
-                <Link to="/login">
                 <li id="logout" className={`${styles.div_navbar} ${styles.div_logout}`} onClick={logout}>
-                        <img src={logoutIcon} className={`${styles.item} ${styles.quadradinho_logout}`} alt="Ícone de logout" />
-                        <h4 id="texto_logout" className={`${styles.item} ${styles.texto_menu}`}>SAIR</h4>
-                    </li>
-                </Link>
+                    <img src={logoutIcon} className={`${styles.item} ${styles.quadradinho_logout}`} alt="Ícone de logout" />
+                    <h4 id="texto_logout" className={`${styles.item} ${styles.texto_menu}`}>SAIR</h4>
+                </li>
             </nav>
         </div>
     );

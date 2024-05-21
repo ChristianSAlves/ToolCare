@@ -10,6 +10,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
+from django.views.generic import DetailView
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -26,10 +27,11 @@ class GroupViewSet(viewsets.ModelViewSet):
     authentication_classes = [authentication.TokenAuthentication, authentication.SessionAuthentication]
 
 class FerramentaViewSet(viewsets.ModelViewSet):
-    queryset = Ferramenta.objects.all().order_by('nome')
+    queryset = Ferramenta.objects.all().order_by('codFerramenta')
     serializer_class = FerramentaSerializer
     permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [authentication.TokenAuthentication, authentication.SessionAuthentication]
+
 
 class CargoViewSet(viewsets.ModelViewSet):
     queryset = Cargo.objects.all().order_by('codigoCargo')

@@ -6,7 +6,7 @@ import MenuComponent from '../../../components/Menu/Menu';
 const Manutencao = () => {
 
     const [Ferramentas, setFerramentas] = useState([]);
-    const [idFerramenta, setIdFerramenta] = useState(0);
+    const [codFerramenta, setCodFerramenta] = useState(0);
     const [tipoManutencao, setTipoManutencao] = useState('');
     const [dataInicio, setDataInicio] = useState(new Date());
     const [dataFim, setDataFim] = useState(new Date());
@@ -39,11 +39,11 @@ const Manutencao = () => {
         event.preventDefault();
     
         const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage
-    
-        const linkferramenta = `http://127.0.0.1:8000/setores/${idFerramenta}/`;
+        console.log(codFerramenta);
+        const linkferramenta = `http://127.0.0.1:8000/ferramentas/${codFerramenta}/`;
     
         const formData = new FormData();
-        formData.append('idFerramenta', linkferramenta);
+        formData.append('codFerramenta', linkferramenta);
         formData.append('tipoManutencao', tipoManutencao);
         formData.append('dataInicio', dataInicio);
         formData.append('dataFim', dataFim);
@@ -52,10 +52,19 @@ const Manutencao = () => {
             const response = await fetch('http://127.0.0.1:8000/manutencoes/', {
                 method: 'POST',
                 headers: {
-                    'Authorization': `Token ${token}`, // Adicionando o token de autorização ao cabeçalho
+                    'Authorization': `Token ${token}`, 
                 },
                 body: formData,
             });
+    
+            if (response.ok) {
+                const responseData = await response.json();
+                console.log('Success:', responseData);
+            } else {
+                console.error('Failed to submit form:', response.status, response.statusText);
+                const errorData = await response.json();
+                console.log('Error details:', errorData);
+            }
     
         } catch (error) {
             console.error('Error:', error);
@@ -63,7 +72,6 @@ const Manutencao = () => {
         }
     };
     
-
     
         return (
             <div className={styles.container}>
@@ -75,15 +83,16 @@ const Manutencao = () => {
                 <p id={styles.cadastro}>Cadastro de Manutencão</p>
                 <div className={styles.spacer}>
                 <label id={styles.ferramenta_label}>Ferramenta</label>
-                <select name="ferramentas" id={styles.ferramenta_select} required value={idFerramenta} onChange={(evt) => setIdFerramenta(evt.target.value)}>
-                <option value={0}>Selecione</option>
-                            {Ferramentas.map(ferramenta => (
-                                <option key={ferramenta.idFerramenta} value={ferramenta.idFerramenta}>{ferramenta.numSerie}</option>
-                            ))}
-                </select></div>
+                            <select name="ferramentas" id={styles.ferramenta_select} required value={codFerramenta} onChange={(evt) => setCodFerramenta(evt.target.value)}>
+                                <option value={0}>Selecione</option>
+                                {Ferramentas.map(ferramenta => (
+                                    <option key={ferramenta.codFerramenta} value={ferramenta.codFerramenta}>{ferramenta.numSerie}</option>
+                                ))}
+                            </select></div>
                 <div className={styles.spacer}>
                 <label id={styles.tipo_manutencao_label} >Tipo Manutenção</label>
                 <select name="tipo_manutencao" id={styles.tipo_manutencao_select} required value={tipoManutencao} onChange={(evt) => setTipoManutencao(evt.target.value)}>
+                  <option value={0}>Selecione</option>
                   <option value="preventiva">Preventiva</option>
                   <option value="corretiva">Corretiva</option>
                 </select></div>
