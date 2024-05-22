@@ -35,6 +35,8 @@ INSTALLED_APPS = [
     'django_cpf_cnpj',
     'corsheaders',
     'rest_framework.authtoken',
+    'rest_framework_swagger',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
