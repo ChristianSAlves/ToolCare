@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route,Navigate } from 'react-router-dom';
 import CargoCadastro from './pages/cadastro/Cargo/cargo_cadastro.js';
 import VisaoGeral from './pages/inicial/VisaoGeral/visao_geral.js';
 import EmprestimoCadastro from './pages/cadastro/Emprestimo/emprestimo_cadastro.js';
@@ -27,6 +27,7 @@ function Rotas() {
             <Route path='*' element={
                 <RequireAuth>
                     <Routes>
+                    <Route path="/" element={<Navigate replace to="/visao_geral" />} />
                     <Route path='/card' element={<Card/>}/>
                     <Route path='/menu' element={<Menu/>}/>
                     <Route path='/visao_geral' element={<VisaoGeral/>}/>
