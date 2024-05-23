@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom'
-import { CardTeste } from '../../components/CardFerramentas/card_ferramentas.js'
-import React, {useState, useEffect} from 'react'
+import { Link } from 'react-router-dom';
+import CardTeste from '../../components/CardFerramentas/card_ferramentas.js'; // Ajuste a importação aqui
+import React, { useState, useEffect } from 'react';
 
 const CardFerramentas = () => {
     const [ferramentas, setFerramentas] = useState([]);
@@ -42,6 +42,6 @@ const CardFerramentas = () => {
             ))}
         </div>
     );
-}
+};
 
 export default CardFerramentas;
