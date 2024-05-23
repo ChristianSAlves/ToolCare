@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../Ferramenta/ferramenta.module.css';
 import MenuComponent from '../../../components/Menu/Menu';
+import CardTeste from '../../../components/CardFerramentas/card_ferramentas';
 import { Link } from 'react-router-dom';
 
 const Ferramenta = () => {
@@ -72,10 +73,12 @@ const Ferramenta = () => {
     useEffect(() => {
         filterFerramentas(search, selectedOption);
     }, [search, selectedOption]);
-    
+
+    const defaultFerramenta = 'url_to_default_image';
 
     return (
         <div id={styles.div_ferramenta}>
+            
             <MenuComponent id="menu" />
 
             <Link to={'/ferramenta_cadastro'}>
@@ -125,15 +128,16 @@ const Ferramenta = () => {
                 )}
             </div>
 
-            <div className={styles.ferramentas_container}>
-                <ul id={styles.ferramentas_list} className={styles.ferramentas_list}>
-                    {Ferramentas.map(ferramenta => (
-                        <li key={ferramenta.idFerramenta} className={styles.ferramenta_item}>
-                            <p className={styles.ferramenta_nome}>{ferramenta.nome}</p>
-                            <p className={styles.ferramenta_numSerie}>{ferramenta.numSerie}</p>
-                        </li>
-                    ))}
-                </ul>
+            <div className={styles.div_pai}>
+            <div className={styles.card_container}>
+                {Ferramentas.map(ferramenta => (
+                    <CardTeste 
+                        key={ferramenta.idFerramenta} 
+                        ferramenta={ferramenta} 
+                        defaultFerramenta={defaultFerramenta} 
+                    />
+                ))}
+            </div>
             </div>
         </div>
     );
