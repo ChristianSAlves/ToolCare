@@ -11,6 +11,8 @@ const Ferramenta = () => {
     const [selectedOption, setSelectedOption] = useState('');
     const [Ferramentas, setFerramentas] = useState([]);
     const [showModal, setShowModal] = useState(false);  // Estado para controle da visibilidade do modal
+    const [selectedFerramenta, setSelectedFerramenta] = useState(null);
+
 
     const filterFerramentas = async (newSearch, newSelectedOption) => {
         const token = localStorage.getItem('token');
@@ -44,7 +46,11 @@ const Ferramenta = () => {
     }, [search, selectedOption]);
 
     const defaultFerramenta = 'url_to_default_image';
-    const toggleModal = () => setShowModal(!showModal);
+    const toggleModal = (ferramenta) => {
+        setSelectedFerramenta(ferramenta);
+        setShowModal(!showModal);
+    };
+    
 
     return (
         <div id={styles.div_ferramenta}>
@@ -101,12 +107,12 @@ const Ferramenta = () => {
                             key={ferramenta.idFerramenta} 
                             ferramenta={ferramenta} 
                             defaultFerramenta={defaultFerramenta} 
-                            onShowModal={toggleModal}
+                            onShowModal={() => toggleModal(ferramenta)}
                         />
                     ))}
                 </div>
             </div>
-            {showModal && <ModalFerramentasComponent onClose={toggleModal} />}
+            {showModal && <ModalFerramentasComponent onClose={toggleModal} ferramenta={selectedFerramenta} />}
         </div>
     );
 }
