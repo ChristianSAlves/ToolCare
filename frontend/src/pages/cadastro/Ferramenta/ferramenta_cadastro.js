@@ -71,10 +71,6 @@ const FerramentaCadastro = () => {
                         <input type="date" id={styles.data_aquisicao_datepicker} required value={dataAquisicao} onChange={(evt) => setDataAquisicao(evt.target.value)}></input>
                     </div>
                     <div className={styles.spacer}>
-                        <label id={styles.data_baixa_label}>Data de baixa</label>
-                        <input type="date" id={styles.data_baixa_datepicker}></input>
-                    </div>
-                    <div className={styles.spacer}>
                         <label id={styles.foto_label} htmlFor="foto">Foto</label>
                         <input type="file" id={styles.foto} name="foto" accept=".png,.jpg,.jpeg" required onChange={(evt) => setImgFerramenta(evt.target.files[0])}></input>
                     </div>

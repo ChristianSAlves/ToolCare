@@ -14,8 +14,8 @@ const CardTeste = ({ ferramenta, defaultFerramenta, onShowModal }) => {
                     <li className={styles.list_item}>
                         <p className={`${styles.nome} ${styles.list_item}`}>{ferramenta.nome}</p>
                         <div id={styles.card_item}>
-                        <p className={`${styles.numSerie} ${styles.list_item}`}>Número de Serie: {ferramenta.numSerie}</p>
-                        <p className={`${styles.status} ${styles.list_item}`}>Status: {ferramenta.status}</p>
+                        <p className={`${styles.numSerie} ${styles.list_item}`}>{ferramenta.numSerie}</p>
+                        <p className={`${styles.status} ${styles.list_item}`}>{ferramenta.status}</p>
                         </div>
                     </li>
                 </ul>
