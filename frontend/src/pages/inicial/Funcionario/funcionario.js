@@ -4,23 +4,47 @@ import styles from './funcionario.module.css'
 import React, {useState, useEffect} from 'react'
 
 const Funcionario = () => {
-
   const [showOptions, setShowOptions] = useState(false);
   const [search, setSearch] = useState('');
   const [selectedOption, setSelectedOption] = useState('');
   const [Funcionarios, setFuncionarios] = useState([]);
 
-  const filterFuncionarios = (newSearch, newSelectedOption) => {
-    let filteredFuncionarios = [];
+  const filterFuncionarios = async (newSearch, newSelectedOption) => {
+    const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage
 
-    if (newSelectedOption === 'nome') {
-        filteredFuncionarios = Funcionarios.filter(funcionario => funcionario.nome.toLowerCase().includes(newSearch.toLowerCase()));
-    } else if (newSelectedOption === 'matriculaFuncionario') {
-        filteredFuncionarios = Funcionarios.filter(funcionario => funcionario.matriculaFuncionario.toLowerCase().includes(newSearch.toLowerCase()));
+    try {
+        // Busca as Ferramentas
+        const responseFuncionarios = await fetch('http://127.0.0.1:8000/funcionarios/', {
+            headers: {
+                'Authorization': `Token ${token}`, // Adicionando o token de autorização ao cabeçalho
+            },
+        });
+
+        if (!responseFuncionarios.ok) {
+            throw new Error('Erro ao carregar os Funcionarios');
+        }
+
+        const dataFuncionarios = await responseFuncionarios.json();
+        
+        let filteredFuncionarios = dataFuncionarios;
+
+        if (newSelectedOption === 'nome') {
+            filteredFuncionarios = dataFuncionarios.filter(funcionario => funcionario.nome.toLowerCase().includes(newSearch.toLowerCase()));
+        } else if (newSelectedOption === 'matriculaFuncionario') {
+            filteredFuncionarios = dataFuncionarios.filter(funcionario => funcionario.matriculaFuncionario.toLowerCase().includes(newSearch.toLowerCase()));
+        } else if (newSearch) {
+            filteredFuncionarios = dataFuncionarios.filter(funcionario =>
+                funcionario.matriculaFuncionario.toLowerCase().includes(newSearch.toLowerCase()) ||
+                funcionario.nome.toLowerCase().includes(newSearch.toLowerCase())
+            );
+        }
+
+        setFuncionarios(filteredFuncionarios);
+    } catch (error) {
+        console.error('Erro:', error);
     }
-
-    setFuncionarios(filteredFuncionarios);
 };
+
 
 useEffect(() => {
     const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage
@@ -46,9 +70,9 @@ useEffect(() => {
     fetchData();
 }, []);
 
- useEffect(() => {
+useEffect(() => {
     filterFuncionarios(search, selectedOption);
-}, [search, selectedOption]);
+    }, [search, selectedOption]);
     
     
         return (
@@ -101,6 +125,16 @@ useEffect(() => {
                   </div>
               )}
           </div>
+          <div className={styles.funcionarios_container}>
+                <ul id={styles.funcionarios_list} className={styles.funcionarios_list}>
+                {Funcionarios.map(funcionario => (
+                        <li key={funcionario.matriculaFuncionario} className={styles.funcionario_item}>
+                            <p className={styles.funcionario_nome}>{funcionario.nome}</p>
+                            <p className={styles.funcionario_matriculaFuncionario}>{funcionario.matriculaFuncionario}</p>
+                        </li>
+                    ))}
+                </ul>
+            </div>
         
             </div>
           
@@ -110,3 +144,5 @@ useEffect(() => {
 }
 
 export default Funcionario
+
+

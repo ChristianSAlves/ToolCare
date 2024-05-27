@@ -2,12 +2,14 @@ import styles from './emprestimo_cadastro.module.css'
 import { Link } from 'react-router-dom'
 import React, { useState, useEffect } from 'react'
 
-
-
 const Emprestimo = () => {
-    const [numSerie, setNumSerie] = useState(0);
+
     const [ferramentas, setFerramentas] = useState([]);
     const [funcionarios, setFuncionarios] = useState([]);
+    const [idFuncionario, setIdFuncionario] = useState(0);
+    const [dataEmprestimo, setDataEmprestimo] = useState(new Date());
+    const [observacoes, setObservacoes] = useState('');
+    const [codFerramenta, setCodFerramenta] = useState(0);
     
 
     useEffect(() => {
@@ -46,37 +48,72 @@ const Emprestimo = () => {
         fetchData();
     }, []);
 
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+    
+        const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage
+        const linkFerramenta = `http://127.0.0.1:8000/ferramentas/${codFerramenta}/`;
+        const linkFuncionario = `http://127.0.0.1:8000/ferramentas/${idFuncionario}/`;
+    
+        const formData = new FormData();
+        formData.append('matriculaFuncionario', linkFuncionario);
+        formData.append('dataEmprestimo', dataEmprestimo);
+        formData.append('numSerie', linkFerramenta);
+        formData.append('dataDevolucao', "");
+        formData.append('observacoes', observacoes);
+    
+        try {
+            const response = await fetch('http://127.0.0.1:8000/emprestimos/', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Token ${token}`, 
+                },
+                body: formData,
+            });
+    
+            if (response.ok) {
+                const responseData = await response.json();
+                console.log('Success:', responseData);
+            } else {
+                console.error('Failed to submit form:', response.status, response.statusText);
+                const errorData = await response.json();
+                console.log('Error details:', errorData);
+            }
+    
+        } catch (error) {
+            console.error('Error:', error);
+            console.log('Detalhes do erro:', error.message);
+        }
+    };
+
     return (
         <div className={styles.container}>
 
             <div id="tela">
-                <form action="#" method="post" autoComplete="off" id="cadastro_emprestimo_form">
+                <form onSubmit={handleSubmit} action="#" method="post" autoComplete="off" id="cadastro_emprestimo_form">
                         <p id="cadastro">Cadastro de Empréstimo</p>
                         <div className='spacer'>
                         <label>Ferramentas</label>
-                        <select name="numSerieFerramenta" id="ferramenta_select" value={numSerie} onChange={evt => setNumSerie(evt.target.value)}>
+                        <select name="codFerramenta" id="ferramenta_select" value={codFerramenta} onChange={evt => setCodFerramenta(evt.target.value)}>
                             <option value={0}>Selecione</option>
                             {ferramentas.map(ferramenta => (
-                                <option key={ferramenta.idFerramenta} value={ferramenta.numSerie}>{ferramenta.numSerie}</option>
+                                <option key={ferramenta.codFerramenta} value={ferramenta.codFerramenta}>{ferramenta.numSerie}</option>
                             ))}
                         </select></div>
                         <div className="spacer">
                             <label id='funcionario_label'>Funcionário</label>
-                            <select name="funcionario" id="funcionario_select" required>
-                                <option value="ferramenta">Funcionario 1</option>
-                                <option value="ferramenta2">Funcionario 2</option>
-                                <option value="ferramenta3">Funcionario 3</option>
+                            <select name="funcionario" id="funcionario_select" required value={idFuncionario} onChange={evt => setIdFuncionario(evt.target.value)}> 
+                            <option value={0}>Selecione</option>
+                            {funcionarios.map(funcionario => (
+                                <option key={funcionario.idFuncionario} value={funcionario.idFuncionario}>{funcionario.nome}</option>
+                            ))}
                             </select>
                         </div>
                         <div className="spacer">
                         <label id='data_emprestimo_label'>Data do Empréstimo</label>
-                            <input type="date" name='data_emprestimo' id="data_emprestimo_datepicker" required></input>
+                            <input type="date" name='data_emprestimo' id="data_emprestimo_datepicker" required value={dataEmprestimo} onChange={evt => setDataEmprestimo(evt.target.value)}></input>
                         </div>
-                        <div className="spacer">
-                        <label id='data_devolucao_label'>Data da Devolução</label>
-                            <input type="date" name='data_devolucao' id="data_devolucao_datepicker" required></input>
-                        </div>
-                        <input type="text" id="observacoes" name="observacoes" placeholder="Observações"></input>
+                        <input type="text" id="observacoes" name="observacoes" placeholder="Observações" value={observacoes} onChange={evt => setObservacoes(evt.target.value)}></input>
                         <button id="enviar" type="submit">ENVIAR</button>
                 </form>
             </div>

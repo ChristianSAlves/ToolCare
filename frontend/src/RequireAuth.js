@@ -8,3 +8,4 @@ function RequireAuth({ children, redirectTo = "/login" }) {
 }
 
 export default RequireAuth
+
