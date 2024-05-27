@@ -8,6 +8,7 @@ import ManutencaoCadastro from './pages/cadastro/Manutencao/manutencao_cadastro.
 import Card from './pages/para_testes/teste_card.js'
 import Menu from './pages/para_testes/teste_menu.js'
 import Modal from './pages/para_testes/teste_modal_ferramentas.js'
+import Avisos from './pages/para_testes/teste_avisos.js'
 import SetorCadastro from './pages/cadastro/Setor/setor_cadastro.js'
 import Ferramenta from './pages/inicial/Ferramenta/ferramenta.js'
 import Cargo from './pages/inicial/Cargo/cargo.js'
@@ -62,6 +63,7 @@ function App() {
                         <Route path='/card' element={<Card/>}/>
                         <Route path='/menu' element={<Menu/>}/>
                         <Route path='/modal' element={<Modal/>}/>
+                        <Route path='/avisos' element={<Avisos/>}/>
                         <Route path='/visao_geral' element={<VisaoGeral/>}/>
                         <Route path='/cargo_cadastro' element={<CargoCadastro/>}/>
                         <Route path='/cargo' element={<Cargo/>}/>

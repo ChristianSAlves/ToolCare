@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styles from './ferramenta_cadastro.module.css';
 import MenuComponent from '../../../components/Menu/Menu';
+import CadastradoComponent from '../../../components/Avisos/Cadastrado/cadastrado';
 
 const FerramentaCadastro = () => {
     const [nome, setNome] = useState('');
@@ -9,6 +10,7 @@ const FerramentaCadastro = () => {
     const [imgFerramenta, setImgFerramenta] = useState();
     const [dataAquisicao, setDataAquisicao] = useState('');
     const [status, setStatus] = useState('');
+    const [showSuccess, setShowSuccess] = useState(false);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -38,7 +40,16 @@ const FerramentaCadastro = () => {
 
             const data = await response.json();
             console.log('Success:', data);
-            setImgFerramenta('');
+            setShowSuccess(true);
+            setTimeout(() => setShowSuccess(false), 2000); // Ocultar após 2 segundos
+
+            // Limpar os inputs após o cadastro bem-sucedido
+            setNome('');
+            setNumSerie('');
+            setDescricao('');
+            setImgFerramenta(undefined);
+            setDataAquisicao('');
+            setStatus('');
         } catch (error) {
             console.error('Error:', error);
             console.log('Detalhes do erro:', error.message);
@@ -47,9 +58,7 @@ const FerramentaCadastro = () => {
 
     return (
         <div className={styles.container}>
-
             <MenuComponent id={styles.menu}></MenuComponent>
-
             <div id='tela' className={styles.tela}>
                 <form onSubmit={handleSubmit} action="#" method="post" autoComplete="off" id={styles.cadastro_ferramenta_form}>
                     <p id={styles.cadastro}>Cadastro de Ferramenta</p>
@@ -76,6 +85,7 @@ const FerramentaCadastro = () => {
                     </div>
                     <button id={styles.enviar} type="submit">ENVIAR</button>
                 </form>
+                {showSuccess && <CadastradoComponent />}
             </div>
         </div>
     );
