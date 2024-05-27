@@ -1,4 +1,4 @@
-import { BrowserRouter as Router,Routes,Route } from 'react-router-dom'
+/*import { BrowserRouter as Router,Routes,Route } from 'react-router-dom'
 import CargoCadastro from './pages/cadastro/Cargo/cargo_cadastro.js'
 import VisaoGeral from './pages/inicial/VisaoGeral/visao_geral.js'
 import EmprestimoCadastro from './pages/cadastro/Emprestimo/emprestimo_cadastro.js'
@@ -20,7 +20,7 @@ import Login from './pages/login/login.js'
 import RequireAuth from './RequireAuth.js'
 
 
-/*function App() {
+function App() {
     
     return(
         
@@ -49,7 +49,7 @@ import RequireAuth from './RequireAuth.js'
     )
 }
 
-export default App*/ 
+export default App
 
 
 function App() {
@@ -85,4 +85,19 @@ function App() {
     );
 }
 
-export default App
+export default App*/ 
+
+
+
+import { BrowserRouter as Router } from 'react-router-dom'
+import Rotas from './rotas_react.js';
+
+function App() {
+    return (
+        <Router>
+            <Rotas/>
+        </Router>
+    );
+}
+
+export default App;

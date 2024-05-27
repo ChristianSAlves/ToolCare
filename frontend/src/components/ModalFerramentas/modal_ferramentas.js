@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import styles from "./modal_ferramentas.module.css";
 import logo from "../../assets/imagens/logo.png";
+import EditadoComponent from "../Avisos/Editado/editado";
+import RemovidoComponent from "../Avisos/Removido/removido";
 
-const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal }) => {
+const ModalFerramentasComponent = ({ onClose, ferramenta }) => {
     const [isEditing, setIsEditing] = useState(false);
+    const [showEditado, setShowEditado] = useState(false);
+    const [showRemovido, setShowRemovido] = useState(false);
     const [editData, setEditData] = useState({
         Nome: ferramenta.nome,
         NúmeroDeSerie: ferramenta.numSerie,
@@ -11,6 +15,7 @@ const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal }) => {
         DataAquisicao: ferramenta.dataAquisicao,
         Status: ferramenta.status,
     });
+    const time = 3000
 
     const handleEdit = () => {
         setIsEditing(true);
@@ -18,8 +23,9 @@ const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal }) => {
 
     const handleConfirmEdit = async () => {
         console.log('Confirmando edições:', editData);
-        alert('Edições confirmadas com sucesso!');
-        setIsEditing(false); // Sair do modo de edição após confirmar
+        setIsEditing(false);
+        setShowEditado(true);
+        setTimeout(() => setShowEditado(false), time);
     };
 
     const handleChange = (event, field) => {
@@ -41,9 +47,11 @@ const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal }) => {
             });
 
             if (response.ok) {
-                alert('Ferramenta removida com sucesso!');
-                onClose(); // Fechar o modal após a remoção
-                onShowModal(false); // Atualiza o estado do modal no componente pai, se necessário
+                setShowRemovido(true);
+                setTimeout(() => {
+                    setShowRemovido(false);
+                    onClose();
+                }, time);
             } else {
                 alert('Falha ao remover a ferramenta. Por favor, tente novamente.');
             }
@@ -95,6 +103,8 @@ const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal }) => {
                         )}
                     </div>
                 </div>
+                {showEditado && <EditadoComponent />}
+                {showRemovido && <RemovidoComponent />}
             </div>
         </div>
     );
