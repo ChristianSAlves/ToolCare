@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../Ferramenta/ferramenta.module.css';
 import MenuComponent from '../../../components/Menu/Menu';
-import CardTeste from '../../../components/CardFerramentas/card_ferramentas';
+import CardFerramentas from '../../../components/CardFerramentas/card_ferramentas';
 import ModalFerramentasComponent from '../../../components/ModalFerramentas/modal_ferramentas';
 import { Link } from 'react-router-dom';
 
@@ -11,6 +11,7 @@ const Ferramenta = () => {
     const [selectedOption, setSelectedOption] = useState('');
     const [Ferramentas, setFerramentas] = useState([]);
     const [showModal, setShowModal] = useState(false);  // Estado para controle da visibilidade do modal
+    const [selectedFerramenta, setSelectedFerramenta] = useState(null);
 
     const filterFerramentas = async (newSearch, newSelectedOption) => {
         const token = localStorage.getItem('token');
@@ -40,11 +41,38 @@ const Ferramenta = () => {
     };
 
     useEffect(() => {
+        const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage
+    
+        const fetchData = async () => {
+            try {
+            
+                const responseFerramentas = await fetch('http://127.0.0.1:8000/ferramentas/', {
+                    headers: {
+                        'Authorization': `Token ${token}`, // Adicionando o token de autorização ao cabeçalho
+                    },
+                });
+                if (!responseFerramentas.ok) {
+                    throw new Error('Erro ao carregar as Ferramentas');
+                }
+                const dataFerramentas = await responseFerramentas.json();
+                setFerramentas(dataFerramentas);              
+            } catch (error) {
+                console.error('Erro:', error);
+            }
+        };
+    
+        fetchData();
+    }, []);
+
+    useEffect(() => {
         filterFerramentas(search, selectedOption);
     }, [search, selectedOption]);
 
     const defaultFerramenta = 'url_to_default_image';
-    const toggleModal = () => setShowModal(!showModal);
+    const toggleModal = (ferramenta) => {
+        setSelectedFerramenta(ferramenta);
+        setShowModal(!showModal);
+    };
 
     return (
         <div id={styles.div_ferramenta}>
@@ -96,17 +124,17 @@ const Ferramenta = () => {
             </div>
             <div className={styles.div_pai}>
                 <div className={styles.card_container}>
-                    {Ferramentas.map(ferramenta => (
-                        <CardTeste 
-                            key={ferramenta.idFerramenta} 
+                    {Ferramentas.map((ferramenta, index) => (
+                        <CardFerramentas 
+                            key={ferramenta.idFerramenta ? ferramenta.idFerramenta : index} 
                             ferramenta={ferramenta} 
                             defaultFerramenta={defaultFerramenta} 
-                            onShowModal={toggleModal}
+                            onShowModal={() => toggleModal(ferramenta)}
                         />
                     ))}
                 </div>
             </div>
-            {showModal && <ModalFerramentasComponent onClose={toggleModal} />}
+            {showModal && <ModalFerramentasComponent onClose={toggleModal} ferramenta={selectedFerramenta} />}
         </div>
     );
 }
