@@ -17,8 +17,39 @@ const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal }) => {
     };
 
     const handleConfirmEdit = async () => {
-        console.log('Confirmando edições:', editData);
-        alert('Edições confirmadas com sucesso!');
+        const token = localStorage.getItem('token');
+        let response;
+
+        try {
+            const formData = new FormData();
+            formData.append('nome', editData.Nome);
+            formData.append('numSerie', editData.NúmeroDeSerie);
+            formData.append('descricao', editData.Descricao);
+            formData.append('dataAquisicao', editData.DataAquisicao);
+            formData.append('status', editData.Status);
+
+            response = await fetch(`http://127.0.0.1:8000/ferramentas/${ferramenta.codFerramenta}/`, {
+                method: 'PATCH',
+                headers: {
+                    'Authorization': `Token ${token}`,
+                },
+                body: formData,
+            });
+
+            if (response.ok) {
+                alert('Ferramenta atualizada com sucesso!');
+                onClose(); // Fechar o modal após a atualização
+                if (onShowModal) onShowModal(false); // Atualiza o estado do modal no componente pai, se necessário
+            } else {
+                const errorData = await response.json();
+                console.error('Erro ao atualizar a ferramenta:', errorData);
+                alert('Falha ao atualizar a ferramenta. Por favor, tente novamente.');
+            }
+        } catch (error) {
+            console.error('Erro ao atualizar a ferramenta:', error);
+            alert('Erro ao atualizar a ferramenta. Por favor, tente novamente.');
+        }
+
         setIsEditing(false); // Sair do modo de edição após confirmar
     };
 
@@ -43,7 +74,7 @@ const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal }) => {
             if (response.ok) {
                 alert('Ferramenta removida com sucesso!');
                 onClose(); // Fechar o modal após a remoção
-                onShowModal(false); // Atualiza o estado do modal no componente pai, se necessário
+                if (onShowModal) onShowModal(false); // Atualiza o estado do modal no componente pai, se necessário
             } else {
                 alert('Falha ao remover a ferramenta. Por favor, tente novamente.');
             }

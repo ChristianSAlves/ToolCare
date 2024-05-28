@@ -22,8 +22,9 @@ export default class Cargo extends React.Component{
 
     constructor(props) {
         super(props);
-        this.state = {nomeCargo: '', 
-        descricao: ''
+        this.state = {
+        nomeCargo: '', 
+        descricaoCargo: ''
     };
     
         this.handleChangeNome = this.handleChangeNome.bind(this);
