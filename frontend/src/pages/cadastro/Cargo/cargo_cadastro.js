@@ -23,9 +23,9 @@ export default class Cargo extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-        nomeCargo: '', 
-        descricaoCargo: ''
-    };
+            nomeCargo: '', 
+            descricaoCargo: ''
+        };
     
         this.handleChangeNome = this.handleChangeNome.bind(this);
         this.handleChangeDescricao = this.handleChangeDescricao.bind(this);
@@ -80,8 +80,7 @@ export default class Cargo extends React.Component{
     }
     
     
-    render()
-    {
+    render() {
         return (
             <div className={styles.container}>
                 <MenuComponent></MenuComponent>
@@ -89,17 +88,10 @@ export default class Cargo extends React.Component{
               <form onSubmit={this.handleSubmit} action="#" method="post" autoComplete="off" id={styles.cadastro_cargo_form}>
                 <p id={styles.cadastro}>Cadastro de Cargo</p>
                 <input type="text" id={styles.nomeCargo} name="nomeCargo" required placeholder="Nome" value={this.state.nomeCargo} onChange={this.handleChangeNome}></input>
-                <input type="text" id={styles.descricaoCargo} name="descricao" placeholder="Descrição" value={this.state.descricao} onChange={this.handleChangeDescricao}></input>
+                <input type="text" id={styles.descricaoCargo} name="descricaoCargo" placeholder="Descrição" value={this.state.descricaoCargo} onChange={this.handleChangeDescricao}></input>
                 <button id={styles.enviar} type="submit">ENVIAR</button>
               </form></div>
-            
-              
-          
-              </div>
-          
-          
-            );
+            </div>
+          );
         }
-    
 }
-
