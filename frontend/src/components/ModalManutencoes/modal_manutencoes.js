@@ -14,7 +14,7 @@ const ModalManutencaoComponent = ({ onClose, manutencao, onShowModal }) => {
     const [showFalhaEdicao, setShowFalhaEdicao] = useState(false);
     const [showFalhaRemocao, setShowFalhaRemocao] = useState(false);
     const [editData, setEditData] = useState({
-        Nome: manutencao.nome,
+        Nome: manutencao.nomeFerramenta,
         Descricao: manutencao.descricao,
     });
 

@@ -7,26 +7,73 @@ import ConfirmarRemocaoComponent from "../Avisos/ConfirmarRemoção/confirmar_re
 import FalhaEdicaoComponent from "../Avisos/FalhaEdição/falha_edicao";
 import FalhaRemocaoComponent from "../Avisos/FalhaRemoção/falha_remocao";
 
+async function buscarDadosSetorOUCodigo(urlCodigo) {
+    const token = localStorage.getItem('token');
+
+    console.log("WUT")
+    console.log(urlCodigo)
+
+    try {
+        let response = await fetch(urlCodigo, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Token ${token}`,
+            },
+            //body: formData,
+        });
+
+        if (response.ok) {
+            console.log("RESPOSTA DO MILHAO")
+            //console.log(response.json())
+            return response.json()
+        } else {
+            console.log(response)
+        }
+    } catch (error) {
+        console.error('SOUDHFIUDSF', error);
+    }
+}
+
 const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal }) => {
+    console.log(funcionario)
+    //console.log(funcionario.codigoSetor)
+
+    //var nomeFinanceiro = "joo"
+
+    buscarDadosSetorOUCodigo(funcionario.codigoSetor).then((value) => {
+        console.log(value.nomeSetor)
+
+    })
+
+    //var test = "babaca"
+    buscarDadosSetorOUCodigo(funcionario.codigoCargo).then((value) => {
+        //funcionario.codigoCargo = value.nomeCargo
+        console.log(value.nomeCargo)
+        //test = value.nomeCargo
+        //return value.nomeCargo
+    })
+
+
+
     const [isEditing, setIsEditing] = useState(false);
     const [showEditado, setShowEditado] = useState(false);
     const [showRemovido, setShowRemovido] = useState(false);
     const [showConfirmacao, setShowConfirmacao] = useState(false);
     const [showFalhaEdicao, setShowFalhaEdicao] = useState(false);
     const [showFalhaRemocao, setShowFalhaRemocao] = useState(false);
+
     const [editData, setEditData] = useState({
         Nome: funcionario.nome,
         Matrícula: funcionario.matriculaFuncionario,
         CPF: funcionario.cpf,
-        /*Setor: funcionario.setor, // Alterado para usar 'setor' diretamente
-        Cargo: funcionario.cargo, // Alterado para usar 'cargo' diretamente*/
-
+        //Setor: funcionario.nomeSetor, // Alterado para usar 'setor' diretamente
+        //Cargo: funcionario.nomeCargo, // Alterado para usar 'cargo' diretamente
     });
 
     const time = 3000;
     const timeRemovido = 3000;
 
-    console.log(funcionario.setor, funcionario.codigoCargo, funcionario.nome);
+    console.log(funcionario.nomeSetor, funcionario.nomeCargo, funcionario.nome);
 
     const handleEdit = () => {
         setIsEditing(true);
