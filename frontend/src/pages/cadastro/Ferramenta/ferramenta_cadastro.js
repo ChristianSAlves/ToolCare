@@ -73,10 +73,10 @@ const FerramentaCadastro = () => {
                         <label id={styles.status_label}>Status</label>
                         <select name="status" id={styles.status_select} required value={status} onChange={(evt) => setStatus(evt.target.value)}>
                             <option value=''>Selecione</option>
-                            <option value="disponivel">Disponível</option>
-                            <option value="emprestada">Emprestada</option>
-                            <option value="perdida">Perdida</option>
-                            <option value="manutencao">Manutenção</option>
+                            <option value="Disponível">Disponível</option>
+                            <option value="Emprestada">Emprestada</option>
+                            <option value="Perdida">Perdida</option>
+                            <option value="Manutenção">Manutenção</option>
                         </select>
                     </div>
                     <div className={styles.spacer}>

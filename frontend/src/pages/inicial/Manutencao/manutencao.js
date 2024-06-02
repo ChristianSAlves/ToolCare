@@ -8,12 +8,12 @@ import { Link } from 'react-router-dom';
 const Manutencao = () => {
     const [showOptions, setShowOptions] = useState(false);
     const [search, setSearch] = useState('');
-    const [selectedOption, setSelectedOption] = useState('ferramenta');
+    const [selectedOption, setSelectedOption] = useState('codigo');
     const [Manutencoes, setManutencoes] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [selectedManutencao, setSelectedManutencao] = useState(null);
 
-    const filterManutencoes = async (newSearch, newSelectedOption) => {
+    const filterManutencoes = async (newSearch) => {
         const token = localStorage.getItem('token');
         try {
             const responseManutencoes = await fetch('http://127.0.0.1:8000/manutencoes/', {
@@ -27,10 +27,14 @@ const Manutencao = () => {
             }
 
             const dataManutencoes = await responseManutencoes.json();
-            let filteredManutencoes = dataManutencoes.filter(manutencao =>
-                (newSelectedOption === 'ferramenta' && manutencao.ferramenta.toLowerCase().includes(newSearch.toLowerCase())) ||
-                (newSelectedOption === 'tipo' && manutencao.tipoManutencao.toLowerCase().includes(newSearch.toLowerCase()))
-            );
+            let filteredManutencoes = dataManutencoes.filter(manutencao => {
+                const codigoManutencao = manutencao.codigoManutencao.toString() || '';
+                const tipoManutencao = manutencao.tipoManutencao || '';
+                return (
+                    codigoManutencao.toLowerCase().includes(newSearch.toLowerCase()) ||
+                    tipoManutencao.toLowerCase().includes(newSearch.toLowerCase())
+                );
+            });
 
             setManutencoes(filteredManutencoes);
         } catch (error) {
@@ -62,8 +66,8 @@ const Manutencao = () => {
     }, []);
 
     useEffect(() => {
-        filterManutencoes(search, selectedOption);
-    }, [search, selectedOption]);
+        filterManutencoes(search);
+    }, [search]);
 
     const toggleModal = (manutencao) => {
         setSelectedManutencao(manutencao);
@@ -84,7 +88,7 @@ const Manutencao = () => {
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                 />
-                <p
+                {/*<p
                     id={styles.filtro}
                     onClick={() => setShowOptions(!showOptions)}
                     className="conteudo_searchbar"
@@ -92,14 +96,14 @@ const Manutencao = () => {
                 {showOptions && (
                     <div className={styles.options_box}>
                         <div className={styles.option_row}>
-                            <label htmlFor="radio_ferramenta" className={styles.label_searchbar}>Ferramenta</label>
+                            <label htmlFor="radio_codigo" className={styles.label_searchbar}>Código</label>
                             <input
-                                id="radio_ferramenta"
+                                id="radio_codigo"
                                 className={styles.radio}
                                 type="radio"
                                 name="option"
-                                value="ferramenta"
-                                checked={selectedOption === 'ferramenta'}
+                                value="codigo"
+                                checked={selectedOption === 'codigo'}
                                 onChange={(e) => setSelectedOption(e.target.value)}
                             />
                         </div>
@@ -116,13 +120,13 @@ const Manutencao = () => {
                             />
                         </div>
                     </div>
-                )}
+                )} */}
             </div>
             <div className={styles.div_pai}>
                 <div className={styles.card_container}>
                     {Manutencoes.map((manutencao, index) => (
                         <CardManutencoesComponent
-                            key={manutencao.idManutencao ? manutencao.idManutencao : index} 
+                            key={manutencao.codigoManutencao ? manutencao.codigoManutencao : index} 
                             manutencao={manutencao} 
                             onShowModal={() => toggleModal(manutencao)}
                         />

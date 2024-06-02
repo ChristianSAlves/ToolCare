@@ -31,9 +31,10 @@ const ModalCargosComponent = ({ onClose, cargo, onShowModal }) => {
 
         try {
             const formData = new FormData();
-            formData.append('descricao', editData.Descricao);
+            formData.append('nomeCargo', editData.Nome);
+            formData.append('descricaoCargo', editData.Descricao);
 
-            response = await fetch(`http://127.0.0.1:8000/cargos/${cargo.idCargo}/`, {
+            response = await fetch(`http://127.0.0.1:8000/cargos/${cargo.codigoCargo}/`, {
                 method: 'PATCH',
                 headers: {
                     'Authorization': `Token ${token}`,
@@ -80,7 +81,7 @@ const ModalCargosComponent = ({ onClose, cargo, onShowModal }) => {
         const token = localStorage.getItem('token');
 
         try {
-            const response = await fetch(`http://127.0.0.1:8000/cargos/${cargo.idCargo}/`, {
+            const response = await fetch(`http://127.0.0.1:8000/cargos/${cargo.codigoCargo}/`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Token ${token}`,
@@ -126,7 +127,11 @@ const ModalCargosComponent = ({ onClose, cargo, onShowModal }) => {
                     <div className={styles.modal_content}>
                         <div className={styles.info_row}>
                             <span className={styles.label}>Nome</span>
-                            <p>{editData.Nome}</p>
+                            {isEditing ? (
+                                <input type="text" id={styles.input_text} value={editData.Nome} onChange={e => handleChange(e, 'Nome')} />
+                            ) : (
+                                <p>{editData.Nome}</p>
+                            )}
                         </div>
                         <div className={styles.info_row}>
                             <span className={styles.label}>Descrição</span>

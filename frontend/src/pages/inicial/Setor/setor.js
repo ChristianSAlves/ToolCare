@@ -83,7 +83,7 @@ const Setor = () => {
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                 />
-                <p
+                {/*<p
                     id={styles.filtro}
                     onClick={() => setShowOptions(!showOptions)}
                     className="conteudo_searchbar"
@@ -103,7 +103,7 @@ const Setor = () => {
                             />
                         </div>
                     </div>
-                )}
+                )}*/}
             </div>
             <div className={styles.div_pai}>
                 <div className={styles.card_container}>

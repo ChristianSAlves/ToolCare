@@ -31,9 +31,10 @@ const ModalSetoresComponent = ({ onClose, setor, onShowModal }) => {
 
         try {
             const formData = new FormData();
-            formData.append('descricao', editData.Descricao);
+            formData.append('nomeSetor', editData.Nome);
+            formData.append('descricaoSetor', editData.Descricao);
 
-            response = await fetch(`http://127.0.0.1:8000/setores/${setor.idSetor}/`, {
+            response = await fetch(`http://127.0.0.1:8000/setores/${setor.codigoSetor}/`, {
                 method: 'PATCH',
                 headers: {
                     'Authorization': `Token ${token}`,
@@ -80,7 +81,7 @@ const ModalSetoresComponent = ({ onClose, setor, onShowModal }) => {
         const token = localStorage.getItem('token');
 
         try {
-            const response = await fetch(`http://127.0.0.1:8000/setores/${setor.idSetor}/`, {
+            const response = await fetch(`http://127.0.0.1:8000/setores/${setor.codigoSetor}/`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Token ${token}`,
