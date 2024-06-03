@@ -1,0 +1,81 @@
+import React from 'react';
+import Chart from 'react-apexcharts';
+import styles from './grafico_ferramentas.module.css';
+
+class GraficoFerramentas extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            series: [10,10,1,1],
+            options: {
+                fill: {
+                    colors: ['#0BDD17', '#DD0B0B', '#ff6c00','#72bad8']
+                },
+                chart: {
+                    type: 'donut',
+                    height: '100%',
+                    width: '100%'
+                },
+                stroke: {
+                    show: false, // Desativa as bordas brancas
+                    width: 0
+                },
+                legend: {
+                    show: false
+                },
+                plotOptions: {
+                    pie: {
+                        expandOnClick: false,
+                        customScale: 1,
+                        donut: {
+                            size: '60%'
+                        },
+                    }
+                },
+                dataLabels: {
+                    enabled: false // Desativa a legenda dentro das fatias
+                },
+                states: {
+                    hover: {
+                        filter: {
+                            type: 'none',
+                        }
+                    },
+                    active: {
+                        filter: {
+                            type: 'none',
+                        }
+                    }
+                },
+                tooltip: {
+                    enabled: false // Desativa o tooltip
+                },
+                responsive: [{
+                    breakpoint: 480,
+                    options: {
+                        chart: {
+                            width: 200
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }]
+            },
+        };
+    }
+
+    render() {
+        return (
+            <div className={styles.chartContainer}>
+                <div id={styles.chart}>
+                    <Chart options={this.state.options} series={this.state.series} type="donut" height="100%" width="100%" />
+                </div>
+                <div id="html-dist"></div>
+            </div>
+        );
+    }
+}
+
+export default GraficoFerramentas;

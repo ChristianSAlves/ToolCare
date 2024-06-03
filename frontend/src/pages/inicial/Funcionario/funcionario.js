@@ -35,10 +35,13 @@ const Funcionario = () => {
                 filteredFuncionarios = dataFuncionarios.filter(funcionario => funcionario.nome.toLowerCase().includes(newSearch.toLowerCase()));
             } else if (newSelectedOption === 'matriculaFuncionario') {
                 filteredFuncionarios = dataFuncionarios.filter(funcionario => funcionario.matriculaFuncionario.toLowerCase().includes(newSearch.toLowerCase()));
+            } else if (newSelectedOption === 'cpf') {
+                filteredFuncionarios = dataFuncionarios.filter(funcionario => funcionario.cpf.toLowerCase().includes(newSearch.toLowerCase()));
             } else if (newSearch) {
                 filteredFuncionarios = dataFuncionarios.filter(funcionario =>
                     funcionario.matriculaFuncionario.toLowerCase().includes(newSearch.toLowerCase()) ||
-                    funcionario.nome.toLowerCase().includes(newSearch.toLowerCase())
+                    funcionario.nome.toLowerCase().includes(newSearch.toLowerCase()) ||
+                    funcionario.cpf.toLowerCase().includes(newSearch.toLowerCase())
                 );
             }
 
@@ -96,7 +99,7 @@ const Funcionario = () => {
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                 />
-                <p
+                {/*<p
                     id={styles.filtro}
                     onClick={() => setShowOptions(!showOptions)}
                     className="conteudo_searchbar"
@@ -127,8 +130,20 @@ const Funcionario = () => {
                                 onChange={(e) => setSelectedOption(e.target.value)}
                             />
                         </div>
+                        <div className={styles.option_row}>
+                            <label htmlFor="radio_cpf" className={styles.label_searchbar}>CPF</label>
+                            <input
+                                id="radio_cpf"
+                                className={styles.radio}
+                                type="radio"
+                                name="option"
+                                value="cpf"
+                                checked={selectedOption === 'cpf'}
+                                onChange={(e) => setSelectedOption(e.target.value)}
+                            />
+                        </div>
                     </div>
-                )}
+                )} */}
             </div>
             <div className={styles.div_pai}>
                 <div className={styles.card_container}>

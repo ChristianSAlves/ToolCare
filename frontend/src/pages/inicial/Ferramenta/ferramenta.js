@@ -30,8 +30,10 @@ const Ferramenta = () => {
             let filteredFerramentas = dataFerramentas.filter(ferramenta => 
                 (newSelectedOption === 'num_serie' && ferramenta.numSerie.toLowerCase().includes(newSearch.toLowerCase())) ||
                 (newSelectedOption === 'nome' && ferramenta.nome.toLowerCase().includes(newSearch.toLowerCase())) ||
+                (newSelectedOption === 'status' && ferramenta.status.toLowerCase().includes(newSearch.toLowerCase())) ||
                 (!newSelectedOption && (ferramenta.numSerie.toLowerCase().includes(newSearch.toLowerCase()) ||
-                ferramenta.nome.toLowerCase().includes(newSearch.toLowerCase())))
+                ferramenta.nome.toLowerCase().includes(newSearch.toLowerCase()) ||
+                ferramenta.status.toLowerCase().includes(newSearch.toLowerCase())))
             );
     
             setFerramentas(filteredFerramentas);
@@ -88,7 +90,7 @@ const Ferramenta = () => {
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                 />
-                <p
+                {/*<p
                     id={styles.filtro}
                     onClick={() => setShowOptions(!showOptions)}
                     className="conteudo_searchbar"
@@ -119,8 +121,20 @@ const Ferramenta = () => {
                                 onChange={(e) => setSelectedOption(e.target.value)}
                             />
                         </div>
+                        <div className={styles.option_row}>
+                            <label htmlFor="radio_status" className={styles.label_searchbar}>Status</label>
+                            <input
+                                id="radio_status"
+                                className={styles.radio}
+                                type="radio"
+                                name="option"
+                                value="status"
+                                checked={selectedOption === 'status'}
+                                onChange={(e) => setSelectedOption(e.target.value)}
+                            />
+                        </div>
                     </div>
-                )}
+                )} */}
             </div>
             <div className={styles.div_pai}>
                 <div className={styles.card_container}>

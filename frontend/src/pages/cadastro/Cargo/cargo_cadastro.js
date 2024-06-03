@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom'
 import React from 'react'
 import styles from './cargo_cadastro.module.css'
 import MenuComponent from '../../../components/Menu/Menu';
+import CadastradoComponent from '../../../components/Avisos/Cadastrado/cadastrado';
+import FalhaCadastroComponent from '../../../components/Avisos/FalhaCadastro/falha_cadastro';
 
 export default class Cargo extends React.Component{
 
@@ -10,10 +12,10 @@ export default class Cargo extends React.Component{
     
         const config = {
             headers:{
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': 'Token ' + localStorage.getItem('token')
             }
-        }
-        config.headers['Authorization'] = 'Token ' + localStorage.getItem('token');
+        };
 
         const response = await fetch(url, config);
         const data = await response.json();
@@ -24,7 +26,9 @@ export default class Cargo extends React.Component{
         super(props);
         this.state = {
             nomeCargo: '', 
-            descricaoCargo: ''
+            descricaoCargo: '',
+            showSuccess: false,
+            showError: false
         };
     
         this.handleChangeNome = this.handleChangeNome.bind(this);
@@ -54,7 +58,7 @@ export default class Cargo extends React.Component{
       }
     
     
-      handleSubmit = (event) => {
+    handleSubmit = async (event) => {
         event.preventDefault();
         const token = localStorage.getItem('token');
         const data = {
@@ -64,19 +68,37 @@ export default class Cargo extends React.Component{
     
         const config = {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': 'Token ' + token
             }
         };
-        config.headers['Authorization'] = 'Token ' + token;
     
-        fetch('http://127.0.0.1:8000/cargos/', {
-            method: 'POST',
-            headers: config.headers,
-            body: JSON.stringify(data),
-        })
-        .then(response => response.json())
-        .then(data => console.log('Success:', data))
-        .catch((error) => console.error('Error:', error));
+        try {
+            const response = await fetch('http://127.0.0.1:8000/cargos/', {
+                method: 'POST',
+                headers: config.headers,
+                body: JSON.stringify(data),
+            });
+    
+            if (!response.ok) {
+                throw new Error('Erro ao cadastrar cargo');
+            }
+    
+            const responseData = await response.json();
+            console.log('Success:', responseData);
+            this.setState({ showSuccess: true, showError: false });
+            setTimeout(() => this.setState({ showSuccess: false }), 3000); // Ocultar após 3 segundos
+    
+            // Limpar os inputs após o cadastro bem-sucedido
+            this.setState({
+                nomeCargo: '',
+                descricaoCargo: '',
+            });
+        } catch (error) {
+            console.error('Error:', error);
+            this.setState({ showError: true, showSuccess: false });
+            setTimeout(() => this.setState({ showError: false }), 3000); // Ocultar após 3 segundos
+        }
     }
     
     
@@ -90,7 +112,10 @@ export default class Cargo extends React.Component{
                 <input type="text" id={styles.nomeCargo} name="nomeCargo" required placeholder="Nome" value={this.state.nomeCargo} onChange={this.handleChangeNome}></input>
                 <input type="text" id={styles.descricaoCargo} name="descricaoCargo" placeholder="Descrição" value={this.state.descricaoCargo} onChange={this.handleChangeDescricao}></input>
                 <button id={styles.enviar} type="submit">ENVIAR</button>
-              </form></div>
+              </form>
+              {this.state.showSuccess && <CadastradoComponent />}
+              {this.state.showError && <FalhaCadastroComponent />}
+              </div>
             </div>
           );
         }

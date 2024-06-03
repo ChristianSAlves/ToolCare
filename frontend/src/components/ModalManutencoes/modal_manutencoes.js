@@ -1,13 +1,12 @@
 import React, { useState } from "react";
-import styles from "./modal_ferramentas.module.css";
-import logo from "../../assets/imagens/logo.png";
+import styles from "./modal_manutencoes.module.css";
 import EditadoComponent from "../Avisos/Editado/editado";
 import RemovidoComponent from "../Avisos/Removido/removido";
 import ConfirmarRemocaoComponent from "../Avisos/ConfirmarRemoção/confirmar_remocao";
 import FalhaEdicaoComponent from "../Avisos/FalhaEdição/falha_edicao";
 import FalhaRemocaoComponent from "../Avisos/FalhaRemoção/falha_remocao";
 
-const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal }) => {
+const ModalManutencaoComponent = ({ onClose, manutencao, onShowModal }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [showEditado, setShowEditado] = useState(false);
     const [showRemovido, setShowRemovido] = useState(false);
@@ -15,12 +14,10 @@ const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal }) => {
     const [showFalhaEdicao, setShowFalhaEdicao] = useState(false);
     const [showFalhaRemocao, setShowFalhaRemocao] = useState(false);
     const [editData, setEditData] = useState({
-        Nome: ferramenta.nome,
-        NúmeroDeSerie: ferramenta.numSerie,
-        Descricao: ferramenta.descricao,
-        DataAquisicao: ferramenta.dataAquisicao,
-        Status: ferramenta.status,
+        Nome: manutencao.nomeFerramenta,
+        Descricao: manutencao.descricao,
     });
+
     const time = 3000;
     const timeRemovido = 3000;
 
@@ -34,13 +31,9 @@ const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal }) => {
 
         try {
             const formData = new FormData();
-            formData.append('nome', editData.Nome);
-            formData.append('numSerie', editData.NúmeroDeSerie);
             formData.append('descricao', editData.Descricao);
-            formData.append('dataAquisicao', editData.DataAquisicao);
-            formData.append('status', editData.Status);
 
-            response = await fetch(`http://127.0.0.1:8000/ferramentas/${ferramenta.codFerramenta}/`, {
+            response = await fetch(`http://127.0.0.1:8000/manutencoes/${manutencao.idManutencao}/`, {
                 method: 'PATCH',
                 headers: {
                     'Authorization': `Token ${token}`,
@@ -57,14 +50,14 @@ const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal }) => {
                 }, time);
             } else {
                 const errorData = await response.json();
-                console.error('Erro ao atualizar a ferramenta:', errorData);
+                console.error('Erro ao atualizar a manutenção:', errorData);
                 setShowFalhaEdicao(true);
                 setTimeout(() => {
                     setShowFalhaEdicao(false);
                 }, time);
             }
         } catch (error) {
-            console.error('Erro ao atualizar a ferramenta:', error);
+            console.error('Erro ao atualizar a manutenção:', error);
             setShowFalhaEdicao(true);
             setTimeout(() => {
                 setShowFalhaEdicao(false);
@@ -87,7 +80,7 @@ const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal }) => {
         const token = localStorage.getItem('token');
 
         try {
-            const response = await fetch(`http://127.0.0.1:8000/ferramentas/${ferramenta.codFerramenta}/`, {
+            const response = await fetch(`http://127.0.0.1:8000/manutencoes/${manutencao.idManutencao}/`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Token ${token}`,
@@ -102,14 +95,14 @@ const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal }) => {
                     if (onShowModal) onShowModal(false); // Atualiza o estado do modal no componente pai, se necessário
                 }, timeRemovido);
             } else {
-                console.error('Falha ao remover a ferramenta. Por favor, tente novamente.');
+                console.error('Falha ao remover a manutenção. Por favor, tente novamente.');
                 setShowFalhaRemocao(true);
                 setTimeout(() => {
                     setShowFalhaRemocao(false);
                 }, time);
             }
         } catch (error) {
-            console.error('Erro ao remover a ferramenta:', error);
+            console.error('Erro ao remover a manutenção:', error);
             setShowFalhaRemocao(true);
             setTimeout(() => {
                 setShowFalhaRemocao(false);
@@ -130,31 +123,19 @@ const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal }) => {
             {showFalhaRemocao && <FalhaRemocaoComponent />}
             <div className={styles.tela_cheia} onClick={onClose}>
                 <div className={styles.modal} onClick={e => e.stopPropagation()}>
-                    <div id={styles.fundo_img}>
-                        <img src={ferramenta.imgFerramenta || logo} className={styles.modal_image} alt="Imagem de ferramenta" />
-                    </div>
                     <div className={styles.modal_content}>
-                        {Object.entries(editData).map(([key, value]) => (
-                            <div className={styles.info_row} key={key}>
-                                <span className={styles.label}>{key.replace(/([A-Z])/g, ' $1').trim()}</span>
-                                {isEditing && key !== "NúmeroDeSerie" ? (
-                                    key === "DataAquisicao" ? (
-                                        <input type="date" value={value} id={styles.datepicker_aquisicao} onChange={e => handleChange(e, key)} />
-                                    ) : key === "Status" ? (
-                                        <select value={value} id={styles.select_status} onChange={e => handleChange(e, key)}>
-                                            <option value="Emprestada">Emprestada</option>
-                                            <option value="Disponível">Disponível</option>
-                                            <option value="Perdida">Perdida</option>
-                                            <option value="Manutenção">Manutenção</option>
-                                        </select>
-                                    ) : (
-                                        <input type="text" id={styles.input_text} value={value} onChange={e => handleChange(e, key)} />
-                                    )
-                                ) : (
-                                    <p>{value}</p>
-                                )}
-                            </div>
-                        ))}
+                        <div className={styles.info_row}>
+                            <span className={styles.label}>Nome</span>
+                            <p>{editData.Nome}</p>
+                        </div>
+                        <div className={styles.info_row}>
+                            <span className={styles.label}>Descrição</span>
+                            {isEditing ? (
+                                <input type="text" id={styles.input_text} value={editData.Descricao} onChange={e => handleChange(e, 'Descricao')} />
+                            ) : (
+                                <p>{editData.Descricao}</p>
+                            )}
+                        </div>
                         <p id={styles.fechar} onClick={onClose}>x</p>
                         <div className={styles.modal_buttons}>
                             {isEditing ? (
@@ -165,7 +146,7 @@ const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal }) => {
                                 <>
                                     <button className={styles.edit_button} onClick={handleEdit}>EDITAR</button>
                                     <button className={styles.remove_button} onClick={handleRemove}>REMOVER</button>
-                                </> 
+                                </>
                             )}
                         </div>
                     </div>
@@ -177,4 +158,4 @@ const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal }) => {
     );
 };
 
-export default ModalFerramentasComponent;
+export default ModalManutencaoComponent;
