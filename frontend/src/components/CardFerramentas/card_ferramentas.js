@@ -1,8 +1,7 @@
 import React from "react";
 import styles from "./card_ferramentas.module.css";
-import defaultFerramenta from '../../../src/assets/imagens/defaultFerramenta2.jpg';
 
-const CardTeste = ({ ferramenta }) => {
+const CardFerramentasComponent = ({ ferramenta, defaultFerramenta, onShowModal }) => {
     return (
         <div id={styles.card}>
             {ferramenta && ferramenta.imgFerramenta ? (
@@ -20,11 +19,10 @@ const CardTeste = ({ ferramenta }) => {
                         </div>
                     </li>
                 </ul>
-                <button id={styles.button_card}>VER MAIS</button>
+                <button id={styles.button_card} onClick={() => onShowModal(ferramenta)}>VER MAIS</button>
             </div>
         </div>
     );
 };
 
-export default CardTeste;
-
+export default CardFerramentasComponent;

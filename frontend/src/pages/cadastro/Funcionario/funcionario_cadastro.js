@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styles from './funcionario_cadastro.module.css';
 import MenuComponent from '../../../components/Menu/Menu';
+import FalhaCadastroComponent from '../../../components/Avisos/FalhaCadastro/falha_cadastro';
+import CadastradoComponent from '../../../components/Avisos/Cadastrado/cadastrado';
 
 const Funcionario = () => {
     const [nome, setNome] = useState('');
@@ -11,6 +13,8 @@ const Funcionario = () => {
     const [imgFunc, setImgFunc] = useState();
     const [cargos, setCargos] = useState([]);
     const [setores, setSetores] = useState([]);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [showError, setShowError] = useState(false);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -44,10 +48,21 @@ const Funcionario = () => {
 
             const data = await response.json();
             console.log('Success:', data);
-            setImgFunc('');
+            setShowSuccess(true);
+            setTimeout(() => setShowSuccess(false), 3000); // Ocultar após 3 segundos
+
+            // Limpar os inputs após o cadastro bem-sucedido
+            setNome('');
+            setMatriculaFuncionario('');
+            setCpf('');
+            setCodigoSetor(0);
+            setCodigoCargo(0);
+            setImgFunc(undefined);
         } catch (error) {
             console.error('Error:', error);
             console.log('Detalhes do erro:', error.message);
+            setShowError(true);
+            setTimeout(() => setShowError(false), 3000); // Ocultar após 3 segundos
         }
     };
 
@@ -88,7 +103,6 @@ const Funcionario = () => {
     return (
         <div className={styles.container}>
             <MenuComponent id={styles.menu}></MenuComponent>
-
             <div className={styles.tela}>
                 <form onSubmit={handleSubmit} action="#" method="post" autoComplete="off" className={styles.cadastro_funcionario_form}>
                     <p id={styles.cadastro}>Cadastro de Funcionário</p>
@@ -119,6 +133,8 @@ const Funcionario = () => {
                     </div>
                     <button className={styles.button} type="submit">ENVIAR</button>
                 </form>
+                {showSuccess && <CadastradoComponent />}
+                {showError && <FalhaCadastroComponent />}
             </div>
         </div>
     );

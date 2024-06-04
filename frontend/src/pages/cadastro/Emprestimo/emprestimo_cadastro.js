@@ -1,6 +1,7 @@
 import styles from './emprestimo_cadastro.module.css'
 import { Link } from 'react-router-dom'
 import React, { useState, useEffect } from 'react'
+import MenuComponent from '../../../components/Menu/Menu'
 
 const Emprestimo = () => {
 
@@ -53,7 +54,7 @@ const Emprestimo = () => {
     
         const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage
         const linkFerramenta = `http://127.0.0.1:8000/ferramentas/${codFerramenta}/`;
-        const linkFuncionario = `http://127.0.0.1:8000/ferramentas/${idFuncionario}/`;
+        const linkFuncionario = `http://127.0.0.1:8000/funcionarios/${idFuncionario}/`;
     
         const formData = new FormData();
         formData.append('matriculaFuncionario', linkFuncionario);
@@ -88,33 +89,33 @@ const Emprestimo = () => {
 
     return (
         <div className={styles.container}>
-
-            <div id="tela">
-                <form onSubmit={handleSubmit} action="#" method="post" autoComplete="off" id="cadastro_emprestimo_form">
-                        <p id="cadastro">Cadastro de Empréstimo</p>
-                        <div className='spacer'>
-                        <label>Ferramentas</label>
-                        <select name="codFerramenta" id="ferramenta_select" value={codFerramenta} onChange={evt => setCodFerramenta(evt.target.value)}>
+            <MenuComponent id={styles.menu}></MenuComponent>
+            <div className={styles.tela}>
+                <form onSubmit={handleSubmit} action="#" method="post" autoComplete="off" id={styles.cadastro_emprestimo_form}>
+                        <p id={styles.cadastro}>Cadastro de Empréstimo</p>
+                        <div className={styles.spacer}>
+                        <label id={styles.ferramenta_label}>Ferramentas</label>
+                        <select name="codFerramenta" id={styles.ferramenta_select} value={codFerramenta} onChange={evt => setCodFerramenta(evt.target.value)}>
                             <option value={0}>Selecione</option>
                             {ferramentas.map(ferramenta => (
                                 <option key={ferramenta.codFerramenta} value={ferramenta.codFerramenta}>{ferramenta.numSerie}</option>
                             ))}
                         </select></div>
-                        <div className="spacer">
-                            <label id='funcionario_label'>Funcionário</label>
-                            <select name="funcionario" id="funcionario_select" required value={idFuncionario} onChange={evt => setIdFuncionario(evt.target.value)}> 
+                        <div className={styles.spacer}>
+                            <label id={styles.funcionario_label}>Funcionário</label>
+                            <select name="funcionario" id={styles.funcionario_select} required value={idFuncionario} onChange={evt => setIdFuncionario(evt.target.value)}> 
                             <option value={0}>Selecione</option>
                             {funcionarios.map(funcionario => (
                                 <option key={funcionario.idFuncionario} value={funcionario.idFuncionario}>{funcionario.nome}</option>
                             ))}
                             </select>
                         </div>
-                        <div className="spacer">
-                        <label id='data_emprestimo_label'>Data do Empréstimo</label>
-                            <input type="date" name='data_emprestimo' id="data_emprestimo_datepicker" required value={dataEmprestimo} onChange={evt => setDataEmprestimo(evt.target.value)}></input>
+                        <div className={styles.spacer}>
+                        <label id={styles.data_emprestimo_label}>Data Empréstimo</label>
+                            <input type="date" name='data_emprestimo' id={styles.data_emprestimo_datepicker} required value={dataEmprestimo} onChange={evt => setDataEmprestimo(evt.target.value)}></input>
                         </div>
-                        <input type="text" id="observacoes" name="observacoes" placeholder="Observações" value={observacoes} onChange={evt => setObservacoes(evt.target.value)}></input>
-                        <button id="enviar" type="submit">ENVIAR</button>
+                        <input type="text" id={styles.observacoes} name="observacoes" placeholder="Observações" value={observacoes} onChange={evt => setObservacoes(evt.target.value)}></input>
+                        <button id={styles.enviar}type="submit">ENVIAR</button>
                 </form>
             </div>
 

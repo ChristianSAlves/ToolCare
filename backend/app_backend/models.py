@@ -44,7 +44,6 @@ class Ferramenta(models.Model):
     descricao = models.TextField(null=True) 
     imgFerramenta = models.ImageField(upload_to='ferramentas/')
     dataAquisicao = models.DateField()
-    dataBaixa = models.DateField(null=True, blank=True)
     status = models.CharField(max_length=30)
 
     objects = FerramentaManager()

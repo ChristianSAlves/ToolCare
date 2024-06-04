@@ -3,7 +3,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from django.http import HttpResponse
 from app_backend.views import FerramentaViewSet, FuncionarioViewSet, SetorViewSet, CargoViewSet, CargoView, SetorView, FuncionarioView, EmprestimoView, EmprestimoViewSet, FerramentaView
-from app_backend.views import UserViewSet, GroupViewSet, ManutencaoView, ManutencaoViewSet 
+from app_backend.views import UserViewSet, GroupViewSet, ManutencaoView, ManutencaoViewSet, update_ferramenta
 from rest_framework.authtoken import views
 from django.conf import settings
 from django.conf.urls.static import static
@@ -42,6 +42,7 @@ urlpatterns = [
     path('emprestimos/', EmprestimoView.as_view, name='emprestimos'),
     path('ferramentas/', FerramentaView.as_view, name='ferramentas'),
     path('manutencoes/', ManutencaoView.as_view, name='manutencoes'),
+    path('update-ferramenta/<int:codFerramenta>/', update_ferramenta, name='update_ferramenta'),
     path('api-docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]

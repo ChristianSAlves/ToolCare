@@ -123,6 +123,30 @@ body::-webkit-scrollbar {
     margin-bottom: 0.5rem; /* Espaço entre as linhas */
 }
 
-.label_searchbar {
-    
+.div_pai {
+    position: fixed;
+    bottom: -1.5rem;
+    right: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 87vw;
+    height: 90vh; 
+    scrollbar-width: none; /* Para navegadores que suportam (e.g., Firefox) */
+    -ms-overflow-style: none; /* Para Internet Explorer 10+ */
+}
+
+/* Para esconder a barra de rolagem em Webkit browsers como Chrome e Safari */
+.div_pai::-webkit-scrollbar {
+    display: none;
+}
+
+
+.card_container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start; 
+    gap: 4rem;
+    padding: 1rem;
+    width: 100%;
+    margin-left: 9rem;
 }
