@@ -54,7 +54,7 @@ const Emprestimo = () => {
     
         const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage
         const linkFerramenta = `http://127.0.0.1:8000/ferramentas/${codFerramenta}/`;
-        const linkFuncionario = `http://127.0.0.1:8000/ferramentas/${idFuncionario}/`;
+        const linkFuncionario = `http://127.0.0.1:8000/funcionarios/${idFuncionario}/`;
     
         const formData = new FormData();
         formData.append('matriculaFuncionario', linkFuncionario);
