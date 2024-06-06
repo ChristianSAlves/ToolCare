@@ -1,185 +1,216 @@
 #menu {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: #333;
+  color: white;
+  padding: 1rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
 }
 
-/* Container principal */
 #div_ferramenta {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 100vh; /* Altura total da tela */
-    width: 99vw; /* Largura total da tela */
-    position: relative; /* Para posicionar o botão adicionar */
-    padding-left: 25rem; /* Espaço à esquerda para o menu */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  padding-top: 5rem; /* Espaço para o menu fixo */
+  padding-left: 1rem;
+  padding-right: 1rem;
+  overflow-y: auto; /* Permitir rolagem */
 }
 
-/* Estilos para ocultar a barra de rolagem */
 body::-webkit-scrollbar {
-    width: 0; /* Esconde a barra de rolagem */
+  width: 0; /* Esconde a barra de rolagem */
 }
 
-/* Lista de ferramentas */
 #ferramentas_list {
-    list-style-type: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0;
-    margin-top: 8rem; /* Espaço suficiente para a barra de pesquisa */
-    width: 100%; /* Para garantir que a lista ocupe toda a largura disponível */
-    overflow-y: hidden;
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  margin-top: 2rem;
+  width: 100%;
 }
 
-/* Item da lista de ferramentas */
 .ferramenta_item {
-    margin: 1rem 0;
-    text-align: center;
-    font: normal 400 2rem 'Lato';
-    color: white;
+  margin: 1rem 0;
+  text-align: center;
+  font: normal 400 2rem "Lato";
+  color: white;
 }
 
-.ferramenta_nome, .ferramenta_numSerie {
-    margin: 0.5rem 0;
+.ferramenta_nome,
+.ferramenta_numSerie {
+  margin: 0.5rem 0;
 }
 
-/* Barra de pesquisa */
 #searchbar {
-    width: 30vw;
-    height: 2.5rem;
-    display: flex;
-    flex-direction: row;
-    background-color: white;
-    border-radius: 4rem;
-    justify-content: space-around;
-    align-items: center;
-    position: inherit;
-    left: 17.5%;
-    top: 4rem;
-    transform: translateX(-50%); /* Centraliza horizontalmente */
-    min-width: 30vw;
-    padding: 0 1rem; /* Adiciona padding para evitar o corte das bordas */
+  width: 80%;
+  max-width: 30rem;
+  height: 2.5rem;
+  display: flex;
+  background-color: white;
+  border-radius: 2rem;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+  margin: 2rem auto;
 }
 
 #input_searchbar {
-    border: none; /* Remove a borda */
-    flex: 1;
-    height: 2.5rem;
-    outline: none; /* Remove o contorno ao focar */
-    color: #333; /* Cor do texto */
-    font-size: 1.6rem; /* Tamanho da fonte */
-    font-family: 'Lato', sans-serif; /* Família da fonte */
-    text-align: left; /* Alinhamento do texto */
+  border: none;
+  flex: 1;
+  height: 100%;
+  outline: none;
+  color: #333;
+  font-size: 1.6rem;
+  font-family: "Lato", sans-serif;
+  padding-left: 1rem;
 }
 
-/* Botão de adicionar */
 #adicionar {
-    color: white;
-    font-size: 5rem;
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    cursor: pointer;
+  color: white;
+  font-size: 5rem;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  cursor: pointer;
 }
 
-/* Radio buttons */
 .radio {
-    position: relative;
-    width: 2rem;
-    height: 2rem;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background-color: #fff;
-    border: 2px solid #353535;
-    border-radius: 50%;
-    cursor: pointer;
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #fff;
+  border: 2px solid #353535;
+  border-radius: 50%;
+  cursor: pointer;
 }
 
 .radio:checked::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 1rem;
-    height: 1rem;
-    background-color: #353535;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.75rem;
+  height: 0.75rem;
+  background-color: #353535;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .label_searchbar {
-    display: flex;
-    align-items: center;
-    margin-left: 2.5%;
-    margin-bottom: 0;
-    margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  margin-left: 1rem;
 }
 
 #filtro:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 #filtro {
-    font: normal 400 1.6rem 'Lato';
-    margin-right: 1rem;
-    color: #353535;
+  font: normal 400 1.6rem "Lato";
+  color: #353535;
+  margin-left: 1rem;
 }
 
-/* Caixa de opções */
 .options_box {
-    position: absolute;
-    left: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    font: normal 500 1.5rem 'Lato';
-    color: white;
-    background-color: #F46524;
-    width: 15rem; /* Ajuste a largura conforme necessário */
-    height: auto;
-    padding: 1rem;
-    border-radius: 0.5rem;
+  position: absolute;
+  top: 4rem;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font: normal 500 1.5rem "Lato";
+  color: white;
+  background-color: #f46524;
+  width: 100%;
+  max-width: 15rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  z-index: 1001; /* Garantir que esteja sobreposto */
 }
 
-/* Linha de opção */
 .option_row {
-    display: flex;
-    align-items: center;
-    margin-bottom: 0.5rem; /* Espaço entre as linhas */
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
 }
 
-.label_searchbar {
-    margin-right: 1rem; /* Espaço entre o label e o radio */
-}
-
-/* Div pai */
 .div_pai {
-    position: fixed;
-    bottom: -1.5rem;
-    right: 0;
-    overflow-y: auto;
-    overflow-x: hidden;
-    width: 87vw;
-    height: 90vh; 
-    scrollbar-width: none; /* Para navegadores que suportam (e.g., Firefox) */
-    -ms-overflow-style: none; /* Para Internet Explorer 10+ */
+  position: relative;
+  margin-top: 1rem;
+  overflow-y: auto;
+  width: 100%;
+  height: calc(100vh - 7rem); /* Espaço restante abaixo do menu */
+  padding: 1rem;
 }
 
-/* Para esconder a barra de rolagem em Webkit browsers como Chrome e Safari */
 .div_pai::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
-
 
 .card_container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start; 
-    gap: 4rem;
-    padding: 1rem;
-    width: 100%;
-    margin-left: 9rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  width: 100%;
+  padding: 1rem;
 }
 
+@media (min-width: 768px) {
+  .card_container {
+    justify-content: flex-start;
+  }
+}
+
+/* Media Queries para diferentes tamanhos de tela */
+@media (max-width: 768px) {
+  #searchbar {
+    width: 90%;
+    padding: 0 0.5rem;
+  }
+
+  .radio {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  #filtro {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  #searchbar {
+    width: 95%;
+    padding: 0 0.25rem;
+  }
+
+  .radio {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  #filtro {
+    font-size: 1.2rem;
+  }
+
+  .option_row {
+    margin-bottom: 0.25rem;
+  }
+
+  .label_searchbar {
+    margin-left: 0.5rem;
+  }
+}
