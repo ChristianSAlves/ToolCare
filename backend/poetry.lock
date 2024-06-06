@@ -63,6 +63,20 @@ files = [
 Django = ">=2.2"
 
 [[package]]
+name = "django-cron"
+version = "0.6.0"
+description = "Running python crons in a Django project"
+optional = false
+python-versions = "*"
+files = [
+    {file = "django-cron-0.6.0.tar.gz", hash = "sha256:dc3c0d3433a2e4e7012f77f6d8415ad90367ba068649db2674325bc36f935841"},
+    {file = "django_cron-0.6.0-py3-none-any.whl", hash = "sha256:016203554748512b7f19d7363b4fde8741c6ff63fe8a15051f3031f4a0506a41"},
+]
+
+[package.dependencies]
+Django = ">=3.2"
+
+[[package]]
 name = "django-filter"
 version = "24.2"
 description = "Django-filter is a reusable Django application for allowing users to filter querysets dynamically."
@@ -348,4 +362,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "8636b46b94e045869e4c3bc6bbd13c397b04592825087bee91a812e04ebcd7d4"
+content-hash = "69fcfab5c7f3d7cf4910c7f1f73926464c522bbd326127a23e882f786c3a6f2e"

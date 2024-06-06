@@ -17,6 +17,7 @@ django-cors-headers = "4.3.1"
 # django-cpf = "0.1.0"
 django-cpf-cnpj="1.0.0"
 drf_yasg = "^1.21.7"
+django-cron = "^0.6.0"
 
 
 [build-system]
