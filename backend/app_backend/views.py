@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework import viewsets, authentication, viewsets
+from rest_framework import viewsets, authentication, status
 from .models import Ferramenta, Cargo, Setor, Funcionario, Emprestimo, ManutencaoFerramenta
 from .serializers import FerramentaSerializer, CargoSerializer, SetorSerializer, FuncionarioSerializer, EmprestimoSerializer, manutencaoSerializer
 from django.contrib.auth.models import Group, User
@@ -34,6 +34,15 @@ class GroupViewSet(viewsets.ModelViewSet):
 class FerramentaViewSet(viewsets.ModelViewSet):
     queryset = Ferramenta.objects.all().order_by('codFerramenta')
     serializer_class = FerramentaSerializer
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def perform_destroy(self, instance):
+        instance.delete()
+
     permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [authentication.TokenAuthentication, authentication.SessionAuthentication]
 
