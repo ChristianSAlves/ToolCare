@@ -10,15 +10,13 @@ class Ferramenta(models.Model):
     codFerramenta = models.AutoField(primary_key=True)
     nome = models.CharField(max_length=255)
     numSerie = models.CharField(max_length=20, unique=True)
-    descricao = models.TextField(null=True) 
+    descricao = models.TextField(null=True)
     imgFerramenta = models.ImageField(upload_to='ferramentas/')
     dataAquisicao = models.DateField()
     status = models.CharField(max_length=30)
 
-
     def __str__(self):
         return self.nome
-
 
 class Setor(models.Model):
     codigoSetor = models.AutoField(primary_key=True)
@@ -28,7 +26,6 @@ class Setor(models.Model):
     def __str__(self):
         return self.nomeSetor
 
-
 class Cargo(models.Model):
     codigoCargo = models.AutoField(primary_key=True)
     nomeCargo = models.CharField(max_length=255)
@@ -37,12 +34,11 @@ class Cargo(models.Model):
     def __str__(self):
         return self.nomeCargo
 
-
 class Emprestimo(models.Model):
     codigoEmprestimo = models.AutoField(primary_key=True)
     matriculaFuncionario = models.CharField(max_length=50)
     numSerie = models.ForeignKey(
-        Ferramenta, on_delete=models.SET_NULL, null=True,
+        Ferramenta, on_delete=models.CASCADE, null=True
     )
     dataEmprestimo = models.DateField(default=datetime.date.today)
     dataDevolucao = models.DateField(null=True)
@@ -50,7 +46,6 @@ class Emprestimo(models.Model):
 
     def __str__(self):
         return f"{self.codigoEmprestimo}"
-
 
 class Funcionario(models.Model):
     idFuncionario = models.AutoField(primary_key=True)
@@ -74,11 +69,11 @@ class Funcionario(models.Model):
 class ManutencaoFerramenta(models.Model):
     codigoManutencao = models.AutoField(primary_key=True)
     codFerramenta = models.ForeignKey(
-        Ferramenta, on_delete=models.SET_NULL, null=True
+        Ferramenta, on_delete=models.CASCADE, null=True
     )
     tipoManutencao = models.CharField(max_length=15)
     dataInicio = models.DateField(default=datetime.date.today)
     dataFinal = models.DateField(null=True)
 
     def __str__(self):
-        return self.codigoManutencao
+        return f"{self.codigoManutencao}"

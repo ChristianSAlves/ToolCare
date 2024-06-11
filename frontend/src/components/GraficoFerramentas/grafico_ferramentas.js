@@ -7,7 +7,7 @@ class GraficoFerramentas extends React.Component {
         super(props);
 
         this.state = {
-            series: [10,10,1,1],
+            series: props.series || [10, 10, 1, 1],
             options: {
                 fill: {
                     colors: ['#0BDD17', '#DD0B0B', '#ff6c00','#72bad8']
@@ -64,6 +64,13 @@ class GraficoFerramentas extends React.Component {
                 }]
             },
         };
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.series && nextProps.series.join('') !== prevState.series.join('')) {
+            return { series: nextProps.series };
+        }
+        return null;
     }
 
     render() {
