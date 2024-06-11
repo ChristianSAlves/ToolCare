@@ -21,8 +21,8 @@ Este projeto é uma aplicação web desenvolvida com Django, React e Django Rest
 - Clone este repositório.
 - Navegue até o diretório do projeto backend.
 - Certifique-se de ter o poetry instalado.
-- Dentro do diretório backend: 'poetry shell'.
-- Logo após utilize o comando: 'poetry install' para instalar as dependecias.
+- Dentro do diretório backend: `poetry shell`.
+- Logo após utilize o comando: `poetry install` para instalar as dependecias.
 - Configure o banco de dados conforme necessário no arquivo `settings.py`.
 - Execute as migrações do Django: `python manage.py migrate`.
 - Inicie o servidor Django: `python manage.py runserver`.
