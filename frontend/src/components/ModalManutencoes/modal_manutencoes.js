@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./modal_manutencoes.module.css";
 import EditadoComponent from "../Avisos/Editado/editado";
 import RemovidoComponent from "../Avisos/Removido/removido";
 import ConfirmarRemocaoComponent from "../Avisos/ConfirmarRemoção/confirmar_remocao";
 import FalhaEdicaoComponent from "../Avisos/FalhaEdição/falha_edicao";
 import FalhaRemocaoComponent from "../Avisos/FalhaRemoção/falha_remocao";
+
+const extractIdFromUrl = (url) => {
+    if (!url) return '';
+    const parts = url.split('/');
+    return parts[parts.length - 2];
+};
 
 const ModalManutencaoComponent = ({ onClose, manutencao, onShowModal }) => {
     const [isEditing, setIsEditing] = useState(false);
@@ -13,13 +19,46 @@ const ModalManutencaoComponent = ({ onClose, manutencao, onShowModal }) => {
     const [showConfirmacao, setShowConfirmacao] = useState(false);
     const [showFalhaEdicao, setShowFalhaEdicao] = useState(false);
     const [showFalhaRemocao, setShowFalhaRemocao] = useState(false);
+    const [codigoFerramenta, setCodigoFerramenta] = useState('');
+    const [ferramentas, setFerramentas] = useState([]);
     const [editData, setEditData] = useState({
-        Nome: manutencao.nomeFerramenta,
-        Descricao: manutencao.descricao,
+        TipoDeManutencao: manutencao.tipoManutencao || '',
+        DataInicio: manutencao.dataInicio || '',
     });
 
-    const time = 3000;
-    const timeRemovido = 3000;
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+
+        const fetchData = async () => {
+            try {
+                const responseFerramentas = await fetch('http://127.0.0.1:8000/ferramentas/', {
+                    headers: {
+                        'Authorization': `Token ${token}`,
+                    },
+                });
+                if (!responseFerramentas.ok) {
+                    throw new Error('Erro ao carregar as ferramentas');
+                }
+                const dataFerramentas = await responseFerramentas.json();
+                setFerramentas(dataFerramentas);
+            } catch (error) {
+                console.error('Erro:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        if (manutencao && manutencao.codFerramenta) {
+            setCodigoFerramenta(extractIdFromUrl(manutencao.codFerramenta));
+        }
+    }, [manutencao]);
+
+    const handleChange = (event, field) => {
+        const value = event.target.value;
+        setEditData(prev => ({ ...prev, [field]: value }));
+    };
 
     const handleEdit = () => {
         setIsEditing(true);
@@ -27,13 +66,15 @@ const ModalManutencaoComponent = ({ onClose, manutencao, onShowModal }) => {
 
     const handleConfirmEdit = async () => {
         const token = localStorage.getItem('token');
-        let response;
-
         try {
-            const formData = new FormData();
-            formData.append('descricao', editData.Descricao);
+            const url = `http://127.0.0.1:8000/manutencoes/${manutencao.codigoManutencao}/`;
+            const linkFerramenta = `http://127.0.0.1:8000/ferramentas/${codigoFerramenta}/`;
 
-            response = await fetch(`http://127.0.0.1:8000/manutencoes/${manutencao.idManutencao}/`, {
+            const formData = new FormData();
+            formData.append('tipoManutencao', editData.TipoDeManutencao);
+            formData.append('codigoFerramenta', linkFerramenta);
+
+            const response = await fetch(url, {
                 method: 'PATCH',
                 headers: {
                     'Authorization': `Token ${token}`,
@@ -45,31 +86,26 @@ const ModalManutencaoComponent = ({ onClose, manutencao, onShowModal }) => {
                 setShowEditado(true);
                 setTimeout(() => {
                     setShowEditado(false);
-                    onClose(); // Fechar o modal após a atualização
-                    if (onShowModal) onShowModal(false); // Atualiza o estado do modal no componente pai, se necessário
-                }, time);
+                    onClose();
+                    if (onShowModal) onShowModal(false);
+                }, 3000);
             } else {
                 const errorData = await response.json();
                 console.error('Erro ao atualizar a manutenção:', errorData);
                 setShowFalhaEdicao(true);
                 setTimeout(() => {
                     setShowFalhaEdicao(false);
-                }, time);
+                }, 3000);
             }
         } catch (error) {
             console.error('Erro ao atualizar a manutenção:', error);
             setShowFalhaEdicao(true);
             setTimeout(() => {
                 setShowFalhaEdicao(false);
-            }, time);
+            }, 3000);
         }
 
-        setIsEditing(false); // Sair do modo de edição após confirmar
-    };
-
-    const handleChange = (event, field) => {
-        const value = event.target.value;
-        setEditData(prev => ({ ...prev, [field]: value }));
+        setIsEditing(false);
     };
 
     const handleRemove = () => {
@@ -80,7 +116,7 @@ const ModalManutencaoComponent = ({ onClose, manutencao, onShowModal }) => {
         const token = localStorage.getItem('token');
 
         try {
-            const response = await fetch(`http://127.0.0.1:8000/manutencoes/${manutencao.idManutencao}/`, {
+            const response = await fetch(`http://127.0.0.1:8000/manutencoes/${manutencao.codigoManutencao}/`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Token ${token}`,
@@ -91,22 +127,22 @@ const ModalManutencaoComponent = ({ onClose, manutencao, onShowModal }) => {
                 setShowRemovido(true);
                 setTimeout(() => {
                     setShowRemovido(false);
-                    onClose(); // Fechar o modal após a remoção
-                    if (onShowModal) onShowModal(false); // Atualiza o estado do modal no componente pai, se necessário
-                }, timeRemovido);
+                    onClose();
+                    if (onShowModal) onShowModal(false);
+                }, 3000);
             } else {
                 console.error('Falha ao remover a manutenção. Por favor, tente novamente.');
                 setShowFalhaRemocao(true);
                 setTimeout(() => {
                     setShowFalhaRemocao(false);
-                }, time);
+                }, 3000);
             }
         } catch (error) {
             console.error('Erro ao remover a manutenção:', error);
             setShowFalhaRemocao(true);
             setTimeout(() => {
                 setShowFalhaRemocao(false);
-            }, time);
+            }, 3000);
         }
 
         setShowConfirmacao(false);
@@ -125,23 +161,38 @@ const ModalManutencaoComponent = ({ onClose, manutencao, onShowModal }) => {
                 <div className={styles.modal} onClick={e => e.stopPropagation()}>
                     <div className={styles.modal_content}>
                         <div className={styles.info_row}>
-                            <span className={styles.label}>Nome</span>
-                            <p>{editData.Nome}</p>
+                            <span className={styles.label}>Nome da Ferramenta</span>
+                            <p>{ferramentas.length > 0 ? ferramentas.find(ferramenta => ferramenta.codFerramenta === parseInt(codigoFerramenta))?.nome : 'Carregando...'}</p>
                         </div>
                         <div className={styles.info_row}>
-                            <span className={styles.label}>Descrição</span>
+                            <span className={styles.label}>Tipo de Manutenção</span>
                             {isEditing ? (
-                                <input type="text" id={styles.input_text} value={editData.Descricao} onChange={e => handleChange(e, 'Descricao')} />
+                                <select
+                                    className={styles.select}
+                                    name="tipoManutencao"
+                                    id="tipoManutencao"
+                                    value={editData.TipoDeManutencao}
+                                    onChange={e => handleChange(e, 'TipoDeManutencao')}
+                                >
+                                    <option value="Corretiva">Corretiva</option>
+                                    <option value="Preventiva">Preventiva</option>
+                                </select>
                             ) : (
-                                <p>{editData.Descricao}</p>
+                                <p>{editData.TipoDeManutencao}</p>
                             )}
+                        </div>
+                        <div className={styles.info_row}>
+                            <span className={styles.label}>Data Início</span>
+                            <p>{editData.DataInicio}</p>
+                        </div>
+                        <div className={styles.info_row}>
+                            <span className={styles.label}>Data Fim</span>
+                            <p>{editData.DataFim}</p>
                         </div>
                         <p id={styles.fechar} onClick={onClose}>x</p>
                         <div className={styles.modal_buttons}>
                             {isEditing ? (
-                                <>
-                                    <button className={styles.edit_button} onClick={handleConfirmEdit}>CONFIRMAR</button>
-                                </>
+                                <button className={styles.edit_button} onClick={handleConfirmEdit}>CONFIRMAR</button>
                             ) : (
                                 <>
                                     <button className={styles.edit_button} onClick={handleEdit}>EDITAR</button>

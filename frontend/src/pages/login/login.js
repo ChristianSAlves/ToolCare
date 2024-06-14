@@ -1,5 +1,5 @@
 import styles from './login.module.css'
-import logo from '../../../src/assets/imagens/mario.png'
+import logo from '../../../src/assets/imagens/logo/logo_500.png'
 import React from 'react'
 import { Navigate } from "react-router-dom";
 

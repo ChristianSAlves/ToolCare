@@ -45,9 +45,6 @@ const VisaoGeral = () => {
                 const ferramentasData = responseFerramentas.data;
                 const emprestimosData = responseEmprestimos.data;
 
-                console.log(emprestimosData);
-                console.log(funcionariosData)
-
                 function isValidUrl(string) {
                     try {
                         new URL(string);
@@ -70,11 +67,6 @@ const VisaoGeral = () => {
                         })
                 );
                 
-                
-
-                console.log('Funcionários:', funcionariosData);
-                console.log('Emprestimos:', emprestimosDetalhados);
-
                 const semEmprestimo = funcionariosData.filter(f => !emprestimosDetalhados.some(e => e.matriculaFuncionario === f.matriculaFuncionario)).length;
                 const comEmprestimo = funcionariosData.length - semEmprestimo;
 
@@ -100,6 +92,13 @@ const VisaoGeral = () => {
 
         fetchData();
     }, []);
+
+    const calculatePercentage = (value, total) => {
+        if (total === 0) {
+            return 0;
+        }
+        return ((value / total) * 100).toFixed(0);
+    };
 
     const seriesFerramentas = [
         dadosVisaoGeral.ferramentasDisponiveis,
@@ -131,7 +130,7 @@ const VisaoGeral = () => {
             <div id={styles.info_visao_geral}>
                 <div id={styles.info_funcionarios}>
                     <div className={styles.info_row}>
-                        <p className={styles.porcentagem}>{((dadosVisaoGeral.semEmprestimo / funcionarios) * 100).toFixed(0)}%</p>
+                        <p className={styles.porcentagem}>{calculatePercentage(dadosVisaoGeral.semEmprestimo, funcionarios)}%</p>
                         <p className={styles.texto}>dos funcionários não têm<br />nenhum empréstimo</p>
                     </div>
                     <div className={styles.info_row}>
@@ -139,7 +138,7 @@ const VisaoGeral = () => {
                         <p className={styles.texto}>funcionários não têm<br />nenhum empréstimo</p>
                     </div>
                     <div className={styles.info_row}>
-                        <p className={styles.porcentagem}>{((dadosVisaoGeral.comEmprestimo / funcionarios) * 100).toFixed(0)}%</p>
+                        <p className={styles.porcentagem}>{calculatePercentage(dadosVisaoGeral.comEmprestimo, funcionarios)}%</p>
                         <p className={styles.texto}>dos funcionários têm ao<br />menos um empréstimo</p>
                     </div>
                     <div className={styles.info_row}>
@@ -149,7 +148,7 @@ const VisaoGeral = () => {
                 </div>
                 <div id={styles.info_ferramentas}>
                     <div className={styles.info_row}>
-                        <p className={styles.porcentagem}>{((dadosVisaoGeral.ferramentasDisponiveis / ferramentas) * 100).toFixed(0)}%</p>
+                        <p className={styles.porcentagem}>{calculatePercentage(dadosVisaoGeral.ferramentasDisponiveis, ferramentas)}%</p>
                         <p className={styles.texto}>das ferramentas<br />estão disponíveis</p>
                     </div>
                     <div className={styles.info_row}>
@@ -157,7 +156,7 @@ const VisaoGeral = () => {
                         <p className={styles.texto}>ferramentas<br />estão disponíveis</p>
                     </div>
                     <div className={styles.info_row}>
-                        <p className={styles.porcentagem}>{((dadosVisaoGeral.ferramentasEmprestadas / ferramentas) * 100).toFixed(0)}%</p>
+                        <p className={styles.porcentagem}>{calculatePercentage(dadosVisaoGeral.ferramentasEmprestadas, ferramentas)}%</p>
                         <p className={styles.texto}>das ferramentas<br />estão emprestadas</p>
                     </div>
                     <div className={styles.info_row}>
@@ -165,12 +164,12 @@ const VisaoGeral = () => {
                         <p className={styles.texto}>ferramentas estão<br />emprestadas</p>
                     </div>
                     <div className={styles.info_row}>
-                        <p className={styles.numero}>{dadosVisaoGeral.ferramentasManutencao}</p>
-                        <p className={styles.texto}>ferramentas<br />em manutenção</p>
+                    <p className={styles.porcentagem}>{calculatePercentage(dadosVisaoGeral.ferramentasManutencao, ferramentas)}%</p>
+                        <p className={styles.texto}>das ferramentas<br />estão em manutenção</p>
                     </div>
                     <div className={styles.info_row}>
-                        <p className={styles.porcentagem}>{dadosVisaoGeral.ferramentasPerdidas}</p>
-                        <p className={styles.texto}>ferramentas<br />estão perdidas</p>
+                        <p className={styles.numero}>{dadosVisaoGeral.ferramentasManutencao}</p>
+                        <p className={styles.texto}>ferramentas<br />em manutenção</p>
                     </div>
                 </div>
             </div>
