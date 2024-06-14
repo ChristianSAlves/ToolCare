@@ -5,11 +5,15 @@
   align-items: center;
   height: 100vh;
   width: 100vw;
+<<<<<<< HEAD
   padding: 1rem; /* Adicionado padding para espaços menores */
+=======
+>>>>>>> 6325d605081102e8d8a829b4154515f015e89a65
 }
 
 .chartWrapper {
   display: flex;
+<<<<<<< HEAD
   flex-direction: column; /* Alterado para coluna para melhor responsividade */
   justify-content: center;
   align-items: center;
@@ -17,6 +21,23 @@
   margin-top: 2rem;
   overflow: visible;
   z-index: 1;
+=======
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 2rem;
+  overflow: visible;
+  z-index: 1;
+}
+
+@media (min-width: 768px) {
+  .chartWrapper {
+    flex-direction: row;
+    justify-content: center;
+    gap: 5rem;
+    margin-top: 4rem;
+  }
+>>>>>>> 6325d605081102e8d8a829b4154515f015e89a65
 }
 
 #menu {
@@ -24,10 +45,18 @@
   top: 0;
   left: 0;
   z-index: 1000; /* Valor alto para garantir que o menu esteja sobreposto */
+<<<<<<< HEAD
+=======
+  width: 100%; /* Faz com que o menu ocupe toda a largura da tela */
+  background-color: #333; /* Adicione um fundo para o menu */
+  color: white;
+  padding: 1rem; /* Adicione preenchimento ao menu */
+>>>>>>> 6325d605081102e8d8a829b4154515f015e89a65
 }
 
 #info_visao_geral {
   display: flex;
+<<<<<<< HEAD
   flex-direction: column; /* Alterado para coluna para melhor responsividade */
   gap: 2rem; /* Ajustado gap */
   color: white;
@@ -35,21 +64,48 @@
   z-index: 1;
   width: 100%; /* Ocupa toda a largura disponível */
   max-width: 1200px; /* Máximo de largura */
+=======
+  flex-direction: column;
+  align-items: center;
+  width: 90%;
+  gap: 2rem;
+  color: white;
+  margin-top: 2rem;
+  z-index: 1;
+}
+
+@media (min-width: 768px) {
+  #info_visao_geral {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 3rem;
+  }
+>>>>>>> 6325d605081102e8d8a829b4154515f015e89a65
 }
 
 #funcionarios,
 #ferramentas {
+<<<<<<< HEAD
+=======
+  position: relative;
+>>>>>>> 6325d605081102e8d8a829b4154515f015e89a65
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   color: white;
+<<<<<<< HEAD
   text-align: center;
   margin-bottom: 1rem; /* Espaçamento entre os gráficos */
+=======
+  z-index: 1;
+  text-align: center;
+>>>>>>> 6325d605081102e8d8a829b4154515f015e89a65
 }
 
 .funcionarios,
 .ferramentas {
+<<<<<<< HEAD
   font: normal 400 2.5rem "Inter";
 }
 
@@ -64,33 +120,101 @@
   height: auto; /* Altura automática para manter a proporção */
 }
 
+=======
+  font: normal 400 2rem "Inter";
+}
+
+.quantidade {
+  font: normal 1000 4rem "Inter";
+}
+
+@media (min-width: 768px) {
+  .quantidade {
+    font-size: 6rem;
+  }
+
+  .funcionarios,
+  .ferramentas {
+    font-size: 2.5rem;
+  }
+}
+
+#chart {
+  width: 20rem;
+  height: 20rem;
+}
+
+@media (min-width: 768px) {
+  #chart {
+    width: 30rem;
+    height: 30rem;
+  }
+}
+
+>>>>>>> 6325d605081102e8d8a829b4154515f015e89a65
 #info_funcionarios,
 #info_ferramentas {
   display: flex;
   flex-direction: column;
+<<<<<<< HEAD
   gap: 1rem;
+=======
+  gap: 2rem;
+>>>>>>> 6325d605081102e8d8a829b4154515f015e89a65
 }
 
 .info_row {
   display: flex;
+<<<<<<< HEAD
   flex-direction: column; /* Alterado para coluna para melhor responsividade */
   align-items: center;
   gap: 0.5rem;
+=======
+  align-items: center;
+  gap: 1rem;
+>>>>>>> 6325d605081102e8d8a829b4154515f015e89a65
 }
 
 .numero,
 .porcentagem {
+<<<<<<< HEAD
   font: normal 700 3rem "Inter";
   color: white;
   text-align: center;
   position: relative;
+=======
+  font: normal 700 2rem "Inter";
+  color: white;
+  width: 7rem; /* Definir uma largura fixa para garantir o alinhamento */
+  text-align: center;
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .numero,
+  .porcentagem {
+    font-size: 4rem;
+    width: 10rem; /* Definir uma largura fixa para garantir o alinhamento */
+  }
+>>>>>>> 6325d605081102e8d8a829b4154515f015e89a65
 }
 
 .texto {
   font: normal 500 1.5rem "Inter";
   color: white;
+<<<<<<< HEAD
   text-align: center;
   max-width: 25rem; /* Definir uma largura fixa para garantir o alinhamento */
+=======
+  width: 20rem; /* Definir uma largura fixa para garantir o alinhamento */
+}
+
+@media (min-width: 768px) {
+  .texto {
+    font-size: 2rem;
+    width: 25rem; /* Definir uma largura fixa para garantir o alinhamento */
+  }
+>>>>>>> 6325d605081102e8d8a829b4154515f015e89a65
 }
 
 /* Pseudoelementos para os retângulos coloridos */
@@ -144,6 +268,7 @@
 
 #info_ferramentas .info_row:nth-child(6) .numero::before {
   background-color: #009bcf; /* Azul */
+<<<<<<< HEAD
 }
 
 /* Media query para telas maiores */
@@ -182,4 +307,6 @@
   .texto {
     width: 25rem; /* Definir uma largura fixa para garantir o alinhamento */
   }
+=======
+>>>>>>> 6325d605081102e8d8a829b4154515f015e89a65
 }
