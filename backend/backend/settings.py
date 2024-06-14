@@ -30,9 +30,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'app_backend',
     'backend',
-    'django_cron',
-    'django_cpf_cnpj',
-    'corsheaders',
+    #'django_cron',
+    #'django_cpf_cnpj',
+    #'corsheaders',
     'rest_framework.authtoken',
 ]
 
