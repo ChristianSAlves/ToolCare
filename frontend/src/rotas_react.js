@@ -17,6 +17,12 @@ import Funcionario from './pages/inicial/Funcionario/funcionario.js'
 import Emprestimo from './pages/inicial/Emprestimo/emprestimo.js'
 import Setor from './pages/inicial/Setor/setor.js'
 import Manutencao from './pages/inicial/Manutencao/manutencao.js'
+import EmprestimoInativo from './pages/inativos/Emprestimo/emprestimo_inativo.js'
+import SetorInativo from './pages/inativos/Setor/setor_inativo.js'
+import CargoInativo from './pages/inativos/Cargo/cargo_inativo.js'
+import ManutencaoInativo from './pages/inativos/Manutencao/manutencao_inativo.js'
+import FuncionarioInativo from './pages/inativos/Funcionario/funcionario_inativo.js'
+import FerramentaInativo from './pages/inativos/Ferramenta/ferramenta_inativo.js'
 import Login from './pages/login/login.js'
 import RequireAuth from './RequireAuth.js'
 
@@ -47,6 +53,12 @@ function Rotas() {
                         <Route path='/manutencao' element={<Manutencao/>}/>
                         <Route path='/setor_cadastro' element={<SetorCadastro/>}/>
                         <Route path='/setor' element={<Setor/>}/>
+                        <Route path='/emprestimo_inativo' element={<EmprestimoInativo/>}/>
+                        <Route path='/ferramenta_inativo' element={<FerramentaInativo/>}/>
+                        <Route path='/funcionario_inativo' element={<FuncionarioInativo/>}/>
+                        <Route path='/cargo_inativo' element={<CargoInativo/>}/>
+                        <Route path='/manutencao_inativo' element={<ManutencaoInativo/>}/>
+                        <Route path='/setor_inativo' element={<SetorInativo/>}/>
                     </Routes>
                 </RequireAuth>
             }/>

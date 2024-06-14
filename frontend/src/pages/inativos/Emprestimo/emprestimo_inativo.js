@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import styles from '../Emprestimo/emprestimo.module.css';
-import MenuComponent from '../../../components/Menu/Menu';
+import styles from '../Emprestimo/emprestimo_inativo.module.css';
+import MenuInativosComponent from '../../../components/MenuInativos/MenuInativos.js';
 import CardEmprestimosComponent from '../../../components/CardEmprestimos/card_emprestimos';
-import ModalEmprestimosComponent from '../../../components/ModalEmprestimos/modal_emprestimos.js';
+import ModalFerramentasComponent from '../../../components/ModalFerramentas/modal_ferramentas';
 import { Link } from 'react-router-dom';
 
 const Emprestimo = () => {
@@ -76,10 +76,7 @@ const Emprestimo = () => {
 
     return (
         <div id={styles.div_emprestimo}>
-            <MenuComponent id="menu" />
-            <Link to={'/emprestimo_cadastro'}>
-                <p id={styles.adicionar}>+</p>
-            </Link>
+            <MenuInativosComponent id="menu" />
             <div id={styles.searchbar}>
                 <input
                     id={styles.input_searchbar}
@@ -146,7 +143,7 @@ const Emprestimo = () => {
                     ))}
                 </div>
             </div>
-            {showModal && <ModalEmprestimosComponent onClose={toggleModal} ferramenta={selectedEmprestimo} />}
+            {showModal && <ModalFerramentasComponent onClose={toggleModal} ferramenta={selectedEmprestimo} />}
         </div>
     );
 }

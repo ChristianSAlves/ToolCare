@@ -1,7 +1,7 @@
 /* Estilos para o container do menu */
 #menu_div {
     width: 25rem; /* Largura fixa para o menu */
-    background-color: #ffffff; /* Cor de fundo do menu */
+    background-color: #353535; /* Cor de fundo do menu */
     height: 100vh; /* Altura total da tela */
     display: flex;
     flex-direction: column;
@@ -33,14 +33,14 @@ a {
 .div_navbar {
     display: flex;
     align-items: center;
-    border-bottom: 0.1rem solid #000000; /* Linha de separação entre os itens */
+    border-bottom: 0.1rem solid #8b8b8b; /* Linha de separação entre os itens */
     cursor: pointer;
-    background-color: white; /* Fundo branco por padrão */
-    color: black; /* Texto preto por padrão */
+    background-color: #353535; /* Fundo branco por padrão */
+    color: white; /* Texto preto por padrão */
 }
 
 .div_navbar:hover {
-    background-color: #fafafa; /* Cor de fundo ao passar o mouse */
+    background-color: #494949; /* Cor de fundo ao passar o mouse */
 }
 
 .selected {
@@ -56,29 +56,29 @@ a {
 
 .texto_menu {
     font: normal 500 1.7rem 'Lato';
-    color: #333; /* Cor do texto */
+    color: #dfdfdf; /* Cor do texto */
 }
 
-#logout_container,#inativos_container {
+#logout_container,#ativos_container {
     padding: 15rem 20rem; /* Espaçamento interno */
     text-align: center;
 }
 
-.div_inativos {
-    border-top: 0.1rem solid #000000; /* Linha de separação entre os itens */
+.div_ativos {
+    border-top: 0.1rem solid #8b8b8b; /* Linha de separação entre os itens */
 }
 
-#logout,#inativos {
+#logout,#ativos {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-#logout:hover,#inativos:hover {
+#logout:hover,#ativos:hover {
     background-color: #e0e0e0; /* Cor de fundo ao passar o mouse */
 }
 
-.quadradinho_logout,.quadradinho_inativos {
+.quadradinho_logout,.quadradinho_ativos {
     width: 6.5rem; /* Tamanho do ícone */
     height: 6.5rem; /* Tamanho do ícone */
     margin-right: 1.5rem; /* Espaço entre o ícone e o texto */

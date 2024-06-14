@@ -1,22 +1,20 @@
 import React, { useState, useEffect } from "react";
-import styles from './Menu.module.css';
+import styles from './MenuInativos.module.css';
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import visaoGeralIcon from '../../assets/icones/visao_geral.png';
-import emprestimosIcon from '../../assets/icones/emprestimos.png';
-import ferramentasIcon from '../../assets/icones/ferramentas.png';
-import funcionariosIcon from '../../assets/icones/funcionarios.png';
-import manutencoesIcon from '../../assets/icones/manutencoes.png';
-import cargosIcon from '../../assets/icones/cargos.png';
-import setoresIcon from '../../assets/icones/setores.png';
-import logoutIcon from '../../assets/icones/logout.png';
-import visaoGeralIconLaranja from '../../assets/icones/visao_geral_laranja.png';
+import emprestimosIcon from '../../assets/icones/emprestimos_preto.png';
+import ferramentasIcon from '../../assets/icones/ferramentas_preto.png';
+import funcionariosIcon from '../../assets/icones/funcionarios_preto.png';
+import manutencoesIcon from '../../assets/icones/manutencoes_preto.png';
+import cargosIcon from '../../assets/icones/cargos_preto.png';
+import setoresIcon from '../../assets/icones/setores_preto.png';
+import logoutIcon from '../../assets/icones/logout_preto.png';
 import emprestimosIconLaranja from '../../assets/icones/emprestimos_laranja.png';
 import ferramentasIconLaranja from '../../assets/icones/ferramentas_laranja.png';
 import funcionariosIconLaranja from '../../assets/icones/funcionarios_laranja.png';
 import manutencoesIconLaranja from '../../assets/icones/manutencoes_laranja.png';
 import cargosIconLaranja from '../../assets/icones/cargos_laranja.png';
 import setoresIconLaranja from '../../assets/icones/setores_laranja.png';
-import inativosIcon from '../../assets/icones/inativos.png'
+import ativosIcon from '../../assets/icones/ativos_preto.png'
 
 export const MenuComponent = () => {
     const location = useLocation();
@@ -53,17 +51,7 @@ export const MenuComponent = () => {
         <div id={styles.menu_div}>
             <nav id={styles.menu_nav}>
                 <ul id={styles.menu_ul}>
-                    <Link to="/visao_geral">
-                        <li
-                            id="visao_geral"
-                            className={`${styles.div_navbar} ${selectedItem === 'visao_geral' ? styles.selected : ''}`}
-                            onClick={() => handleItemClick('visao_geral')}
-                        >
-                            <img src={getIconSrc('visao_geral', visaoGeralIcon, visaoGeralIconLaranja)} className={`${styles.item} ${styles.quadradinho}`} alt="Ícone de visão geral" />
-                            <h4 id="texto_visao_geral" className={`${styles.item} ${styles.texto_menu} ${selectedItem === 'visao_geral' ? styles.selected : ''}`}>VISÃO GERAL</h4>
-                        </li>
-                    </Link>
-                    <Link to="/emprestimo">
+                    <Link to="/emprestimo_inativo">
                         <li
                             id="emprestimos"
                             className={`${styles.div_navbar} ${selectedItem === 'emprestimos' ? styles.selected : ''}`}
@@ -73,7 +61,7 @@ export const MenuComponent = () => {
                             <h4 id="texto_emprestimos" className={`${styles.item} ${styles.texto_menu} ${selectedItem === 'emprestimos' ? styles.selected : ''}`}>EMPRÉSTIMOS</h4>
                         </li>
                     </Link>
-                    <Link to="/ferramenta">
+                    <Link to="/ferramenta_inativo">
                         <li
                             id="ferramentas"
                             className={`${styles.div_navbar} ${selectedItem === 'ferramentas' ? styles.selected : ''}`}
@@ -83,7 +71,7 @@ export const MenuComponent = () => {
                             <h4 id="texto_ferramentas" className={`${styles.item} ${styles.texto_menu} ${selectedItem === 'ferramentas' ? styles.selected : ''}`}>FERRAMENTAS</h4>
                         </li>
                     </Link>
-                    <Link to="/funcionario">
+                    <Link to="/funcionario_inativo">
                         <li
                             id="funcionarios"
                             className={`${styles.div_navbar} ${selectedItem === 'funcionarios' ? styles.selected : ''}`}
@@ -93,7 +81,7 @@ export const MenuComponent = () => {
                             <h4 id="texto_funcionarios" className={`${styles.item} ${styles.texto_menu} ${selectedItem === 'funcionarios' ? styles.selected : ''}`}>FUNCIONÁRIOS</h4>
                         </li>
                     </Link>
-                    <Link to="/manutencao">
+                    <Link to="/manutencao_inativo">
                         <li
                             id="manutencoes"
                             className={`${styles.div_navbar} ${selectedItem === 'manutencoes' ? styles.selected : ''}`}
@@ -103,7 +91,7 @@ export const MenuComponent = () => {
                             <h4 id="texto_manutencoes" className={`${styles.item} ${styles.texto_menu} ${selectedItem === 'manutencoes' ? styles.selected : ''}`}>MANUTENÇÕES</h4>
                         </li>
                     </Link>
-                    <Link to="/cargo">
+                    <Link to="/cargo_inativo">
                         <li
                             id="cargos"
                             className={`${styles.div_navbar} ${selectedItem === 'cargos' ? styles.selected : ''}`}
@@ -113,7 +101,7 @@ export const MenuComponent = () => {
                             <h4 id="texto_cargos" className={`${styles.item} ${styles.texto_menu} ${selectedItem === 'cargos' ? styles.selected : ''}`}>CARGOS</h4>
                         </li>
                     </Link>
-                    <Link to="/setor">
+                    <Link to="/setor_inativo">
                         <li
                             id="setores"
                             className={`${styles.div_navbar} ${selectedItem === 'setores' ? styles.selected : ''}`}
@@ -124,10 +112,10 @@ export const MenuComponent = () => {
                         </li>
                     </Link>
                 </ul>
-                <Link to="/emprestimo_inativo">
-                <li id="inativos" className={`${styles.div_navbar} ${styles.div_inativos}`}>
-                    <img src={inativosIcon} className={`${styles.item} ${styles.quadradinho_inativos}`} alt="Ícone de inativos" />
-                    <h4 id="texto_inativos" className={`${styles.item} ${styles.texto_menu}`}>INATIVOS</h4>
+                <Link to="/visao_geral">
+                <li id="ativos" className={`${styles.div_navbar} ${styles.div_ativos}`}>
+                    <img src={ativosIcon} className={`${styles.item} ${styles.quadradinho_ativos}`} alt="Ícone de ativos" />
+                    <h4 id="texto_ativos" className={`${styles.item} ${styles.texto_menu}`}>ATIVOS</h4>
                 </li>
                 </Link>
                 <li id="logout" className={`${styles.div_navbar} ${styles.div_logout}`} onClick={logout}>

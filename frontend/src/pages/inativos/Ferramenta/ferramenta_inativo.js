@@ -1,40 +1,42 @@
 import React, { useState, useEffect } from 'react';
-import styles from '../Emprestimo/emprestimo.module.css';
-import MenuComponent from '../../../components/Menu/Menu';
-import CardEmprestimosComponent from '../../../components/CardEmprestimos/card_emprestimos';
-import ModalEmprestimosComponent from '../../../components/ModalEmprestimos/modal_emprestimos.js';
+import styles from '../Ferramenta/ferramenta_inativo.module.css';
+import MenuInativosComponent from '../../../components/MenuInativos/MenuInativos.js';
+import CardFerramentas from '../../../components/CardFerramentas/card_ferramentas';
+import ModalFerramentasComponent from '../../../components/ModalFerramentas/modal_ferramentas';
 import { Link } from 'react-router-dom';
 
-const Emprestimo = () => {
+const Ferramenta = () => {
     const [showOptions, setShowOptions] = useState(false);
     const [search, setSearch] = useState('');
     const [selectedOption, setSelectedOption] = useState('');
-    const [Emprestimos, setEmprestimos] = useState([]);
+    const [Ferramentas, setFerramentas] = useState([]);
     const [showModal, setShowModal] = useState(false);  // Estado para controle da visibilidade do modal
-    const [selectedEmprestimo, setSelectedEmprestimo] = useState(null);
+    const [selectedFerramenta, setSelectedFerramenta] = useState(null);
 
-    const filterEmprestimos = async (newSearch, newSelectedOption) => {
+    const filterFerramentas = async (newSearch, newSelectedOption) => {
         const token = localStorage.getItem('token');
         try {
-            const responseEmprestimos = await fetch('http://127.0.0.1:8000/emprestimos/', {
+            const responseFerramentas = await fetch('http://127.0.0.1:8000/ferramentas/', {
                 headers: {
                     'Authorization': `Token ${token}`,
                 },
             });
     
-            if (!responseEmprestimos.ok) {
-                throw new Error('Erro ao carregar os Emprestimos');
+            if (!responseFerramentas.ok) {
+                throw new Error('Erro ao carregar as Ferramentas');
             }
     
-            const dataEmprestimos = await responseEmprestimos.json();
-            {/*let filteredEmprestimos = dataEmprestimos.filter(emprestimo => 
-                (newSelectedOption === 'nomeFuncionario' && emprestimo.codigoEmprestimo.toLowerCase().includes(newSearch.toLowerCase())) ||
-                (newSelectedOption === 'nomeFerramenta' && emprestimo.codigoEmprestimo.toLowerCase().includes(newSearch.toLowerCase()))||
-                (!newSelectedOption && (emprestimo.numSerie.toLowerCase().includes(newSearch.toLowerCase()) ||
-            emprestimo.nome.toLowerCase().includes(newSearch.toLowerCase())))
+            const dataFerramentas = await responseFerramentas.json();
+            let filteredFerramentas = dataFerramentas.filter(ferramenta => 
+                (newSelectedOption === 'num_serie' && ferramenta.numSerie.toLowerCase().includes(newSearch.toLowerCase())) ||
+                (newSelectedOption === 'nome' && ferramenta.nome.toLowerCase().includes(newSearch.toLowerCase())) ||
+                (newSelectedOption === 'status' && ferramenta.status.toLowerCase().includes(newSearch.toLowerCase())) ||
+                (!newSelectedOption && (ferramenta.numSerie.toLowerCase().includes(newSearch.toLowerCase()) ||
+                ferramenta.nome.toLowerCase().includes(newSearch.toLowerCase()) ||
+                ferramenta.status.toLowerCase().includes(newSearch.toLowerCase())))
             );
     
-        setEmprestimos(filteredEmprestimos);*/}
+            setFerramentas(filteredFerramentas);
         } catch (error) {
             console.error('Erro:', error);
         }
@@ -46,16 +48,16 @@ const Emprestimo = () => {
         const fetchData = async () => {
             try {
             
-                const responseEmprestimos = await fetch('http://127.0.0.1:8000/emprestimos/', {
+                const responseFerramentas = await fetch('http://127.0.0.1:8000/ferramentas/', {
                     headers: {
                         'Authorization': `Token ${token}`, // Adicionando o token de autorização ao cabeçalho
                     },
                 });
-                if (!responseEmprestimos.ok) {
-                    throw new Error('Erro ao carregar os Emprestimos');
+                if (!responseFerramentas.ok) {
+                    throw new Error('Erro ao carregar as Ferramentas');
                 }
-                const dataEmprestimos = await responseEmprestimos.json();
-                setEmprestimos(dataEmprestimos);              
+                const dataFerramentas = await responseFerramentas.json();
+                setFerramentas(dataFerramentas);              
             } catch (error) {
                 console.error('Erro:', error);
             }
@@ -65,21 +67,18 @@ const Emprestimo = () => {
     }, []);
 
     useEffect(() => {
-        filterEmprestimos(search, selectedOption);
+        filterFerramentas(search, selectedOption);
     }, [search, selectedOption]);
 
     const defaultFerramenta = 'url_to_default_image';
-    const toggleModal = (emprestimo) => {
-        setSelectedEmprestimo(emprestimo);
+    const toggleModal = (ferramenta) => {
+        setSelectedFerramenta(ferramenta);
         setShowModal(!showModal);
     };
 
     return (
-        <div id={styles.div_emprestimo}>
-            <MenuComponent id="menu" />
-            <Link to={'/emprestimo_cadastro'}>
-                <p id={styles.adicionar}>+</p>
-            </Link>
+        <div id={styles.div_ferramenta}>
+            <MenuInativosComponent id="menu" />
             <div id={styles.searchbar}>
                 <input
                     id={styles.input_searchbar}
@@ -132,23 +131,23 @@ const Emprestimo = () => {
                             />
                         </div>
                     </div>
-                )}*/}
+                )} */}
             </div>
             <div className={styles.div_pai}>
                 <div className={styles.card_container}>
-                    {Emprestimos.map((emprestimo, index) => (
-                        <CardEmprestimosComponent
-                            key={emprestimo.codigoEmprestimo ? emprestimo.codigoEmprestimo : index} 
-                            emprestimo={emprestimo} 
+                    {Ferramentas.map((ferramenta, index) => (
+                        <CardFerramentas 
+                            key={ferramenta.idFerramenta ? ferramenta.idFerramenta : index} 
+                            ferramenta={ferramenta} 
                             defaultFerramenta={defaultFerramenta} 
-                            onShowModal={() => toggleModal(emprestimo)}
+                            onShowModal={() => toggleModal(ferramenta)}
                         />
                     ))}
                 </div>
             </div>
-            {showModal && <ModalEmprestimosComponent onClose={toggleModal} ferramenta={selectedEmprestimo} />}
+            {showModal && <ModalFerramentasComponent onClose={toggleModal} ferramenta={selectedFerramenta} />}
         </div>
     );
 }
 
-export default Emprestimo;
+export default Ferramenta;

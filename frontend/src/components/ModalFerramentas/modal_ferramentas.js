@@ -162,7 +162,8 @@ const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal }) => {
                             ) : (
                                 <>
                                     <button className={styles.edit_button} onClick={handleEdit}>EDITAR</button>
-                                    <button className={styles.remove_button} onClick={handleRemove}>REMOVER</button>
+                                    <button className={styles.remove_button} onClick={handleRemove}>DESATIVAR</button>
+                                    <button className={styles.relatorio_button}>RELATÓRIO</button>
                                 </> 
                             )}
                         </div>

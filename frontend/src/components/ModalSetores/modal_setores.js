@@ -146,7 +146,7 @@ const ModalSetoresComponent = ({ onClose, setor, onShowModal }) => {
                             ) : (
                                 <>
                                     <button className={styles.edit_button} onClick={handleEdit}>EDITAR</button>
-                                    <button className={styles.remove_button} onClick={handleRemove}>REMOVER</button>
+                                    <button className={styles.remove_button} onClick={handleRemove}>DESATIVAR</button>
                                 </>
                             )}
                         </div>

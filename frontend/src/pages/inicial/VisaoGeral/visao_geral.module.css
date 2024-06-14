@@ -16,7 +16,7 @@
     margin-top: 8rem;
     margin-left: 30rem;
     overflow: visible;
-    z-index: 1;
+    z-index: 0;
 }
 
 #menu {

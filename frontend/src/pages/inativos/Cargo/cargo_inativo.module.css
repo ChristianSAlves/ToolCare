@@ -3,14 +3,15 @@
     flex-direction: column;
 }
 
-#div_setor {
+#div_cargo {
     display: flex;
     flex-direction: column;
     align-items: center;
     height: 100vh; /* Altura total da tela */
-    width: 99vw; /* Largura total da tela */
+    width: 100vw; /* Largura total da tela */
     position: relative; /* Para posicionar o botão adicionar */
     padding-left: 25rem; /* Espaço à esquerda para o menu */
+    background-color: #ffffff;
 }
 
 body::-webkit-scrollbar {
@@ -22,7 +23,7 @@ body::-webkit-scrollbar {
     height: 2.5rem;
     display: flex;
     flex-direction: row;
-    background-color: white;
+    background-color: #353535;
     border-radius: 4rem;
     justify-content: space-around;
     align-items: center;
@@ -39,10 +40,11 @@ body::-webkit-scrollbar {
     flex: 1;
     height: 2.5rem;
     outline: none; /* Remove o contorno ao focar */
-    color: #333; /* Cor do texto */
+    color: #ffffff; /* Cor do texto */
     font-size: 1.6rem; /* Tamanho da fonte */
     font-family: 'Lato', sans-serif; /* Família da fonte */
     text-align: left; /* Alinhamento do texto */
+    background-color: #353535;
 }
 
 /* Botão de adicionar */
@@ -162,4 +164,3 @@ body::-webkit-scrollbar {
         width: 67vw;
     }
 }
-
