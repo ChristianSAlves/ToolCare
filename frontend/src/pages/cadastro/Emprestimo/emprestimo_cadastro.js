@@ -1,7 +1,9 @@
-import styles from './emprestimo_cadastro.module.css'
-import { Link } from 'react-router-dom'
-import React, { useState, useEffect } from 'react'
-import MenuComponent from '../../../components/Menu/Menu'
+import styles from './emprestimo_cadastro.module.css';
+import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import MenuComponent from '../../../components/Menu/Menu';
+import CadastradoComponent from '../../../components/Avisos/Cadastrado/cadastrado';
+import FalhaCadastroComponent from '../../../components/Avisos/FalhaCadastro/falha_cadastro';
 
 const Emprestimo = () => {
 
@@ -11,7 +13,8 @@ const Emprestimo = () => {
     const [dataEmprestimo, setDataEmprestimo] = useState(new Date());
     const [observacoes, setObservacoes] = useState('');
     const [codFerramenta, setCodFerramenta] = useState(0);
-    
+    const [showCadastrado, setShowCadastrado] = useState(false);
+    const [showFalhaCadastro, setShowFalhaCadastro] = useState(false);
 
     useEffect(() => {
         const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage
@@ -73,15 +76,27 @@ const Emprestimo = () => {
             });
     
             if (response.ok) {
+                setShowCadastrado(true);
+                setTimeout(() => {
+                    setShowCadastrado(false);
+                }, 3000);
                 const responseData = await response.json();
                 console.log('Success:', responseData);
             } else {
+                setShowFalhaCadastro(true);
+                setTimeout(() => {
+                    setShowFalhaCadastro(false);
+                }, 3000);
                 console.error('Failed to submit form:', response.status, response.statusText);
                 const errorData = await response.json();
                 console.log('Error details:', errorData);
             }
     
         } catch (error) {
+            setShowFalhaCadastro(true);
+            setTimeout(() => {
+                setShowFalhaCadastro(false);
+            }, 3000);
             console.error('Error:', error);
             console.log('Detalhes do erro:', error.message);
         }
@@ -91,6 +106,8 @@ const Emprestimo = () => {
         <div className={styles.container}>
             <MenuComponent id={styles.menu}></MenuComponent>
             <div className={styles.tela}>
+                {showCadastrado && <CadastradoComponent />}
+                {showFalhaCadastro && <FalhaCadastroComponent />}
                 <form onSubmit={handleSubmit} action="#" method="post" autoComplete="off" id={styles.cadastro_emprestimo_form}>
                         <p id={styles.cadastro}>Cadastro de Empréstimo</p>
                         <div className={styles.spacer}>
@@ -118,13 +135,8 @@ const Emprestimo = () => {
                         <button id={styles.enviar}type="submit">ENVIAR</button>
                 </form>
             </div>
-
-
         </div>
-
-
     );
-
 }
 
-export default Emprestimo;
+export default Emprestimo; 

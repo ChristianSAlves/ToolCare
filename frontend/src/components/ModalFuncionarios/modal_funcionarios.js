@@ -8,6 +8,7 @@ import FalhaEdicaoComponent from "../Avisos/FalhaEdição/falha_edicao";
 import FalhaRemocaoComponent from "../Avisos/FalhaRemoção/falha_remocao";
 
 const extractIdFromUrl = (url) => {
+    if (!url) return '';
     const parts = url.split('/');
     return parts[parts.length - 2];
 };
@@ -60,8 +61,8 @@ const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal }) => {
 
     useEffect(() => {
         if (funcionario) {
-            setCodigoSetor(extractIdFromUrl(funcionario.codigoSetor));
-            setCodigoCargo(extractIdFromUrl(funcionario.codigoCargo));
+            setCodigoSetor(funcionario.codigoSetor ? extractIdFromUrl(funcionario.codigoSetor) : '');
+            setCodigoCargo(funcionario.codigoCargo ? extractIdFromUrl(funcionario.codigoCargo) : '');
         }
     }, [funcionario]);
 
@@ -208,6 +209,7 @@ const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal }) => {
                                     value={codigoSetor}
                                     onChange={handleSetorChange}
                                 >
+                                    <option value="" disabled>Selecione</option>
                                     {setores.map(setor => (
                                         <option key={setor.codigoSetor} value={setor.codigoSetor}>
                                             {setor.nomeSetor}
@@ -215,7 +217,7 @@ const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal }) => {
                                     ))}
                                 </select>
                             ) : (
-                                <p>{setores.length > 0 ? setores.find(setor => setor.codigoSetor === parseInt(codigoSetor))?.nomeSetor : 'Carregando...'}</p>
+                                <p>{setores.length > 0 ? setores.find(setor => setor.codigoSetor === parseInt(codigoSetor))?.nomeSetor : 'Sem setor'}</p>
                             )}
                         </div>
                         <div className={styles.info_row}>
@@ -228,6 +230,7 @@ const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal }) => {
                                     value={codigoCargo}
                                     onChange={handleCargoChange}
                                 >
+                                    <option value="" disabled>Selecione</option>
                                     {cargos.map(cargo => (
                                         <option key={cargo.codigoCargo} value={cargo.codigoCargo}>
                                             {cargo.nomeCargo}
@@ -235,7 +238,7 @@ const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal }) => {
                                     ))}
                                 </select>
                             ) : (
-                                <p>{cargos.length > 0 ? cargos.find(cargo => cargo.codigoCargo === parseInt(codigoCargo))?.nomeCargo : 'Carregando...'}</p>
+                                <p>{cargos.length > 0 ? cargos.find(cargo => cargo.codigoCargo === parseInt(codigoCargo))?.nomeCargo : 'Sem cargo'}</p>
                             )}
                         </div>
                         <p id={styles.fechar} onClick={onClose}>x</p>

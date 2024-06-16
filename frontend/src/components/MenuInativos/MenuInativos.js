@@ -16,7 +16,7 @@ import cargosIconLaranja from '../../assets/icones/cargos_laranja.png';
 import setoresIconLaranja from '../../assets/icones/setores_laranja.png';
 import ativosIcon from '../../assets/icones/ativos_preto.png'
 
-export const MenuComponent = () => {
+export const MenuInativosComponent = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const [selectedItem, setSelectedItem] = useState('');
@@ -112,7 +112,7 @@ export const MenuComponent = () => {
                         </li>
                     </Link>
                 </ul>
-                <Link to="/visao_geral">
+                <Link to="/visao_geral" state={{ selectedItem: 'visao_geral' }}>
                 <li id="ativos" className={`${styles.div_navbar} ${styles.div_ativos}`}>
                     <img src={ativosIcon} className={`${styles.item} ${styles.quadradinho_ativos}`} alt="Ícone de ativos" />
                     <h4 id="texto_ativos" className={`${styles.item} ${styles.texto_menu}`}>ATIVOS</h4>
@@ -127,4 +127,4 @@ export const MenuComponent = () => {
     );
 };
 
-export default MenuComponent;
+export default MenuInativosComponent;

@@ -24,14 +24,19 @@ export const MenuComponent = () => {
     const [selectedItem, setSelectedItem] = useState('');
 
     useEffect(() => {
-        const savedSelectedItem = localStorage.getItem('selectedItem');
-        if (savedSelectedItem) {
-            setSelectedItem(savedSelectedItem);
+        const state = location.state;
+        if (state && state.selectedItem) {
+            setSelectedItem(state.selectedItem);
         } else {
-            const currentPath = location.pathname.split('/')[1];
-            setSelectedItem(currentPath);
+            const savedSelectedItem = localStorage.getItem('selectedItem');
+            if (savedSelectedItem) {
+                setSelectedItem(savedSelectedItem);
+            } else {
+                const currentPath = location.pathname.split('/')[1];
+                setSelectedItem(currentPath);
+            }
         }
-    }, [location.pathname]);
+    }, [location]);
 
     const handleItemClick = (item) => {
         setSelectedItem(item);
@@ -125,7 +130,7 @@ export const MenuComponent = () => {
                     </Link>
                 </ul>
                 <Link to="/emprestimo_inativo">
-                <li id="inativos" className={`${styles.div_navbar} ${styles.div_inativos}`}>
+                <li id="inativos" className={`${styles.div_navbar} ${styles.div_inativos}`} onClick={() => handleItemClick('emprestimos')}>
                     <img src={inativosIcon} className={`${styles.item} ${styles.quadradinho_inativos}`} alt="Ícone de inativos" />
                     <h4 id="texto_inativos" className={`${styles.item} ${styles.texto_menu}`}>INATIVOS</h4>
                 </li>
