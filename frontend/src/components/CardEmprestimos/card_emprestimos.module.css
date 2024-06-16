@@ -39,19 +39,19 @@
     color: #333333;
 }
 
-.codigoManutencao {
+.codigoEmprestimo {
     font-size: 2.2rem; /* Tamanho da fonte aumentado para o nome */
     font-weight: 900;
     margin-top: -1rem;
 }
 
-.tipoManutencao{
-    font-size: 1.7rem; /* Tamanho da fonte ajustado para número de série e status */
-    color: #666666;
-}
-
 #card_item{
     margin-top: 1.2rem;
+}
+
+.nomeFerramenta,.nomeFuncionario{
+    font-size: 1.7rem; /* Tamanho da fonte ajustado para número de série e status */
+    color: #666666;
 }
 
 #button_card {

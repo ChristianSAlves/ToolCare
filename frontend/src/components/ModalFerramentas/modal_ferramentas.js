@@ -137,10 +137,8 @@ const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal }) => {
                         {Object.entries(editData).map(([key, value]) => (
                             <div className={styles.info_row} key={key}>
                                 <span className={styles.label}>{key.replace(/([A-Z])/g, ' $1').trim()}</span>
-                                {isEditing && key !== "NúmeroDeSerie" ? (
-                                    key === "DataAquisicao" ? (
-                                        <input type="date" value={value} id={styles.datepicker_aquisicao} onChange={e => handleChange(e, key)} />
-                                    ) : key === "Status" ? (
+                                {isEditing && key !== "Nome" && key !== "DataAquisicao" && key !== "NúmeroDeSerie" ? (
+                                    key === "Status" ? (
                                         <select value={value} id={styles.select_status} onChange={e => handleChange(e, key)}>
                                             <option value="Emprestada">Emprestada</option>
                                             <option value="Disponível">Disponível</option>
@@ -164,7 +162,8 @@ const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal }) => {
                             ) : (
                                 <>
                                     <button className={styles.edit_button} onClick={handleEdit}>EDITAR</button>
-                                    <button className={styles.remove_button} onClick={handleRemove}>REMOVER</button>
+                                    <button className={styles.remove_button} onClick={handleRemove}>DESATIVAR</button>
+                                    <button className={styles.relatorio_button}>RELATÓRIO</button>
                                 </> 
                             )}
                         </div>

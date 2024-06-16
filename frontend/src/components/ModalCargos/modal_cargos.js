@@ -127,11 +127,7 @@ const ModalCargosComponent = ({ onClose, cargo, onShowModal }) => {
                     <div className={styles.modal_content}>
                         <div className={styles.info_row}>
                             <span className={styles.label}>Nome</span>
-                            {isEditing ? (
-                                <input type="text" id={styles.input_text} value={editData.Nome} onChange={e => handleChange(e, 'Nome')} />
-                            ) : (
-                                <p>{editData.Nome}</p>
-                            )}
+                            <p>{editData.Nome}</p>
                         </div>
                         <div className={styles.info_row}>
                             <span className={styles.label}>Descrição</span>
@@ -150,7 +146,7 @@ const ModalCargosComponent = ({ onClose, cargo, onShowModal }) => {
                             ) : (
                                 <>
                                     <button className={styles.edit_button} onClick={handleEdit}>EDITAR</button>
-                                    <button className={styles.remove_button} onClick={handleRemove}>REMOVER</button>
+                                    <button className={styles.remove_button} onClick={handleRemove}>DESATIVAR</button>
                                 </>
                             )}
                         </div>

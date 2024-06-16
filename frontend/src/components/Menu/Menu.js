@@ -16,6 +16,7 @@ import funcionariosIconLaranja from '../../assets/icones/funcionarios_laranja.pn
 import manutencoesIconLaranja from '../../assets/icones/manutencoes_laranja.png';
 import cargosIconLaranja from '../../assets/icones/cargos_laranja.png';
 import setoresIconLaranja from '../../assets/icones/setores_laranja.png';
+import inativosIcon from '../../assets/icones/inativos.png'
 
 export const MenuComponent = () => {
     const location = useLocation();
@@ -23,14 +24,19 @@ export const MenuComponent = () => {
     const [selectedItem, setSelectedItem] = useState('');
 
     useEffect(() => {
-        const savedSelectedItem = localStorage.getItem('selectedItem');
-        if (savedSelectedItem) {
-            setSelectedItem(savedSelectedItem);
+        const state = location.state;
+        if (state && state.selectedItem) {
+            setSelectedItem(state.selectedItem);
         } else {
-            const currentPath = location.pathname.split('/')[1];
-            setSelectedItem(currentPath);
+            const savedSelectedItem = localStorage.getItem('selectedItem');
+            if (savedSelectedItem) {
+                setSelectedItem(savedSelectedItem);
+            } else {
+                const currentPath = location.pathname.split('/')[1];
+                setSelectedItem(currentPath);
+            }
         }
-    }, [location.pathname]);
+    }, [location]);
 
     const handleItemClick = (item) => {
         setSelectedItem(item);
@@ -123,6 +129,12 @@ export const MenuComponent = () => {
                         </li>
                     </Link>
                 </ul>
+                <Link to="/emprestimo_inativo">
+                <li id="inativos" className={`${styles.div_navbar} ${styles.div_inativos}`} onClick={() => handleItemClick('emprestimos')}>
+                    <img src={inativosIcon} className={`${styles.item} ${styles.quadradinho_inativos}`} alt="Ícone de inativos" />
+                    <h4 id="texto_inativos" className={`${styles.item} ${styles.texto_menu}`}>INATIVOS</h4>
+                </li>
+                </Link>
                 <li id="logout" className={`${styles.div_navbar} ${styles.div_logout}`} onClick={logout}>
                     <img src={logoutIcon} className={`${styles.item} ${styles.quadradinho_logout}`} alt="Ícone de logout" />
                     <h4 id="texto_logout" className={`${styles.item} ${styles.texto_menu}`}>SAIR</h4>

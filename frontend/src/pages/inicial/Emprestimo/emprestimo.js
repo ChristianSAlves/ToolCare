@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from '../Emprestimo/emprestimo.module.css';
 import MenuComponent from '../../../components/Menu/Menu';
 import CardEmprestimosComponent from '../../../components/CardEmprestimos/card_emprestimos';
-import ModalFerramentasComponent from '../../../components/ModalFerramentas/modal_ferramentas';
+import ModalEmprestimosComponent from '../../../components/ModalEmprestimos/modal_emprestimos.js';
 import { Link } from 'react-router-dom';
 
 const Emprestimo = () => {
@@ -146,7 +146,7 @@ const Emprestimo = () => {
                     ))}
                 </div>
             </div>
-            {showModal && <ModalFerramentasComponent onClose={toggleModal} ferramenta={selectedEmprestimo} />}
+            {showModal && <ModalEmprestimosComponent onClose={toggleModal} ferramenta={selectedEmprestimo} />}
         </div>
     );
 }

@@ -8,6 +8,7 @@ import FalhaEdicaoComponent from "../Avisos/FalhaEdição/falha_edicao";
 import FalhaRemocaoComponent from "../Avisos/FalhaRemoção/falha_remocao";
 
 const extractIdFromUrl = (url) => {
+    if (!url) return '';
     const parts = url.split('/');
     return parts[parts.length - 2];
 };
@@ -60,8 +61,8 @@ const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal }) => {
 
     useEffect(() => {
         if (funcionario) {
-            setCodigoSetor(extractIdFromUrl(funcionario.codigoSetor));
-            setCodigoCargo(extractIdFromUrl(funcionario.codigoCargo));
+            setCodigoSetor(funcionario.codigoSetor ? extractIdFromUrl(funcionario.codigoSetor) : '');
+            setCodigoCargo(funcionario.codigoCargo ? extractIdFromUrl(funcionario.codigoCargo) : '');
         }
     }, [funcionario]);
 
@@ -70,11 +71,6 @@ const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal }) => {
         Matrícula: funcionario.matriculaFuncionario,
         CPF: funcionario.cpf,
     });
-
-    const handleChange = (event, field) => {
-        const value = event.target.value;
-        setEditData(prev => ({ ...prev, [field]: value }));
-    };
 
     const handleSetorChange = (e) => {
         setCodigoSetor(e.target.value);
@@ -118,9 +114,6 @@ const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal }) => {
                     if (onShowModal) onShowModal(false);
                 }, 3000);
             } else {
-                for (var pair of formData.entries()) {
-                    console.log(pair[0] + ', ' + pair[1]);
-                }
                 const errorData = await response.json();
                 console.error('Erro ao atualizar o funcionario:', errorData);
                 setShowFalhaEdicao(true);
@@ -196,16 +189,7 @@ const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal }) => {
                     <div className={styles.modal_content}>
                         <div className={styles.info_row}>
                             <span className={styles.label}>Nome</span>
-                            {isEditing ? (
-                                <input
-                                    type="text"
-                                    id={styles.input_text}
-                                    value={editData.Nome}
-                                    onChange={e => handleChange(e, 'Nome')}
-                                />
-                            ) : (
-                                <p>{editData.Nome}</p>
-                            )}
+                            <p>{editData.Nome}</p>
                         </div>
                         <div className={styles.info_row}>
                             <span className={styles.label}>Matrícula</span>
@@ -213,16 +197,7 @@ const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal }) => {
                         </div>
                         <div className={styles.info_row}>
                             <span className={styles.label}>CPF</span>
-                            {isEditing ? (
-                                <input
-                                    type="text"
-                                    id={styles.input_text}
-                                    value={editData.CPF}
-                                    onChange={e => handleChange(e, 'CPF')}
-                                />
-                            ) : (
-                                <p>{editData.CPF}</p>
-                            )}
+                            <p>{editData.CPF}</p>
                         </div>
                         <div className={styles.info_row}>
                             <span className={styles.label}>Setor</span>
@@ -234,6 +209,7 @@ const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal }) => {
                                     value={codigoSetor}
                                     onChange={handleSetorChange}
                                 >
+                                    <option value="" disabled>Selecione</option>
                                     {setores.map(setor => (
                                         <option key={setor.codigoSetor} value={setor.codigoSetor}>
                                             {setor.nomeSetor}
@@ -241,7 +217,7 @@ const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal }) => {
                                     ))}
                                 </select>
                             ) : (
-                                <p>{setores.length > 0 ? setores.find(setor => setor.codigoSetor === parseInt(codigoSetor))?.nomeSetor : 'Carregando...'}</p>
+                                <p>{setores.length > 0 ? setores.find(setor => setor.codigoSetor === parseInt(codigoSetor))?.nomeSetor : 'Sem setor'}</p>
                             )}
                         </div>
                         <div className={styles.info_row}>
@@ -254,6 +230,7 @@ const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal }) => {
                                     value={codigoCargo}
                                     onChange={handleCargoChange}
                                 >
+                                    <option value="" disabled>Selecione</option>
                                     {cargos.map(cargo => (
                                         <option key={cargo.codigoCargo} value={cargo.codigoCargo}>
                                             {cargo.nomeCargo}
@@ -261,7 +238,7 @@ const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal }) => {
                                     ))}
                                 </select>
                             ) : (
-                                <p>{cargos.length > 0 ? cargos.find(cargo => cargo.codigoCargo === parseInt(codigoCargo))?.nomeCargo : 'Carregando...'}</p>
+                                <p>{cargos.length > 0 ? cargos.find(cargo => cargo.codigoCargo === parseInt(codigoCargo))?.nomeCargo : 'Sem cargo'}</p>
                             )}
                         </div>
                         <p id={styles.fechar} onClick={onClose}>x</p>
@@ -271,7 +248,8 @@ const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal }) => {
                             ) : (
                                 <>
                                     <button className={styles.edit_button} onClick={handleEdit}>EDITAR</button>
-                                    <button className={styles.remove_button} onClick={handleRemove}>REMOVER</button>
+                                    <button className={styles.remove_button} onClick={handleRemove}>DESATIVAR</button>
+                                    <button className={styles.relatorio_button}>RELATÓRIO</button>
                                 </>
                             )}
                         </div>

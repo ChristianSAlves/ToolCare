@@ -8,6 +8,7 @@
     position: fixed; /* Fixa o menu na posição */
     top: 0;
     left: 0;
+    z-index: 2;
 }
 
 /* Outros estilos permanecem inalterados */
@@ -58,32 +59,32 @@ a {
     color: #333; /* Cor do texto */
 }
 
-#logout_container {
+#logout_container,#inativos_container {
     padding: 15rem 20rem; /* Espaçamento interno */
     text-align: center;
 }
 
-.div_logout {
+.div_inativos {
     border-top: 0.1rem solid #000000; /* Linha de separação entre os itens */
 }
 
-#logout {
+#logout,#inativos {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-#logout:hover {
+#logout:hover,#inativos:hover {
     background-color: #e0e0e0; /* Cor de fundo ao passar o mouse */
 }
 
-.quadradinho_logout {
+.quadradinho_logout,.quadradinho_inativos {
     width: 6.5rem; /* Tamanho do ícone */
     height: 6.5rem; /* Tamanho do ícone */
     margin-right: 1.5rem; /* Espaço entre o ícone e o texto */
 }
 
-#texto_logout {
+#texto_logout,#texto_inativos {
     font-size: 1.6rem;
     color: #333;
 }

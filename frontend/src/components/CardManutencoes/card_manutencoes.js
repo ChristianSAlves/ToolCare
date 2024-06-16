@@ -45,7 +45,7 @@ const CardManutencoesComponent = ({ manutencao, onShowModal }) => {
             <div id={styles.fundo}>
                 <ul className={styles.lista_ul}>
                     <li className={styles.list_item}>
-                        <p className={`${styles.codigoManutencao} ${styles.list_item}`}>{`Manutenção ${manutencao.codigoManutencao}`}</p>
+                        <p className={`${styles.codigoManutencao} ${`${styles.list_item} ${styles.list_tittle}`}`}>{`Manutenção ${manutencao.codigoManutencao}`}</p>
                         <div id={styles.card_item}>
                             <p className={`${styles.tipoManutencao} ${styles.list_item}`}>{manutencao.tipoManutencao}</p>
                             <p className={`${styles.nomeFerramenta} ${styles.list_item}`}>{ferramentas.length > 0 ? ferramentas.find(ferramenta => ferramenta.codFerramenta === parseInt(codFerramenta))?.nome : 'Carregando...'}</p>

@@ -16,7 +16,7 @@
     margin-top: 8rem;
     margin-left: 30rem;
     overflow: visible;
-    z-index: 1;
+    z-index: 0;
 }
 
 #menu {
@@ -139,10 +139,10 @@
     background-color: #DD0B0B; /* Vermelho */
 }
 
-#info_ferramentas .info_row:nth-child(5) .numero::before {
+#info_ferramentas .info_row:nth-child(5) .porcentagem::before {
     background-color: #FFA500; /* Laranja */
 }
 
 #info_ferramentas .info_row:nth-child(6) .numero::before {
-    background-color: #009bcf; /* Azul */
+    background-color: #FFA500; /* Laranja */
 }

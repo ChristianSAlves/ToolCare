@@ -183,3 +183,14 @@ body::-webkit-scrollbar {
     margin-left: 9rem;
 }
 
+@media(max-width: 78.438rem){
+    .div_pai {
+        width: 77vw;
+    }
+}
+
+@media(max-width: 56.25rem){
+    .div_pai {
+        width: 67vw;
+    }
+}
