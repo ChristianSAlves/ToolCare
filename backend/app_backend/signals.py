@@ -31,3 +31,4 @@ def revert_ferramenta_status_manutencao(sender, instance, **kwargs):
         ferramenta = instance.codFerramenta
         ferramenta.status = "Disponível"
         ferramenta.save()
+

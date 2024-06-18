@@ -69,7 +69,7 @@ class manutencaoSerializer(serializers.HyperlinkedModelSerializer):
         if ferramenta.status == 'Emprestada':
             raise serializers.ValidationError('A ferramenta está emprestada, não é possivel manda-la para manutenção')
         
-        if ferramenta.status == 'Manutenção':
-            raise serializers.ValidationError('A ferramenta já esta em manutenção.')
+        #if ferramenta.status == 'Manutenção':
+         #   raise serializers.ValidationError('A ferramenta já esta em manutenção.')
         
         return data                   

@@ -136,6 +136,14 @@ class ManutencaoView(APIView):
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
     
+    def patch(self, request, pk):
+        manutencao = ManutencaoFerramenta.objects.get(pk=pk)
+        serializer = manutencaoSerializer(manutencao, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
+    
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
 def update_ferramenta(request, codFerramenta):

@@ -22,8 +22,10 @@ const ModalManutencaoComponent = ({ onClose, manutencao, onShowModal }) => {
     const [codigoFerramenta, setCodigoFerramenta] = useState('');
     const [ferramentas, setFerramentas] = useState([]);
     const [editData, setEditData] = useState({
+        CodigoFerramenta: manutencao.codFerramenta || '',
         TipoDeManutencao: manutencao.tipoManutencao || '',
         DataInicio: manutencao.dataInicio || '',
+        DataFim: manutencao.dataFim || '',
     });
 
     useEffect(() => {
@@ -68,11 +70,17 @@ const ModalManutencaoComponent = ({ onClose, manutencao, onShowModal }) => {
         const token = localStorage.getItem('token');
         try {
             const url = `http://127.0.0.1:8000/manutencoes/${manutencao.codigoManutencao}/`;
-            const linkFerramenta = `http://127.0.0.1:8000/ferramentas/${codigoFerramenta}/`;
 
             const formData = new FormData();
-            formData.append('tipoManutencao', editData.TipoDeManutencao);
-            formData.append('codigoFerramenta', linkFerramenta);
+            formData.append('codigoManutencao', manutencao.codigoManutencao)
+            formData.append('codFerramenta', manutencao.codFerramenta)
+            formData.append('tipoManutencao', manutencao.tipoManutencao)
+            formData.append('dataInicio', manutencao.dataInicio)
+            formData.append('dataFinal', editData.DataFim)
+
+            for (let pair of formData.entries()) {
+                console.log(pair[0]+ ', ' + pair[1]); 
+            }
 
             const response = await fetch(url, {
                 method: 'PATCH',
@@ -166,20 +174,7 @@ const ModalManutencaoComponent = ({ onClose, manutencao, onShowModal }) => {
                         </div>
                         <div className={styles.info_row}>
                             <span className={styles.label}>Tipo de Manutenção</span>
-                            {isEditing ? (
-                                <select
-                                    className={styles.select}
-                                    name="tipoManutencao"
-                                    id="tipoManutencao"
-                                    value={editData.TipoDeManutencao}
-                                    onChange={e => handleChange(e, 'TipoDeManutencao')}
-                                >
-                                    <option value="Corretiva">Corretiva</option>
-                                    <option value="Preventiva">Preventiva</option>
-                                </select>
-                            ) : (
-                                <p>{editData.TipoDeManutencao}</p>
-                            )}
+                            <p>{editData.TipoDeManutencao}</p>
                         </div>
                         <div className={styles.info_row}>
                             <span className={styles.label}>Data Início</span>
@@ -187,7 +182,11 @@ const ModalManutencaoComponent = ({ onClose, manutencao, onShowModal }) => {
                         </div>
                         <div className={styles.info_row}>
                             <span className={styles.label}>Data Fim</span>
-                            <p>{editData.DataFim}</p>
+                            {isEditing ? (
+                                <input type="date" id={styles.input_text} value={editData.DataFim} onChange={e => handleChange(e, 'DataFim')} />
+                            ) : (
+                                <p>{editData.DataFim}</p>
+                            )}
                         </div>
                         <p id={styles.fechar} onClick={onClose}>x</p>
                         <div className={styles.modal_buttons}>

@@ -28,6 +28,9 @@ const Manutencao = () => {
 
             const dataManutencoes = await responseManutencoes.json();
             let filteredManutencoes = dataManutencoes.filter(manutencao => {
+                if (manutencao.dataFinal !== null) {
+                    return false;
+                }
                 const codigoManutencao = manutencao.codigoManutencao.toString() || '';
                 const tipoManutencao = manutencao.tipoManutencao || '';
                 return (

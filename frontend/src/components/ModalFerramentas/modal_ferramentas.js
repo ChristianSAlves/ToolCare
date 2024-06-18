@@ -140,10 +140,9 @@ const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal }) => {
                                 {isEditing && key !== "Nome" && key !== "DataAquisicao" && key !== "NúmeroDeSerie" ? (
                                     key === "Status" ? (
                                         <select value={value} id={styles.select_status} onChange={e => handleChange(e, key)}>
-                                            <option value="Emprestada">Emprestada</option>
+                                            <option value=''>Selecione</option>
                                             <option value="Disponível">Disponível</option>
-                                            <option value="Perdida">Perdida</option>
-                                            <option value="Manutenção">Manutenção</option>
+                                            <option value="Baixa">Baixa</option>
                                         </select>
                                     ) : (
                                         <input type="text" id={styles.input_text} value={value} onChange={e => handleChange(e, key)} />

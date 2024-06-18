@@ -28,12 +28,17 @@ const Ferramenta = () => {
     
             const dataFerramentas = await responseFerramentas.json();
             let filteredFerramentas = dataFerramentas.filter(ferramenta => 
-                (newSelectedOption === 'num_serie' && ferramenta.numSerie.toLowerCase().includes(newSearch.toLowerCase())) ||
-                (newSelectedOption === 'nome' && ferramenta.nome.toLowerCase().includes(newSearch.toLowerCase())) ||
-                (newSelectedOption === 'status' && ferramenta.status.toLowerCase().includes(newSearch.toLowerCase())) ||
-                (!newSelectedOption && (ferramenta.numSerie.toLowerCase().includes(newSearch.toLowerCase()) ||
-                ferramenta.nome.toLowerCase().includes(newSearch.toLowerCase()) ||
-                ferramenta.status.toLowerCase().includes(newSearch.toLowerCase())))
+                ferramenta.status.toLowerCase() !== 'baixa' &&
+                (
+                    (newSelectedOption === 'num_serie' && ferramenta.numSerie.toLowerCase().includes(newSearch.toLowerCase())) ||
+                    (newSelectedOption === 'nome' && ferramenta.nome.toLowerCase().includes(newSearch.toLowerCase())) ||
+                    (newSelectedOption === 'status' && ferramenta.status.toLowerCase().includes(newSearch.toLowerCase())) ||
+                    (!newSelectedOption && (
+                        ferramenta.numSerie.toLowerCase().includes(newSearch.toLowerCase()) ||
+                        ferramenta.nome.toLowerCase().includes(newSearch.toLowerCase()) ||
+                        ferramenta.status.toLowerCase().includes(newSearch.toLowerCase())
+                    ))
+                )
             );
     
             setFerramentas(filteredFerramentas);
@@ -41,6 +46,7 @@ const Ferramenta = () => {
             console.error('Erro:', error);
         }
     };
+    
 
     useEffect(() => {
         const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage

@@ -114,10 +114,6 @@ const Manutencao = () => {
                         <label id={styles.data_inicio_label}>Data de início</label>
                         <input type="date" id={styles.data_inicio_datepicker} required value={dataInicio} onChange={(evt) => setDataInicio(evt.target.value)}></input>
                     </div>
-                    <div className={styles.spacer}>
-                        <label id={styles.data_fim_label}>Data de término</label>
-                        <input type="date" id={styles.data_fim_datepicker} value={dataFim} onChange={(evt) => setDataFim(evt.target.value)}></input>
-                    </div>
                     <button id={styles.enviar} type="submit">ENVIAR</button>
                 </form>
                 {showSuccess && <CadastradoComponent />}

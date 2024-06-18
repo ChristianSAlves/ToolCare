@@ -46,6 +46,13 @@ class Emprestimo(models.Model):
 
     def __str__(self):
         return f"{self.codigoEmprestimo}"
+    
+    def save(self, *args, **kwargs):
+        super(Emprestimo, self).save(*args, **kwargs)
+        if self.dataDevolucao:
+            ferramenta = self.numSerie
+            ferramenta.status = "Disponível"
+            ferramenta.save()
 
 class Funcionario(models.Model):
     idFuncionario = models.AutoField(primary_key=True)
@@ -77,3 +84,10 @@ class ManutencaoFerramenta(models.Model):
 
     def __str__(self):
         return f"{self.codigoManutencao}"
+    
+    def save(self, *args, **kwargs):
+        super(ManutencaoFerramenta, self).save(*args, **kwargs)
+        if self.dataFinal:
+            ferramenta = self.codFerramenta
+            ferramenta.status = "Disponível"
+            ferramenta.save()
