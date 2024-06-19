@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './funcionario_cadastro.module.css';
 import MenuComponent from '../../../components/Menu/Menu';
+import defaultFuncionario from '../../../assets/imagens/defaultFuncionario.jpg';
 import FalhaCadastroComponent from '../../../components/Avisos/FalhaCadastro/falha_cadastro';
 import CadastradoComponent from '../../../components/Avisos/Cadastrado/cadastrado';
 
@@ -10,7 +11,7 @@ const Funcionario = () => {
     const [cpf, setCpf] = useState('');
     const [codigoSetor, setCodigoSetor] = useState(0);
     const [codigoCargo, setCodigoCargo] = useState(0);
-    const [imgFunc, setImgFunc] = useState();
+    const [imgFunc, setImgFunc] = useState(null);
     const [cargos, setCargos] = useState([]);
     const [setores, setSetores] = useState([]);
     const [showSuccess, setShowSuccess] = useState(false);
@@ -29,7 +30,15 @@ const Funcionario = () => {
         formData.append('cpf', cpf);
         formData.append('codigoSetor', linksetor);
         formData.append('codigoCargo', linkcargo);
-        formData.append('imgFunc', imgFunc);
+
+        if (imgFunc) {
+            formData.append('imgFunc', imgFunc, imgFunc.name);
+        } else {
+            const response = await fetch(defaultFuncionario);
+            const blob = await response.blob();
+            const file = new File([blob], 'defaultFuncionario.jpg', { type: 'image/jpeg' });
+            formData.append('imgFunc', file);
+        }
 
         try {
             const response = await fetch('http://127.0.0.1:8000/funcionarios/', {
@@ -57,7 +66,7 @@ const Funcionario = () => {
             setCpf('');
             setCodigoSetor(0);
             setCodigoCargo(0);
-            setImgFunc(undefined);
+            setImgFunc(null);
         } catch (error) {
             console.error('Error:', error);
             console.log('Detalhes do erro:', error.message);

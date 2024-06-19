@@ -8,7 +8,7 @@
     position: fixed; /* Fixa o menu na posição */
     top: 0;
     left: 0;
-    z-index: 2;
+    z-index: 0;
 }
 
 /* Outros estilos permanecem inalterados */

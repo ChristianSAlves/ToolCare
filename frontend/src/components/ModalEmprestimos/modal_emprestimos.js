@@ -12,22 +12,31 @@ const extractIdFromUrl = (url) => {
     return parts[parts.length - 2];
 };
 
-const ModalEmprestimoComponent = ({ onClose, emprestimo, onShowModal }) => {
+const ModalEmprestimosComponent = ({ onClose, emprestimo }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [showEditado, setShowEditado] = useState(false);
     const [showRemovido, setShowRemovido] = useState(false);
     const [showConfirmacao, setShowConfirmacao] = useState(false);
     const [showFalhaEdicao, setShowFalhaEdicao] = useState(false);
     const [showFalhaRemocao, setShowFalhaRemocao] = useState(false);
-    const [nomeFerramenta, setNomeFerramenta] = useState('Carregando...');
-    const [nomeFuncionario, setNomeFuncionario] = useState('Carregando...');
     const [editData, setEditData] = useState({
         DataEmprestimo: '',
         DataDevolucao: '',
         Observacoes: '',
     });
 
+    const [nomeFerramenta, setNomeFerramenta] = useState('Carregando...');
+    const [nomeFuncionario, setNomeFuncionario] = useState('Carregando...');
+
     useEffect(() => {
+        if (emprestimo) {
+            setEditData({
+                DataEmprestimo: emprestimo.dataEmprestimo || '',
+                DataDevolucao: emprestimo.dataDevolucao || 'Ainda emprestado',
+                Observacoes: emprestimo.observacoes || '',
+            });
+        }
+
         const token = localStorage.getItem('token');
         const numSerie = extractIdFromUrl(emprestimo.numSerie);
         const matriculaFuncionario = extractIdFromUrl(emprestimo.matriculaFuncionario);
@@ -70,12 +79,6 @@ const ModalEmprestimoComponent = ({ onClose, emprestimo, onShowModal }) => {
 
         fetchFerramenta();
         fetchFuncionario();
-
-        setEditData({
-            DataEmprestimo: emprestimo.dataEmprestimo,
-            DataDevolucao: emprestimo.dataDevolucao,
-            Observacoes: emprestimo.observacoes,
-        });
     }, [emprestimo]);
 
     const handleChange = (event, field) => {
@@ -91,9 +94,8 @@ const ModalEmprestimoComponent = ({ onClose, emprestimo, onShowModal }) => {
         const token = localStorage.getItem('token');
         try {
             const url = `http://127.0.0.1:8000/emprestimos/${emprestimo.codigoEmprestimo}/`;
+
             const formData = new FormData();
-            formData.append('dataEmprestimo', editData.DataEmprestimo);
-            formData.append('dataDevolucao', editData.DataDevolucao);
             formData.append('observacoes', editData.Observacoes);
 
             const response = await fetch(url, {
@@ -109,7 +111,6 @@ const ModalEmprestimoComponent = ({ onClose, emprestimo, onShowModal }) => {
                 setTimeout(() => {
                     setShowEditado(false);
                     onClose();
-                    if (onShowModal) onShowModal(false);
                 }, 3000);
             } else {
                 const errorData = await response.json();
@@ -150,7 +151,6 @@ const ModalEmprestimoComponent = ({ onClose, emprestimo, onShowModal }) => {
                 setTimeout(() => {
                     setShowRemovido(false);
                     onClose();
-                    if (onShowModal) onShowModal(false);
                 }, 3000);
             } else {
                 console.error('Falha ao remover o empréstimo. Por favor, tente novamente.');
@@ -174,6 +174,10 @@ const ModalEmprestimoComponent = ({ onClose, emprestimo, onShowModal }) => {
         setShowConfirmacao(false);
     };
 
+    if (!emprestimo) {
+        return null;
+    }
+
     return (
         <>
             {showRemovido && <RemovidoComponent />}
@@ -183,37 +187,25 @@ const ModalEmprestimoComponent = ({ onClose, emprestimo, onShowModal }) => {
                 <div className={styles.modal} onClick={e => e.stopPropagation()}>
                     <div className={styles.modal_content}>
                         <div className={styles.info_row}>
-                            <span className={styles.label}>Código do Empréstimo</span>
-                            <p>{emprestimo.codigoEmprestimo}</p>
+                            <span className={styles.label}>Nome do Funcionário</span>
+                            <p>{nomeFuncionario}</p>
                         </div>
                         <div className={styles.info_row}>
                             <span className={styles.label}>Nome da Ferramenta</span>
                             <p>{nomeFerramenta}</p>
                         </div>
                         <div className={styles.info_row}>
-                            <span className={styles.label}>Nome do Funcionário</span>
-                            <p>{nomeFuncionario}</p>
+                            <span className={styles.label}>Data Empréstimo</span>
+                            <p>{editData.DataEmprestimo}</p>
                         </div>
                         <div className={styles.info_row}>
-                            <span className={styles.label}>Data de Empréstimo</span>
-                            {isEditing ? (
-                                <input type="date" id={styles.input_text} value={editData.DataEmprestimo} onChange={e => handleChange(e, 'DataEmprestimo')} />
-                            ) : (
-                                <p>{editData.DataEmprestimo}</p>
-                            )}
-                        </div>
-                        <div className={styles.info_row}>
-                            <span className={styles.label}>Data de Devolução</span>
-                            {isEditing ? (
-                                <input type="date" id={styles.input_text} value={editData.DataDevolucao} onChange={e => handleChange(e, 'DataDevolucao')} />
-                            ) : (
-                                <p>{editData.DataDevolucao}</p>
-                            )}
+                            <span className={styles.label}>Data Devolução</span>
+                            <p>{editData.DataDevolucao || 'Ainda emprestado'}</p>
                         </div>
                         <div className={styles.info_row}>
                             <span className={styles.label}>Observações</span>
                             {isEditing ? (
-                                <textarea id={styles.textarea} value={editData.Observacoes} onChange={e => handleChange(e, 'Observacoes')}></textarea>
+                                <textarea id={styles.input_text} value={editData.Observacoes} onChange={e => handleChange(e, 'Observacoes')}></textarea>
                             ) : (
                                 <p>{editData.Observacoes}</p>
                             )}
@@ -238,4 +230,4 @@ const ModalEmprestimoComponent = ({ onClose, emprestimo, onShowModal }) => {
     );
 };
 
-export default ModalEmprestimoComponent;
+export default ModalEmprestimosComponent;

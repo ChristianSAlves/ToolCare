@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import styles from './manutencao_cadastro.module.css';
-import { Link } from 'react-router-dom';
 import MenuComponent from '../../../components/Menu/Menu';
 import CadastradoComponent from '../../../components/Avisos/Cadastrado/cadastrado';
 import FalhaCadastroComponent from '../../../components/Avisos/FalhaCadastro/falha_cadastro';
@@ -9,24 +8,21 @@ const Manutencao = () => {
     const [Ferramentas, setFerramentas] = useState([]);
     const [codFerramenta, setCodFerramenta] = useState(0);
     const [tipoManutencao, setTipoManutencao] = useState('');
-    const [dataInicio, setDataInicio] = useState(new Date());
-    const [dataFim, setDataFim] = useState(new Date());
     const [showSuccess, setShowSuccess] = useState(false);
     const [showError, setShowError] = useState(false);
 
     useEffect(() => {
-        const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage
+        const token = localStorage.getItem('token');
     
         const fetchData = async () => {
             try {
-                // Busca as Ferramentas
                 const responseFerramentas = await fetch('http://127.0.0.1:8000/ferramentas/', {
                     headers: {
-                        'Authorization': `Token ${token}`, // Adicionando o token de autorização ao cabeçalho
+                        'Authorization': `Token ${token}`,
                     },
                 });
                 if (!responseFerramentas.ok) {
-                    throw new Error('Erro ao carregar os Ferramentas');
+                    throw new Error('Erro ao carregar as Ferramentas');
                 }
                 const dataFerramentas = await responseFerramentas.json();
                 setFerramentas(dataFerramentas);              
@@ -41,16 +37,16 @@ const Manutencao = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
     
-        const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage
-        console.log(codFerramenta);
+        const token = localStorage.getItem('token');
         const linkferramenta = `http://127.0.0.1:8000/ferramentas/${codFerramenta}/`;
+        const dataInicio = new Date().toISOString().split('T')[0];
     
         const formData = new FormData();
         formData.append('codFerramenta', linkferramenta);
         formData.append('tipoManutencao', tipoManutencao);
         formData.append('dataInicio', dataInicio);
-        formData.append('dataFim', dataFim);
-    
+        formData.append('dataFim', '');
+
         try {
             const response = await fetch('http://127.0.0.1:8000/manutencoes/', {
                 method: 'POST',
@@ -69,8 +65,6 @@ const Manutencao = () => {
                 // Limpar os inputs após o cadastro bem-sucedido
                 setCodFerramenta(0);
                 setTipoManutencao('');
-                setDataInicio(new Date());
-                setDataFim(new Date());
             } else {
                 console.error('Failed to submit form:', response.status, response.statusText);
                 const errorData = await response.json();
@@ -103,16 +97,12 @@ const Manutencao = () => {
                         </select>
                     </div>
                     <div className={styles.spacer}>
-                        <label id={styles.tipo_manutencao_label}>Tipo Manutenção</label>
+                        <label id={styles.tipo_manutencao_label}>Tipo</label>
                         <select name="tipo_manutencao" id={styles.tipo_manutencao_select} required value={tipoManutencao} onChange={(evt) => setTipoManutencao(evt.target.value)}>
                             <option value={0}>Selecione</option>
                             <option value="Preventiva">Preventiva</option>
                             <option value="Corretiva">Corretiva</option>
                         </select>
-                    </div>
-                    <div className={styles.spacer}>
-                        <label id={styles.data_inicio_label}>Data de início</label>
-                        <input type="date" id={styles.data_inicio_datepicker} required value={dataInicio} onChange={(evt) => setDataInicio(evt.target.value)}></input>
                     </div>
                     <button id={styles.enviar} type="submit">ENVIAR</button>
                 </form>

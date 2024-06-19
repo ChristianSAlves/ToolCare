@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import ModalEmprestimosComponent from "../ModalEmprestimos/modal_emprestimos";
 import styles from "./card_emprestimos.module.css";
 
 const extractIdFromUrl = (url) => {
@@ -7,9 +8,10 @@ const extractIdFromUrl = (url) => {
     return parts[parts.length - 2];
 };
 
-const CardEmprestimosComponent = ({ emprestimo, onShowModal }) => {
+const CardEmprestimosComponent = ({ emprestimo }) => {
     const [nomeFerramenta, setNomeFerramenta] = useState('Carregando...');
     const [matriculaFuncionario, setMatriculaFuncionario] = useState('Carregando...');
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -56,20 +58,34 @@ const CardEmprestimosComponent = ({ emprestimo, onShowModal }) => {
         fetchFuncionario();
     }, [emprestimo.numSerie, emprestimo.matriculaFuncionario]);
 
+    const handleShowModal = () => {
+        setShowModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+    };
+
     return (
         <div id={styles.card}>
             <div id={styles.fundo}>
                 <ul className={styles.lista_ul}>
                     <li className={styles.list_item}>
-                        <p className={`${styles.codigoEmprestimo} ${`${styles.list_item} ${styles.list_tittle}`}`}>{`Empréstimo ${emprestimo.codigoEmprestimo}`}</p>
+                        <p className={`${styles.codigoEmprestimo} ${styles.list_item} ${styles.list_tittle}`}>{`Empréstimo ${emprestimo.codigoEmprestimo}`}</p>
                         <div id={styles.card_item}>
                             <p className={`${styles.nomeFerramenta} ${styles.list_item}`}>{nomeFerramenta}</p>
                             <p className={`${styles.nomeFuncionario} ${styles.list_item}`}>{matriculaFuncionario}</p>
                         </div>
                     </li>
                 </ul>
-                <button id={styles.button_card} onClick={() => onShowModal(emprestimo)}>VER MAIS</button>
+                <button id={styles.button_card} onClick={handleShowModal}>VER MAIS</button>
             </div>
+            {showModal && (
+                <ModalEmprestimosComponent
+                    onClose={handleCloseModal}
+                    emprestimo={emprestimo}
+                />
+            )}
         </div>
     );
 };

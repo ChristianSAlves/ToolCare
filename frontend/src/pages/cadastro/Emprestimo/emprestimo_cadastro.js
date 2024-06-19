@@ -1,5 +1,4 @@
 import styles from './emprestimo_cadastro.module.css';
-import { Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import MenuComponent from '../../../components/Menu/Menu';
 import CadastradoComponent from '../../../components/Avisos/Cadastrado/cadastrado';

@@ -16,7 +16,7 @@
     margin-top: 8rem;
     margin-left: 30rem;
     overflow: visible;
-    z-index: 0;
+    z-index: -1;
 }
 
 #menu {
@@ -34,7 +34,7 @@
     color: white;
     margin-top: 5rem;
     margin-right: -35rem;
-    z-index: 1;
+    z-index: -1;
 }
 
 #funcionarios, #ferramentas {

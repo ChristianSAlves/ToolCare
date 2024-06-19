@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from './ferramenta_cadastro.module.css';
+import defaultFerramenta from '../../../assets/imagens/defaultFerramenta.jpg'
 import MenuComponent from '../../../components/Menu/Menu';
 import CadastradoComponent from '../../../components/Avisos/Cadastrado/cadastrado';
 import FalhaCadastroComponent from '../../../components/Avisos/FalhaCadastro/falha_cadastro';
@@ -8,7 +9,7 @@ const FerramentaCadastro = () => {
     const [nome, setNome] = useState('');
     const [numSerie, setNumSerie] = useState('');
     const [descricao, setDescricao] = useState('');
-    const [imgFerramenta, setImgFerramenta] = useState();
+    const [imgFerramenta, setImgFerramenta] = useState(null);
     const [dataAquisicao, setDataAquisicao] = useState('');
     const [status, setStatus] = useState('');
     const [showSuccess, setShowSuccess] = useState(false);
@@ -21,7 +22,16 @@ const FerramentaCadastro = () => {
         formData.append('nome', nome);
         formData.append('numSerie', numSerie);
         formData.append('descricao', descricao);
-        formData.append('imgFerramenta', imgFerramenta, imgFerramenta.name);
+        
+        if (imgFerramenta) {
+            formData.append('imgFerramenta', imgFerramenta, imgFerramenta.name);
+        } else {
+            const response = await fetch(defaultFerramenta);
+            const blob = await response.blob();
+            const file = new File([blob], 'defaultFerramenta.jpg', { type: 'image/jpeg' });
+            formData.append('imgFerramenta', file);
+        }
+        
         formData.append('dataAquisicao', dataAquisicao);
         formData.append('status', status);
 
@@ -49,7 +59,7 @@ const FerramentaCadastro = () => {
             setNome('');
             setNumSerie('');
             setDescricao('');
-            setImgFerramenta(undefined);
+            setImgFerramenta(null);
             setDataAquisicao('');
             setStatus('');
         } catch (error) {
@@ -85,7 +95,7 @@ const FerramentaCadastro = () => {
                     </div>
                     <div className={styles.spacer}>
                         <label id={styles.foto_label} htmlFor="foto">Foto</label>
-                        <input type="file" id={styles.foto} name="foto" accept=".png,.jpg,.jpeg" required onChange={(evt) => setImgFerramenta(evt.target.files[0])}></input>
+                        <input type="file" id={styles.foto} name="foto" accept=".png,.jpg,.jpeg" onChange={(evt) => setImgFerramenta(evt.target.files[0])}></input>
                     </div>
                     <button id={styles.enviar} type="submit">ENVIAR</button>
                 </form>
