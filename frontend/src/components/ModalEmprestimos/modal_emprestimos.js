@@ -96,7 +96,16 @@ const ModalEmprestimosComponent = ({ onClose, emprestimo }) => {
             const url = `http://127.0.0.1:8000/emprestimos/${emprestimo.codigoEmprestimo}/`;
 
             const formData = new FormData();
+            formData.append('codigoEmprestimo', emprestimo.codigoEmprestimo);
+            formData.append('matriculaFuncionario', emprestimo.matriculaFuncionario);
+            formData.append('dataEmprestimo', emprestimo.dataEmprestimo);
+            formData.append('numSerie', emprestimo.numSerie);
+            formData.append('dataDevolucao', '');
             formData.append('observacoes', editData.Observacoes);
+
+            for (let [key, value] of formData.entries()) {
+                console.log(key, value);
+            }
 
             const response = await fetch(url, {
                 method: 'PATCH',
@@ -131,10 +140,6 @@ const ModalEmprestimosComponent = ({ onClose, emprestimo }) => {
         setIsEditing(false);
     };
 
-    const handleRemove = () => {
-        setShowConfirmacao(true);
-    };
-
     const confirmRemove = async () => {
         const token = localStorage.getItem('token');
 
@@ -153,7 +158,7 @@ const ModalEmprestimosComponent = ({ onClose, emprestimo }) => {
                     onClose();
                 }, 3000);
             } else {
-                console.error('Falha ao remover o empréstimo. Por favor, tente novamente.');
+                console.error('Falha ao devolver o empréstimo. Por favor, tente novamente.');
                 setShowFalhaRemocao(true);
                 setTimeout(() => {
                     setShowFalhaRemocao(false);
@@ -172,6 +177,51 @@ const ModalEmprestimosComponent = ({ onClose, emprestimo }) => {
 
     const cancelRemove = () => {
         setShowConfirmacao(false);
+    };
+
+    const handleDevolver = async () => {
+        const token = localStorage.getItem('token');
+        try {
+            const url = `http://127.0.0.1:8000/emprestimos/${emprestimo.codigoEmprestimo}/`;
+
+            const formData = new FormData();
+            formData.append('codigoEmprestimo', emprestimo.codigoEmprestimo);
+            formData.append('matriculaFuncionario', emprestimo.matriculaFuncionario);
+            formData.append('dataEmprestimo', emprestimo.dataEmprestimo);
+            formData.append('numSerie', emprestimo.numSerie);
+            formData.append('dataDevolucao', new Date().toISOString().split('T')[0]);
+            formData.append('observacoes', emprestimo.observacoes);
+            
+
+            const response = await fetch(url, {
+                method: 'PATCH',
+                headers: {
+                    'Authorization': `Token ${token}`,
+                },
+                body: formData,
+            });
+
+            if (response.ok) {
+                setShowEditado(true);
+                setTimeout(() => {
+                    setShowEditado(false);
+                    onClose();
+                }, 3000);
+            } else {
+                const errorData = await response.json();
+                console.error('Erro ao devolver o empréstimo:', errorData);
+                setShowFalhaEdicao(true);
+                setTimeout(() => {
+                    setShowFalhaEdicao(false);
+                }, 3000);
+            }
+        } catch (error) {
+            console.error('Erro ao devolver o empréstimo:', error);
+            setShowFalhaEdicao(true);
+            setTimeout(() => {
+                setShowFalhaEdicao(false);
+            }, 3000);
+        }
     };
 
     if (!emprestimo) {
@@ -217,7 +267,7 @@ const ModalEmprestimosComponent = ({ onClose, emprestimo }) => {
                             ) : (
                                 <>
                                     <button className={styles.edit_button} onClick={handleEdit}>EDITAR</button>
-                                    <button className={styles.remove_button} onClick={handleRemove}>DEVOLVER</button>
+                                    <button className={styles.remove_button} onClick={handleDevolver}>DEVOLVER</button>
                                 </>
                             )}
                         </div>

@@ -23,22 +23,18 @@ const Emprestimo = () => {
             });
     
             if (!responseEmprestimos.ok) {
-                throw new Error('Erro ao carregar os Emprestimos');
+                throw new Error('Erro ao carregar os Empréstimos');
             }
     
             const dataEmprestimos = await responseEmprestimos.json();
-            {/*let filteredEmprestimos = dataEmprestimos.filter(emprestimo => 
-                (newSelectedOption === 'nomeFuncionario' && emprestimo.codigoEmprestimo.toLowerCase().includes(newSearch.toLowerCase())) ||
-                (newSelectedOption === 'nomeFerramenta' && emprestimo.codigoEmprestimo.toLowerCase().includes(newSearch.toLowerCase()))||
-                (!newSelectedOption && (emprestimo.numSerie.toLowerCase().includes(newSearch.toLowerCase()) ||
-            emprestimo.nome.toLowerCase().includes(newSearch.toLowerCase())))
-            );
+            const filteredEmprestimos = dataEmprestimos.filter(emprestimo => emprestimo.dataDevolucao != null);
     
-        setEmprestimos(filteredEmprestimos);*/}
+            setEmprestimos(filteredEmprestimos);
         } catch (error) {
             console.error('Erro:', error);
         }
     };
+    
 
     useEffect(() => {
         const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage
