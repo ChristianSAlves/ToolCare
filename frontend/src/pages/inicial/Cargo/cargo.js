@@ -37,27 +37,29 @@ const Cargo = () => {
         }
     };
 
-    useEffect(() => {
+    const reloadCargos = async () => {
         const token = localStorage.getItem('token');
 
-        const fetchData = async () => {
-            try {
-                const responseCargos = await fetch('http://127.0.0.1:8000/cargos/', {
-                    headers: {
-                        'Authorization': `Token ${token}`,
-                    },
-                });
-                if (!responseCargos.ok) {
-                    throw new Error('Erro ao carregar os Cargos');
-                }
-                const dataCargos = await responseCargos.json();
-                setCargos(dataCargos);
-            } catch (error) {
-                console.error('Erro:', error);
-            }
-        };
+        try {
+            const responseCargos = await fetch('http://127.0.0.1:8000/cargos/', {
+                headers: {
+                    'Authorization': `Token ${token}`,
+                },
+            });
 
-        fetchData();
+            if (!responseCargos.ok) {
+                throw new Error('Erro ao carregar os Cargos');
+            }
+
+            const dataCargos = await responseCargos.json();
+            setCargos(dataCargos);
+        } catch (error) {
+            console.error('Erro:', error);
+        }
+    };
+
+    useEffect(() => {
+        reloadCargos();
     }, []);
 
     useEffect(() => {
@@ -116,7 +118,14 @@ const Cargo = () => {
                     ))}
                 </div>
             </div>
-            {showModal && <ModalCargosComponent onClose={toggleModal} cargo={selectedCargo} />}
+            {showModal && (
+                <ModalCargosComponent
+                    onClose={toggleModal}
+                    cargo={selectedCargo}
+                    onShowModal={setShowModal}
+                    onRemove={reloadCargos}
+                />
+            )}
         </div>
     );
 }

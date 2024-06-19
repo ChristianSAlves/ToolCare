@@ -6,7 +6,7 @@ import ConfirmarRemocaoComponent from "../Avisos/ConfirmarRemoção/confirmar_re
 import FalhaEdicaoComponent from "../Avisos/FalhaEdição/falha_edicao";
 import FalhaRemocaoComponent from "../Avisos/FalhaRemoção/falha_remocao";
 
-const ModalCargosComponent = ({ onClose, cargo, onShowModal }) => {
+const ModalCargosComponent = ({ onClose, cargo, onShowModal, onRemove }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [showEditado, setShowEditado] = useState(false);
     const [showRemovido, setShowRemovido] = useState(false);
@@ -90,6 +90,7 @@ const ModalCargosComponent = ({ onClose, cargo, onShowModal }) => {
 
             if (response.ok) {
                 setShowRemovido(true);
+                onRemove(); // Chama a função para recarregar a lista de cargos
                 setTimeout(() => {
                     setShowRemovido(false);
                     onClose(); // Fechar o modal após a remoção

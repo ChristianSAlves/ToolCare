@@ -45,26 +45,26 @@ const Manutencao = () => {
         }
     };
 
-    useEffect(() => {
+    const fetchData = async () => {
         const token = localStorage.getItem('token');
 
-        const fetchData = async () => {
-            try {
-                const responseManutencoes = await fetch('http://127.0.0.1:8000/manutencoes/', {
-                    headers: {
-                        'Authorization': `Token ${token}`,
-                    },
-                });
-                if (!responseManutencoes.ok) {
-                    throw new Error('Erro ao carregar as Manutenções');
-                }
-                const dataManutencoes = await responseManutencoes.json();
-                setManutencoes(dataManutencoes);
-            } catch (error) {
-                console.error('Erro:', error);
+        try {
+            const responseManutencoes = await fetch('http://127.0.0.1:8000/manutencoes/', {
+                headers: {
+                    'Authorization': `Token ${token}`,
+                },
+            });
+            if (!responseManutencoes.ok) {
+                throw new Error('Erro ao carregar as Manutenções');
             }
-        };
+            const dataManutencoes = await responseManutencoes.json();
+            setManutencoes(dataManutencoes);
+        } catch (error) {
+            console.error('Erro:', error);
+        }
+    };
 
+    useEffect(() => {
         fetchData();
     }, []);
 
@@ -75,6 +75,10 @@ const Manutencao = () => {
     const toggleModal = (manutencao) => {
         setSelectedManutencao(manutencao);
         setShowModal(!showModal);
+    };
+
+    const reloadManutencoes = () => {
+        fetchData();
     };
 
     return (
@@ -136,7 +140,15 @@ const Manutencao = () => {
                     ))}
                 </div>
             </div>
-            {showModal && <ModalManutencaoComponent onClose={toggleModal} manutencao={selectedManutencao} />}
+            {showModal && (
+                <ModalManutencaoComponent
+                    onClose={toggleModal}
+                    manutencao={selectedManutencao}
+                    onShowModal={setShowModal}
+                    onRemove={reloadManutencoes}
+                    onEdit={reloadManutencoes}
+                />
+            )}
         </div>
     );
 }

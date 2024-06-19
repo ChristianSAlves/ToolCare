@@ -51,27 +51,27 @@ const Funcionario = () => {
         }
     };
 
-    useEffect(() => {
+    const fetchData = async () => {
         const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage
     
-        const fetchData = async () => {
-            try {
-                // Busca os funcionarios
-                const responseFuncionarios = await fetch('http://127.0.0.1:8000/funcionarios/', {
-                    headers: {
-                        'Authorization': `Token ${token}`, // Adicionando o token de autorização ao cabeçalho
-                    },
-                });
-                if (!responseFuncionarios.ok) {
-                    throw new Error('Erro ao carregar os Funcionarios');
-                }
-                const dataFuncionarios = await responseFuncionarios.json();
-                setFuncionarios(dataFuncionarios);              
-            } catch (error) {
-                console.error('Erro:', error);
+        try {
+            // Busca os funcionarios
+            const responseFuncionarios = await fetch('http://127.0.0.1:8000/funcionarios/', {
+                headers: {
+                    'Authorization': `Token ${token}`, // Adicionando o token de autorização ao cabeçalho
+                },
+            });
+            if (!responseFuncionarios.ok) {
+                throw new Error('Erro ao carregar os Funcionarios');
             }
-        };
-    
+            const dataFuncionarios = await responseFuncionarios.json();
+            setFuncionarios(dataFuncionarios);              
+        } catch (error) {
+            console.error('Erro:', error);
+        }
+    };
+
+    useEffect(() => {
         fetchData();
     }, []);
 
@@ -83,6 +83,10 @@ const Funcionario = () => {
     const toggleModal = (funcionario) => {
         setSelectedFuncionario(funcionario);
         setShowModal(!showModal);
+    };
+
+    const reloadFuncionarios = () => {
+        fetchData();
     };
 
     return (
@@ -157,7 +161,14 @@ const Funcionario = () => {
                     ))}
                 </div>
             </div>
-            {showModal && <ModalFuncionariosComponent onClose={toggleModal} funcionario={selectedFuncionario} />}
+            {showModal && (
+                <ModalFuncionariosComponent
+                    onClose={toggleModal}
+                    funcionario={selectedFuncionario}
+                    onShowModal={setShowModal}
+                    onRemove={reloadFuncionarios}
+                />
+            )}
         </div>
     );
 }

@@ -13,7 +13,7 @@ const extractIdFromUrl = (url) => {
     return parts[parts.length - 2];
 };
 
-const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal }) => {
+const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal, onRemove }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [showEditado, setShowEditado] = useState(false);
     const [showRemovido, setShowRemovido] = useState(false);
@@ -110,8 +110,6 @@ const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal }) => {
                 setShowEditado(true);
                 setTimeout(() => {
                     setShowEditado(false);
-                    onClose();
-                    if (onShowModal) onShowModal(false);
                 }, 3000);
             } else {
                 const errorData = await response.json();
@@ -149,6 +147,7 @@ const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal }) => {
 
             if (response.ok) {
                 setShowRemovido(true);
+                onRemove(); // Chama a função para recarregar a lista de funcionários após remoção
                 setTimeout(() => {
                     setShowRemovido(false);
                     onClose();

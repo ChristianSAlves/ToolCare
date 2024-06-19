@@ -217,7 +217,7 @@ const ModalEmprestimosComponent = ({ onClose, emprestimo }) => {
                             ) : (
                                 <>
                                     <button className={styles.edit_button} onClick={handleEdit}>EDITAR</button>
-                                    <button className={styles.remove_button} onClick={handleRemove}>DESATIVAR</button>
+                                    <button className={styles.remove_button} onClick={handleRemove}>DEVOLVER</button>
                                 </>
                             )}
                         </div>

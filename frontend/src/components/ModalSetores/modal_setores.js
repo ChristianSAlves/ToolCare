@@ -6,7 +6,7 @@ import ConfirmarRemocaoComponent from "../Avisos/ConfirmarRemoção/confirmar_re
 import FalhaEdicaoComponent from "../Avisos/FalhaEdição/falha_edicao";
 import FalhaRemocaoComponent from "../Avisos/FalhaRemoção/falha_remocao";
 
-const ModalSetoresComponent = ({ onClose, setor, onShowModal }) => {
+const ModalSetoresComponent = ({ onClose, setor, onShowModal, onRemoveSuccess }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [showEditado, setShowEditado] = useState(false);
     const [showRemovido, setShowRemovido] = useState(false);
@@ -90,9 +90,10 @@ const ModalSetoresComponent = ({ onClose, setor, onShowModal }) => {
 
             if (response.ok) {
                 setShowRemovido(true);
+                onRemoveSuccess();  // Chama a função de callback imediatamente
                 setTimeout(() => {
                     setShowRemovido(false);
-                    onClose(); // Fechar o modal após a remoção
+                    onClose(); // Fechar o modal após a exibição da mensagem
                     if (onShowModal) onShowModal(false); // Atualiza o estado do modal no componente pai, se necessário
                 }, timeRemovido);
             } else {

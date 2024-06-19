@@ -82,6 +82,24 @@ const Ferramenta = () => {
         setShowModal(!showModal);
     };
 
+    const reloadFerramentas = async () => {
+        const token = localStorage.getItem('token');
+        try {
+            const responseFerramentas = await fetch('http://127.0.0.1:8000/ferramentas/', {
+                headers: {
+                    'Authorization': `Token ${token}`,
+                },
+            });
+            if (!responseFerramentas.ok) {
+                throw new Error('Erro ao carregar as Ferramentas');
+            }
+            const dataFerramentas = await responseFerramentas.json();
+            setFerramentas(dataFerramentas);
+        } catch (error) {
+            console.error('Erro:', error);
+        }
+    };
+
     return (
         <div id={styles.div_ferramenta}>
             <MenuComponent id="menu" />
@@ -154,7 +172,14 @@ const Ferramenta = () => {
                     ))}
                 </div>
             </div>
-            {showModal && <ModalFerramentasComponent onClose={toggleModal} ferramenta={selectedFerramenta} />}
+            {showModal && (
+                <ModalFerramentasComponent
+                    onClose={toggleModal}
+                    ferramenta={selectedFerramenta}
+                    onShowModal={setShowModal}
+                    onRemove={reloadFerramentas}
+                />
+            )}
         </div>
     );
 }

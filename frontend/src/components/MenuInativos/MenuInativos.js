@@ -91,7 +91,7 @@ export const MenuInativosComponent = () => {
                             <h4 id="texto_manutencoes" className={`${styles.item} ${styles.texto_menu} ${selectedItem === 'manutencoes' ? styles.selected : ''}`}>MANUTENÇÕES</h4>
                         </li>
                     </Link>
-                    <Link to="/cargo_inativo">
+                    {/*<Link to="/cargo_inativo">
                         <li
                             id="cargos"
                             className={`${styles.div_navbar} ${selectedItem === 'cargos' ? styles.selected : ''}`}
@@ -110,7 +110,7 @@ export const MenuInativosComponent = () => {
                             <img src={getIconSrc('setores', setoresIcon, setoresIconLaranja)} className={`${styles.item} ${styles.quadradinho}`} alt="Ícone de setores" />
                             <h4 id="texto_setores" className={`${styles.item} ${styles.texto_menu} ${selectedItem === 'setores' ? styles.selected : ''}`}>SETORES</h4>
                         </li>
-                    </Link>
+                    </Link>*/}
                 </ul>
                 <Link to="/visao_geral" state={{ selectedItem: 'visao_geral' }}>
                 <li id="ativos" className={`${styles.div_navbar} ${styles.div_ativos}`}>

@@ -69,6 +69,24 @@ const Setor = () => {
         setShowModal(!showModal);
     };
 
+    const reloadSetores = async () => {
+        const token = localStorage.getItem('token');
+        try {
+            const responseSetores = await fetch('http://127.0.0.1:8000/setores/', {
+                headers: {
+                    'Authorization': `Token ${token}`,
+                },
+            });
+            if (!responseSetores.ok) {
+                throw new Error('Erro ao carregar os Setores');
+            }
+            const dataSetores = await responseSetores.json();
+            setSetores(dataSetores);              
+        } catch (error) {
+            console.error('Erro:', error);
+        }
+    };
+
     return (
         <div id={styles.div_setor}>
             <MenuComponent id="menu" />
@@ -83,27 +101,6 @@ const Setor = () => {
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                 />
-                {/*<p
-                    id={styles.filtro}
-                    onClick={() => setShowOptions(!showOptions)}
-                    className="conteudo_searchbar"
-                >Filtro</p>
-                {showOptions && (
-                    <div className={styles.options_box}>
-                        <div className={styles.option_row}>
-                            <label htmlFor="radio_nome" className={styles.label_searchbar}>Nome</label>
-                            <input
-                                id="radio_nome"
-                                className={styles.radio}
-                                type="radio"
-                                name="option"
-                                value="nome"
-                                checked={selectedOption === 'nome'}
-                                onChange={(e) => setSelectedOption(e.target.value)}
-                            />
-                        </div>
-                    </div>
-                )}*/}
             </div>
             <div className={styles.div_pai}>
                 <div className={styles.card_container}>
@@ -116,7 +113,7 @@ const Setor = () => {
                     ))}
                 </div>
             </div>
-            {showModal && <ModalSetoresComponent onClose={toggleModal} setor={selectedSetor} />}
+            {showModal && <ModalSetoresComponent onClose={toggleModal} setor={selectedSetor} onRemoveSuccess={reloadSetores} />}
         </div>
     );
 }

@@ -12,7 +12,7 @@ const extractIdFromUrl = (url) => {
     return parts[parts.length - 2];
 };
 
-const ModalManutencaoComponent = ({ onClose, manutencao, onShowModal }) => {
+const ModalManutencaoComponent = ({ onClose, manutencao, onShowModal, onRemove, onEdit }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [showEditado, setShowEditado] = useState(false);
     const [showRemovido, setShowRemovido] = useState(false);
@@ -72,15 +72,11 @@ const ModalManutencaoComponent = ({ onClose, manutencao, onShowModal }) => {
             const url = `http://127.0.0.1:8000/manutencoes/${manutencao.codigoManutencao}/`;
 
             const formData = new FormData();
-            formData.append('codigoManutencao', manutencao.codigoManutencao)
-            formData.append('codFerramenta', manutencao.codFerramenta)
-            formData.append('tipoManutencao', manutencao.tipoManutencao)
-            formData.append('dataInicio', manutencao.dataInicio)
-            formData.append('dataFinal', editData.DataFim)
-
-            for (let pair of formData.entries()) {
-                console.log(pair[0]+ ', ' + pair[1]); 
-            }
+            formData.append('codigoManutencao', manutencao.codigoManutencao);
+            formData.append('codFerramenta', manutencao.codFerramenta);
+            formData.append('tipoManutencao', manutencao.tipoManutencao);
+            formData.append('dataInicio', manutencao.dataInicio);
+            formData.append('dataFinal', editData.DataFim);
 
             const response = await fetch(url, {
                 method: 'PATCH',
@@ -92,6 +88,7 @@ const ModalManutencaoComponent = ({ onClose, manutencao, onShowModal }) => {
 
             if (response.ok) {
                 setShowEditado(true);
+                onEdit(); // Chama a função para recarregar a lista de manutenções após edição
                 setTimeout(() => {
                     setShowEditado(false);
                     onClose();
@@ -133,6 +130,7 @@ const ModalManutencaoComponent = ({ onClose, manutencao, onShowModal }) => {
 
             if (response.ok) {
                 setShowRemovido(true);
+                onRemove(); // Chama a função para recarregar a lista de manutenções
                 setTimeout(() => {
                     setShowRemovido(false);
                     onClose();
@@ -195,7 +193,7 @@ const ModalManutencaoComponent = ({ onClose, manutencao, onShowModal }) => {
                             ) : (
                                 <>
                                     <button className={styles.edit_button} onClick={handleEdit}>EDITAR</button>
-                                    <button className={styles.remove_button} onClick={handleRemove}>DESATIVAR</button>
+                                    <button className={styles.remove_button} onClick={handleRemove}>FINALIZAR</button>
                                 </>
                             )}
                         </div>

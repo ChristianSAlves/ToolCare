@@ -7,7 +7,7 @@ import ConfirmarRemocaoComponent from "../Avisos/ConfirmarRemoção/confirmar_re
 import FalhaEdicaoComponent from "../Avisos/FalhaEdição/falha_edicao";
 import FalhaRemocaoComponent from "../Avisos/FalhaRemoção/falha_remocao";
 
-const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal }) => {
+const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal, onRemove }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [showEditado, setShowEditado] = useState(false);
     const [showRemovido, setShowRemovido] = useState(false);
@@ -98,6 +98,7 @@ const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal }) => {
                 setShowRemovido(true);
                 setTimeout(() => {
                     setShowRemovido(false);
+                    onRemove(); // Chama a função para recarregar a lista de ferramentas após remoção
                     onClose(); // Fechar o modal após a remoção
                     if (onShowModal) onShowModal(false); // Atualiza o estado do modal no componente pai, se necessário
                 }, timeRemovido);

@@ -138,7 +138,7 @@ const Funcionario = () => {
                     </div>
                     <div className={styles.spacer}>
                         <label id={styles.foto_label} htmlFor="foto">Foto</label>
-                        <input className={styles.input_file} type="file" id="foto" name="foto" accept=".png,.jpg,.jpeg" onChange={(evt) => setImgFunc(evt.target.files[0])}></input>
+                        <input className={styles.input_file} type="file" id={styles.foto} name="foto" accept=".png,.jpg,.jpeg" onChange={(evt) => setImgFunc(evt.target.files[0])}></input>
                     </div>
                     <button className={styles.button} type="submit">ENVIAR</button>
                 </form>
