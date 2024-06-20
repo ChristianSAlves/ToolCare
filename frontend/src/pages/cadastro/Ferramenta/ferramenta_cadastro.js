@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from './ferramenta_cadastro.module.css';
-import defaultFerramenta from '../../../assets/imagens/defaultFerramenta.jpg'
+import defaultFerramenta from '../../../assets/imagens/defaultFerramenta.jpg';
 import MenuComponent from '../../../components/Menu/Menu';
 import CadastradoComponent from '../../../components/Avisos/Cadastrado/cadastrado';
 import FalhaCadastroComponent from '../../../components/Avisos/FalhaCadastro/falha_cadastro';
@@ -11,7 +11,6 @@ const FerramentaCadastro = () => {
     const [descricao, setDescricao] = useState('');
     const [imgFerramenta, setImgFerramenta] = useState(null);
     const [dataAquisicao, setDataAquisicao] = useState('');
-    const [status, setStatus] = useState('');
     const [showSuccess, setShowSuccess] = useState(false);
     const [showError, setShowError] = useState(false);
 
@@ -22,7 +21,7 @@ const FerramentaCadastro = () => {
         formData.append('nome', nome);
         formData.append('numSerie', numSerie);
         formData.append('descricao', descricao);
-        
+
         if (imgFerramenta) {
             formData.append('imgFerramenta', imgFerramenta, imgFerramenta.name);
         } else {
@@ -31,9 +30,9 @@ const FerramentaCadastro = () => {
             const file = new File([blob], 'defaultFerramenta.jpg', { type: 'image/jpeg' });
             formData.append('imgFerramenta', file);
         }
-        
+
         formData.append('dataAquisicao', dataAquisicao);
-        formData.append('status', status);
+        formData.append('status', 'Disponível'); // Define o status como "Disponível"
 
         try {
             const response = await fetch('http://127.0.0.1:8000/ferramentas/', {
@@ -61,7 +60,6 @@ const FerramentaCadastro = () => {
             setDescricao('');
             setImgFerramenta(null);
             setDataAquisicao('');
-            setStatus('');
         } catch (error) {
             console.error('Error:', error);
             console.log('Detalhes do erro:', error.message);
@@ -79,16 +77,6 @@ const FerramentaCadastro = () => {
                     <input id={styles.nome} name="nome" type="text" placeholder="Nome" required value={nome} onChange={(evt) => setNome(evt.target.value)}></input>
                     <input id={styles.numero_serie} name="numero_serie" type="text" placeholder="Número de Série" required value={numSerie} onChange={(evt) => setNumSerie(evt.target.value)}></input>
                     <input id={styles.descricao} name="descricao" type="text" placeholder="Descrição" value={descricao} onChange={(evt) => setDescricao(evt.target.value)}></input>
-                    <div className={styles.spacer}>
-                        <label id={styles.status_label}>Status</label>
-                        <select name="status" id={styles.status_select} required value={status} onChange={(evt) => setStatus(evt.target.value)}>
-                            <option value=''>Selecione</option>
-                            <option value="Disponível">Disponível</option>
-                            <option value="Emprestada">Emprestada</option>
-                            <option value="Perdida">Perdida</option>
-                            <option value="Manutenção">Manutenção</option>
-                        </select>
-                    </div>
                     <div className={styles.spacer}>
                         <label id={styles.data_aquisicao_label} className={styles.label_ferrameta}>Data de aquisição</label>
                         <input type="date" id={styles.data_aquisicao_datepicker} required value={dataAquisicao} onChange={(evt) => setDataAquisicao(evt.target.value)}></input>

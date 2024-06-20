@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import ModalManutencaoComponent from "../ModalManutencoes/modal_manutencoes";
+import ModalManutencaoInativoComponent from "../ModalManutencoesInativos/modal_manutencoes_inativos";
 import styles from "./card_manutencoes.module.css";
 
 const extractIdFromUrl = (url) => {
@@ -7,9 +10,11 @@ const extractIdFromUrl = (url) => {
     return parts[parts.length - 2];
 };
 
-const CardManutencoesComponent = ({ manutencao, onShowModal }) => {
+const CardManutencoesComponent = ({ manutencao }) => {
     const [codFerramenta, setCodigoFerramenta] = useState('');
     const [ferramentas, setFerramentas] = useState([]);
+    const [showModal, setShowModal] = useState(false);
+    const location = useLocation();
 
     useEffect(() => {
         if (manutencao && manutencao.codFerramenta) {
@@ -40,20 +45,42 @@ const CardManutencoesComponent = ({ manutencao, onShowModal }) => {
         fetchData();
     }, []);
 
+    const handleShowModal = () => {
+        setShowModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+    };
+
+    const isManutencaoPage = location.pathname === "/manutencao";
+
     return (
         <div id={styles.card}>
             <div id={styles.fundo}>
                 <ul className={styles.lista_ul}>
                     <li className={styles.list_item}>
-                        <p className={`${styles.codigoManutencao} ${`${styles.list_item} ${styles.list_tittle}`}`}>{`Manutenção ${manutencao.codigoManutencao}`}</p>
+                        <p className={`${styles.codigoManutencao} ${styles.list_item} ${styles.list_tittle}`}>{`Manutenção ${manutencao.codigoManutencao}`}</p>
                         <div id={styles.card_item}>
                             <p className={`${styles.tipoManutencao} ${styles.list_item}`}>{manutencao.tipoManutencao}</p>
                             <p className={`${styles.nomeFerramenta} ${styles.list_item}`}>{ferramentas.length > 0 ? ferramentas.find(ferramenta => ferramenta.codFerramenta === parseInt(codFerramenta))?.nome : 'Carregando...'}</p>
                         </div>
                     </li>
                 </ul>
-                <button id={styles.button_card} onClick={() => onShowModal(manutencao)}>VER MAIS</button>
+                <button id={styles.button_card} onClick={handleShowModal}>VER MAIS</button>
             </div>
+            {showModal && isManutencaoPage && (
+                <ModalManutencaoComponent
+                    onClose={handleCloseModal}
+                    manutencao={manutencao}
+                />
+            )}
+            {showModal && !isManutencaoPage && (
+                <ModalManutencaoInativoComponent
+                    onClose={handleCloseModal}
+                    manutencao={manutencao}
+                />
+            )}
         </div>
     );
 };

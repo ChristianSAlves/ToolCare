@@ -5,68 +5,85 @@ import CardEmprestimosComponent from '../../../components/CardEmprestimos/card_e
 import ModalFerramentasComponent from '../../../components/ModalFerramentas/modal_ferramentas';
 import { Link } from 'react-router-dom';
 
-const Emprestimo = () => {
-    const [showOptions, setShowOptions] = useState(false);
+const EmprestimoInativo = () => {
     const [search, setSearch] = useState('');
-    const [selectedOption, setSelectedOption] = useState('');
-    const [Emprestimos, setEmprestimos] = useState([]);
+    const [emprestimos, setEmprestimos] = useState([]);
+    const [filteredEmprestimos, setFilteredEmprestimos] = useState([]);
     const [showModal, setShowModal] = useState(false);  // Estado para controle da visibilidade do modal
     const [selectedEmprestimo, setSelectedEmprestimo] = useState(null);
 
-    const filterEmprestimos = async (newSearch, newSelectedOption) => {
-        const token = localStorage.getItem('token');
+    const fetchEmprestimos = async () => {
+        const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage
+    
         try {
-            const responseEmprestimos = await fetch('http://127.0.0.1:8000/emprestimos/', {
+            const response = await fetch('http://127.0.0.1:8000/emprestimos/', {
                 headers: {
-                    'Authorization': `Token ${token}`,
+                    'Authorization': `Token ${token}`, // Adicionando o token de autorização ao cabeçalho
                 },
             });
-    
-            if (!responseEmprestimos.ok) {
+
+            if (!response.ok) {
                 throw new Error('Erro ao carregar os Emprestimos');
             }
-    
-            const dataEmprestimos = await responseEmprestimos.json();
-            {/*let filteredEmprestimos = dataEmprestimos.filter(emprestimo => 
-                (newSelectedOption === 'nomeFuncionario' && emprestimo.codigoEmprestimo.toLowerCase().includes(newSearch.toLowerCase())) ||
-                (newSelectedOption === 'nomeFerramenta' && emprestimo.codigoEmprestimo.toLowerCase().includes(newSearch.toLowerCase()))||
-                (!newSelectedOption && (emprestimo.numSerie.toLowerCase().includes(newSearch.toLowerCase()) ||
-            emprestimo.nome.toLowerCase().includes(newSearch.toLowerCase())))
-            );
-    
-        setEmprestimos(filteredEmprestimos);*/}
+
+            const data = await response.json();
+            const emprestimosInativos = data.filter(emprestimo => emprestimo.dataDevolucao !== null);
+            setEmprestimos(emprestimosInativos);
+            setFilteredEmprestimos(emprestimosInativos);
         } catch (error) {
             console.error('Erro:', error);
         }
     };
 
-    useEffect(() => {
-        const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage
-    
-        const fetchData = async () => {
-            try {
-            
-                const responseEmprestimos = await fetch('http://127.0.0.1:8000/emprestimos/', {
-                    headers: {
-                        'Authorization': `Token ${token}`, // Adicionando o token de autorização ao cabeçalho
-                    },
-                });
-                if (!responseEmprestimos.ok) {
-                    throw new Error('Erro ao carregar os Emprestimos');
-                }
-                const dataEmprestimos = await responseEmprestimos.json();
-                setEmprestimos(dataEmprestimos);              
-            } catch (error) {
-                console.error('Erro:', error);
+    const fetchNome = async (url, token) => {
+        try {
+            const response = await fetch(url, {
+                headers: {
+                    'Authorization': `Token ${token}`,
+                },
+            });
+            if (!response.ok) {
+                throw new Error('Erro ao carregar o nome');
             }
-        };
-    
-        fetchData();
+            const data = await response.json();
+            return data.nome;
+        } catch (error) {
+            console.error('Erro:', error);
+            return '';
+        }
+    };
+
+    useEffect(() => {
+        fetchEmprestimos();
     }, []);
 
     useEffect(() => {
-        filterEmprestimos(search, selectedOption);
-    }, [search, selectedOption]);
+        const filterEmprestimos = async () => {
+            const token = localStorage.getItem('token');
+            const filtered = await Promise.all(
+                emprestimos.map(async (emprestimo) => {
+                    const nomeFerramenta = await fetchNome(`http://127.0.0.1:8000/ferramentas/${emprestimo.numSerie}/`, token);
+                    const nomeFuncionario = await fetchNome(`http://127.0.0.1:8000/funcionarios/${emprestimo.matriculaFuncionario}/`, token);
+
+                    return {
+                        ...emprestimo,
+                        nomeFerramenta,
+                        nomeFuncionario
+                    };
+                })
+            );
+
+            const result = filtered.filter(emprestimo => {
+                const codigoEmprestimoMatch = emprestimo.codigoEmprestimo.toString().includes(search);
+
+                return (codigoEmprestimoMatch);
+            });
+
+            setFilteredEmprestimos(result);
+        };
+
+        filterEmprestimos();
+    }, [search, emprestimos]);
 
     const defaultFerramenta = 'url_to_default_image';
     const toggleModal = (emprestimo) => {
@@ -85,55 +102,10 @@ const Emprestimo = () => {
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                 />
-                {/*<p
-                    id={styles.filtro}
-                    onClick={() => setShowOptions(!showOptions)}
-                    className="conteudo_searchbar"
-                >Filtro</p>
-                {showOptions && (
-                    <div className={styles.options_box}>
-                        <div className={styles.option_row}>
-                            <label htmlFor="radio_nome" className={styles.label_searchbar}>Nome</label>
-                            <input
-                                id="radio_nome"
-                                className={styles.radio}
-                                type="radio"
-                                name="option"
-                                value="nome"
-                                checked={selectedOption === 'nome'}
-                                onChange={(e) => setSelectedOption(e.target.value)}
-                            />
-                        </div>
-                        <div className={styles.option_row}>
-                            <label htmlFor="radio_num_serie" className={styles.label_searchbar}>Número de série</label>
-                            <input
-                                id="radio_num_serie"
-                                className={styles.radio}
-                                type="radio"
-                                name="option"
-                                value="num_serie"
-                                checked={selectedOption === 'num_serie'}
-                                onChange={(e) => setSelectedOption(e.target.value)}
-                            />
-                        </div>
-                        <div className={styles.option_row}>
-                            <label htmlFor="radio_status" className={styles.label_searchbar}>Status</label>
-                            <input
-                                id="radio_status"
-                                className={styles.radio}
-                                type="radio"
-                                name="option"
-                                value="status"
-                                checked={selectedOption === 'status'}
-                                onChange={(e) => setSelectedOption(e.target.value)}
-                            />
-                        </div>
-                    </div>
-                )}*/}
             </div>
             <div className={styles.div_pai}>
                 <div className={styles.card_container}>
-                    {Emprestimos.map((emprestimo, index) => (
+                    {filteredEmprestimos.map((emprestimo, index) => (
                         <CardEmprestimosComponent
                             key={emprestimo.codigoEmprestimo ? emprestimo.codigoEmprestimo : index} 
                             emprestimo={emprestimo} 
@@ -148,4 +120,4 @@ const Emprestimo = () => {
     );
 }
 
-export default Emprestimo;
+export default EmprestimoInativo;

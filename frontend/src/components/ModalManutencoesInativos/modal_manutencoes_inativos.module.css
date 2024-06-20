@@ -157,8 +157,6 @@
     }
 }
 
-
-
 @media (max-width: 75rem) {
     .modal {
         width: 40vw;
@@ -174,36 +172,7 @@
 
     .modal_content p {
         font-size: 2.5rem;
-        margin-left: 2rem;
-    }
-
-    .edit_button, .remove_button {
-        font-size: 2rem;
-        padding: 1rem;
-    }
-
-    #input_text,
-    #select_status, #datepicker_aquisicao {
-        font-size: 1.4rem;
-    }
-}
-
-@media (max-width: 62.5rem) {
-    .modal {
-        width: 100vw;
-        height: auto;
-        padding: 1.5rem;
-    }
-
-    .label {
-        font-size: 1.4em;
-        padding: 0.8rem;
-        width: 40%;
-    }
-
-    .modal_content p {
-        font-size: 2.5rem;
-        margin-left: 4rem;
+        margin-left: 1rem;
     }
 
     .edit_button, .remove_button {
@@ -232,7 +201,7 @@
 
     .modal_content p {
         font-size: 2.5rem;
-        margin-left: 3rem;
+        margin-left: 1rem;
     }
 
     .edit_button, .remove_button {

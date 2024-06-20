@@ -13,7 +13,7 @@ const Manutencao = () => {
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-    
+
         const fetchData = async () => {
             try {
                 const responseFerramentas = await fetch('http://127.0.0.1:8000/ferramentas/', {
@@ -25,22 +25,22 @@ const Manutencao = () => {
                     throw new Error('Erro ao carregar as Ferramentas');
                 }
                 const dataFerramentas = await responseFerramentas.json();
-                setFerramentas(dataFerramentas);              
+                setFerramentas(dataFerramentas);
             } catch (error) {
                 console.error('Erro:', error);
             }
         };
-    
+
         fetchData();
     }, []);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-    
+
         const token = localStorage.getItem('token');
         const linkferramenta = `http://127.0.0.1:8000/ferramentas/${codFerramenta}/`;
         const dataInicio = new Date().toISOString().split('T')[0];
-    
+
         const formData = new FormData();
         formData.append('codFerramenta', linkferramenta);
         formData.append('tipoManutencao', tipoManutencao);
@@ -51,11 +51,11 @@ const Manutencao = () => {
             const response = await fetch('http://127.0.0.1:8000/manutencoes/', {
                 method: 'POST',
                 headers: {
-                    'Authorization': `Token ${token}`, 
+                    'Authorization': `Token ${token}`,
                 },
                 body: formData,
             });
-    
+
             if (response.ok) {
                 const responseData = await response.json();
                 console.log('Success:', responseData);
@@ -72,7 +72,7 @@ const Manutencao = () => {
                 setShowError(true);
                 setTimeout(() => setShowError(false), 3000); // Ocultar após 3 segundos
             }
-    
+
         } catch (error) {
             console.error('Error:', error);
             console.log('Detalhes do erro:', error.message);
@@ -80,7 +80,7 @@ const Manutencao = () => {
             setTimeout(() => setShowError(false), 3000); // Ocultar após 3 segundos
         }
     };
-    
+
     return (
         <div className={styles.container}>
             <MenuComponent id={styles.menu}></MenuComponent>
@@ -91,10 +91,11 @@ const Manutencao = () => {
                         <label id={styles.ferramenta_label}>Ferramenta</label>
                         <select name="ferramentas" id={styles.ferramenta_select} required value={codFerramenta} onChange={(evt) => setCodFerramenta(evt.target.value)}>
                             <option value={0}>Selecione</option>
-                            {Ferramentas.map(ferramenta => (
+                            {Ferramentas.filter(ferramenta => ferramenta.status.toLowerCase() === 'disponível').map(ferramenta => (
                                 <option key={ferramenta.codFerramenta} value={ferramenta.codFerramenta}>{ferramenta.numSerie}</option>
                             ))}
                         </select>
+
                     </div>
                     <div className={styles.spacer}>
                         <label id={styles.tipo_manutencao_label}>Tipo</label>

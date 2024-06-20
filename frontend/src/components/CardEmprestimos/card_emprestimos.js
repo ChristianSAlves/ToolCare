@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import ModalEmprestimosComponent from "../ModalEmprestimos/modal_emprestimos";
+import ModalEmprestimosInativosComponent from "../ModalEmprestimosInativos/modal_emprestimos_inativos";
 import styles from "./card_emprestimos.module.css";
 
 const extractIdFromUrl = (url) => {
@@ -12,6 +14,8 @@ const CardEmprestimosComponent = ({ emprestimo }) => {
     const [nomeFerramenta, setNomeFerramenta] = useState('Carregando...');
     const [matriculaFuncionario, setMatriculaFuncionario] = useState('Carregando...');
     const [showModal, setShowModal] = useState(false);
+
+    const location = useLocation();
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -66,6 +70,8 @@ const CardEmprestimosComponent = ({ emprestimo }) => {
         setShowModal(false);
     };
 
+    const isEmprestimoPage = location.pathname === "/emprestimo";
+
     return (
         <div id={styles.card}>
             <div id={styles.fundo}>
@@ -80,8 +86,14 @@ const CardEmprestimosComponent = ({ emprestimo }) => {
                 </ul>
                 <button id={styles.button_card} onClick={handleShowModal}>VER MAIS</button>
             </div>
-            {showModal && (
+            {showModal && isEmprestimoPage && (
                 <ModalEmprestimosComponent
+                    onClose={handleCloseModal}
+                    emprestimo={emprestimo}
+                />
+            )}
+            {showModal && !isEmprestimoPage && (
+                <ModalEmprestimosInativosComponent
                     onClose={handleCloseModal}
                     emprestimo={emprestimo}
                 />

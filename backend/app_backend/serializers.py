@@ -41,8 +41,8 @@ class EmprestimoSerializer(serializers.HyperlinkedModelSerializer):
 
     def validate(self, data):
         ferramenta = data['numSerie']
-        if ferramenta.status == 'Emprestada':
-            raise serializers.ValidationError('A ferramenta já está emprestada e não pode ser emprestada novamente.')
+        #if ferramenta.status == 'Emprestada':
+         #   raise serializers.ValidationError('A ferramenta já está emprestada e não pode ser emprestada novamente.')
         
         if ferramenta.status == 'Manutenção':
             raise serializers.ValidationError('A ferramenta se encontra em manutenção, não é possivel empresta-la.')

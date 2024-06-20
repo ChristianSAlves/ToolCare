@@ -28,8 +28,8 @@ const Manutencao = () => {
 
             const dataManutencoes = await responseManutencoes.json();
             let filteredManutencoes = dataManutencoes.filter(manutencao => {
-                if (manutencao.dataFinal !== null) {
-                    return true;
+                if (manutencao.dataFinal === null) {
+                    return false;
                 }
                 const codigoManutencao = manutencao.codigoManutencao.toString() || '';
                 const tipoManutencao = manutencao.tipoManutencao || '';
@@ -88,39 +88,6 @@ const Manutencao = () => {
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                 />
-                {/*<p
-                    id={styles.filtro}
-                    onClick={() => setShowOptions(!showOptions)}
-                    className="conteudo_searchbar"
-                >Filtro</p>
-                {showOptions && (
-                    <div className={styles.options_box}>
-                        <div className={styles.option_row}>
-                            <label htmlFor="radio_codigo" className={styles.label_searchbar}>Código</label>
-                            <input
-                                id="radio_codigo"
-                                className={styles.radio}
-                                type="radio"
-                                name="option"
-                                value="codigo"
-                                checked={selectedOption === 'codigo'}
-                                onChange={(e) => setSelectedOption(e.target.value)}
-                            />
-                        </div>
-                        <div className={styles.option_row}>
-                            <label htmlFor="radio_tipo" className={styles.label_searchbar}>Tipo</label>
-                            <input
-                                id="radio_tipo"
-                                className={styles.radio}
-                                type="radio"
-                                name="option"
-                                value="tipo"
-                                checked={selectedOption === 'tipo'}
-                                onChange={(e) => setSelectedOption(e.target.value)}
-                            />
-                        </div>
-                    </div>
-                )} */}
             </div>
             <div className={styles.div_pai}>
                 <div className={styles.card_container}>

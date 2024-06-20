@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styles from "./modal_manutencoes.module.css";
-import FinalizadoComponent from "../Avisos/Finalizado/finalizado";
+import styles from "./modal_manutencoes_inativos.module.css";
 
 const extractIdFromUrl = (url) => {
     if (!url) return '';
@@ -14,11 +13,7 @@ const formatDate = (dateString) => {
     return `${day}/${month}/${year}`;
 };
 
-const ModalManutencaoComponent = ({ onClose, manutencao, onShowModal, onEdit }) => {
-    const [isEditing, setIsEditing] = useState(false);
-    const [showEditado, setShowEditado] = useState(false);
-    const [showFalhaEdicao, setShowFalhaEdicao] = useState(false);
-    const [showFalhaRemocao, setShowFalhaRemocao] = useState(false);
+const ModalManutencaoInativoComponent = ({ onClose, manutencao }) => {
     const [codigoFerramenta, setCodigoFerramenta] = useState('');
     const [ferramentas, setFerramentas] = useState([]);
     const [editData, setEditData] = useState({
@@ -57,56 +52,8 @@ const ModalManutencaoComponent = ({ onClose, manutencao, onShowModal, onEdit }) 
         }
     }, [manutencao]);
 
-    const handleRemove = async () => {
-        const token = localStorage.getItem('token');
-        const today = new Date().toISOString().split('T')[0]; // Obtém a data atual no formato yyyy-mm-dd
-        console.log(`Data final definida: ${today}`); // Printar a data definida no console
-        try {
-            const url = `http://127.0.0.1:8000/manutencoes/${manutencao.codigoManutencao}/`;
-
-            const formData = new FormData();
-            formData.append('codigoManutencao', manutencao.codigoManutencao);
-            formData.append('codFerramenta', manutencao.codFerramenta);
-            formData.append('tipoManutencao', manutencao.tipoManutencao);
-            formData.append('dataInicio', manutencao.dataInicio);
-            formData.append('dataFinal', today);
-
-            const response = await fetch(url, {
-                method: 'PATCH',
-                headers: {
-                    'Authorization': `Token ${token}`,
-                },
-                body: formData,
-            });
-
-            if (response.ok) {
-                setShowEditado(true);
-                if (onEdit) onEdit(); // Chama a função para recarregar a lista de manutenções após edição
-                setTimeout(() => {
-                    setShowEditado(false);
-                    onClose();
-                    if (onShowModal) onShowModal(false);
-                }, 3000);
-            } else {
-                const errorData = await response.json();
-                console.error('Erro ao finalizar a manutenção:', errorData);
-                setShowFalhaRemocao(true);
-                setTimeout(() => {
-                    setShowFalhaRemocao(false);
-                }, 3000);
-            }
-        } catch (error) {
-            console.error('Erro ao finalizar a manutenção:', error);
-            setShowFalhaRemocao(true);
-            setTimeout(() => {
-                setShowFalhaRemocao(false);
-            }, 3000);
-        }
-    };
-
     return (
         <>
-            {showEditado && <FinalizadoComponent />}
             <div className={styles.tela_cheia} onClick={onClose}>
                 <div className={styles.modal} onClick={e => e.stopPropagation()}>
                     <div className={styles.modal_content}>
@@ -122,10 +69,11 @@ const ModalManutencaoComponent = ({ onClose, manutencao, onShowModal, onEdit }) 
                             <span className={styles.label}>Data Início</span>
                             <p>{editData.DataInicio}</p>
                         </div>
-                        <p id={styles.fechar} onClick={onClose}>x</p>
-                        <div className={styles.modal_buttons}>
-                            <button className={styles.remove_button} onClick={handleRemove}>FINALIZAR</button>
+                        <div className={styles.info_row}>
+                            <span className={styles.label}>Data Fim</span>
+                            <p>{editData.DataFim}</p>
                         </div>
+                        <p id={styles.fechar} onClick={onClose}>x</p>
                     </div>
                 </div>
             </div>
@@ -133,4 +81,4 @@ const ModalManutencaoComponent = ({ onClose, manutencao, onShowModal, onEdit }) 
     );
 };
 
-export default ModalManutencaoComponent;
+export default ModalManutencaoInativoComponent;
