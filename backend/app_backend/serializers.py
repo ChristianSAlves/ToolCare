@@ -32,7 +32,7 @@ class SetorSerializer(serializers.HyperlinkedModelSerializer):
 class FuncionarioSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Funcionario
-        fields = ['idFuncionario', 'nome', 'matriculaFuncionario', 'cpf', 'codigoSetor', 'codigoCargo', 'imgFunc']
+        fields = ['idFuncionario', 'nome', 'matriculaFuncionario', 'cpf', 'codigoSetor', 'codigoCargo', 'imgFunc', 'status']
 
 class EmprestimoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

@@ -10,7 +10,7 @@ class GraficoFerramentas extends React.Component {
             series: props.series || [10, 10, 1, 1],
             options: {
                 fill: {
-                    colors: ['#0BDD17', '#DD0B0B', '#ff6c00','#72bad8']
+                    colors: ['#0BDD17', '#DD0B0B', '#ff6c00']
                 },
                 chart: {
                     type: 'donut',

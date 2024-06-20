@@ -30,6 +30,7 @@ const Funcionario = () => {
         formData.append('cpf', cpf);
         formData.append('codigoSetor', linksetor);
         formData.append('codigoCargo', linkcargo);
+        formData.append('status', true);
 
         if (imgFunc) {
             formData.append('imgFunc', imgFunc, imgFunc.name);

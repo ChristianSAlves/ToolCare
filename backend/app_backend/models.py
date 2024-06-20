@@ -66,6 +66,7 @@ class Funcionario(models.Model):
         Cargo, on_delete=models.SET_NULL, null=True
     )
     imgFunc = models.ImageField(null=True, blank=True, upload_to=upload_path)
+    status = models.BooleanField(default=True)
 
     def __str__(self):
         return self.nome

@@ -29,16 +29,17 @@ const Funcionario = () => {
 
             const dataFuncionarios = await responseFuncionarios.json();
             
-            let filteredFuncionarios = dataFuncionarios;
+            // Filtrando apenas os funcionários com status igual a true
+            let filteredFuncionarios = dataFuncionarios.filter(funcionario => funcionario.status === true);
 
             if (newSelectedOption === 'nome') {
-                filteredFuncionarios = dataFuncionarios.filter(funcionario => funcionario.nome.toLowerCase().includes(newSearch.toLowerCase()));
+                filteredFuncionarios = filteredFuncionarios.filter(funcionario => funcionario.nome.toLowerCase().includes(newSearch.toLowerCase()));
             } else if (newSelectedOption === 'matriculaFuncionario') {
-                filteredFuncionarios = dataFuncionarios.filter(funcionario => funcionario.matriculaFuncionario.toLowerCase().includes(newSearch.toLowerCase()));
+                filteredFuncionarios = filteredFuncionarios.filter(funcionario => funcionario.matriculaFuncionario.toLowerCase().includes(newSearch.toLowerCase()));
             } else if (newSelectedOption === 'cpf') {
-                filteredFuncionarios = dataFuncionarios.filter(funcionario => funcionario.cpf.toLowerCase().includes(newSearch.toLowerCase()));
+                filteredFuncionarios = filteredFuncionarios.filter(funcionario => funcionario.cpf.toLowerCase().includes(newSearch.toLowerCase()));
             } else if (newSearch) {
-                filteredFuncionarios = dataFuncionarios.filter(funcionario =>
+                filteredFuncionarios = filteredFuncionarios.filter(funcionario =>
                     funcionario.matriculaFuncionario.toLowerCase().includes(newSearch.toLowerCase()) ||
                     funcionario.nome.toLowerCase().includes(newSearch.toLowerCase()) ||
                     funcionario.cpf.toLowerCase().includes(newSearch.toLowerCase())
@@ -65,7 +66,11 @@ const Funcionario = () => {
                 throw new Error('Erro ao carregar os Funcionarios');
             }
             const dataFuncionarios = await responseFuncionarios.json();
-            setFuncionarios(dataFuncionarios);              
+            
+            // Filtrando apenas os funcionários com status igual a true
+            const activeFuncionarios = dataFuncionarios.filter(funcionario => funcionario.status === true);
+
+            setFuncionarios(activeFuncionarios);              
         } catch (error) {
             console.error('Erro:', error);
         }

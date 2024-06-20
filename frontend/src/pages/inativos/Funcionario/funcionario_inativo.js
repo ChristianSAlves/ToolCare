@@ -29,16 +29,17 @@ const Funcionario = () => {
 
             const dataFuncionarios = await responseFuncionarios.json();
             
-            let filteredFuncionarios = dataFuncionarios;
+            // Filtrando apenas os funcionários com status igual a false
+            let filteredFuncionarios = dataFuncionarios.filter(funcionario => funcionario.status === false);
 
             if (newSelectedOption === 'nome') {
-                filteredFuncionarios = dataFuncionarios.filter(funcionario => funcionario.nome.toLowerCase().includes(newSearch.toLowerCase()));
+                filteredFuncionarios = filteredFuncionarios.filter(funcionario => funcionario.nome.toLowerCase().includes(newSearch.toLowerCase()));
             } else if (newSelectedOption === 'matriculaFuncionario') {
-                filteredFuncionarios = dataFuncionarios.filter(funcionario => funcionario.matriculaFuncionario.toLowerCase().includes(newSearch.toLowerCase()));
+                filteredFuncionarios = filteredFuncionarios.filter(funcionario => funcionario.matriculaFuncionario.toLowerCase().includes(newSearch.toLowerCase()));
             } else if (newSelectedOption === 'cpf') {
-                filteredFuncionarios = dataFuncionarios.filter(funcionario => funcionario.cpf.toLowerCase().includes(newSearch.toLowerCase()));
+                filteredFuncionarios = filteredFuncionarios.filter(funcionario => funcionario.cpf.toLowerCase().includes(newSearch.toLowerCase()));
             } else if (newSearch) {
-                filteredFuncionarios = dataFuncionarios.filter(funcionario =>
+                filteredFuncionarios = filteredFuncionarios.filter(funcionario =>
                     funcionario.matriculaFuncionario.toLowerCase().includes(newSearch.toLowerCase()) ||
                     funcionario.nome.toLowerCase().includes(newSearch.toLowerCase()) ||
                     funcionario.cpf.toLowerCase().includes(newSearch.toLowerCase())
@@ -51,29 +52,29 @@ const Funcionario = () => {
         }
     };
 
-    useEffect(() => {
+    const fetchData = async () => {
         const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage
     
-        const fetchData = async () => {
-            try {
-                // Busca os funcionarios
-                const responseFuncionarios = await fetch('http://127.0.0.1:8000/funcionarios/', {
-                    headers: {
-                        'Authorization': `Token ${token}`, // Adicionando o token de autorização ao cabeçalho
-                    },
-                });
-                if (!responseFuncionarios.ok) {
-                    throw new Error('Erro ao carregar os Funcionarios');
-                }
-                const dataFuncionarios = await responseFuncionarios.json();
-                setFuncionarios(dataFuncionarios);              
-            } catch (error) {
-                console.error('Erro:', error);
+        try {
+            // Busca os funcionarios
+            const responseFuncionarios = await fetch('http://127.0.0.1:8000/funcionarios/', {
+                headers: {
+                    'Authorization': `Token ${token}`, // Adicionando o token de autorização ao cabeçalho
+                },
+            });
+            if (!responseFuncionarios.ok) {
+                throw new Error('Erro ao carregar os Funcionarios');
             }
-        };
-    
-        fetchData();
-    }, []);
+            const dataFuncionarios = await responseFuncionarios.json();
+            
+            // Filtrando apenas os funcionários com status igual a false
+            const activeFuncionarios = dataFuncionarios.filter(funcionario => funcionario.status === false);
+
+            setFuncionarios(activeFuncionarios);              
+        } catch (error) {
+            console.error('Erro:', error);
+        }
+    };
 
     useEffect(() => {
         filterFuncionarios(search, selectedOption);

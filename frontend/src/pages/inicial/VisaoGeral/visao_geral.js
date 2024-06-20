@@ -14,7 +14,7 @@ const VisaoGeral = () => {
         ferramentasDisponiveis: 0,
         ferramentasEmprestadas: 0,
         ferramentasManutencao: 0,
-        ferramentasPerdidas: 0
+        ferramentasBaixa: 0
     });
 
     useEffect(() => {
@@ -41,8 +41,8 @@ const VisaoGeral = () => {
                     }
                 });
 
-                const funcionariosData = responseFuncionarios.data;
-                const ferramentasData = responseFerramentas.data;
+                const funcionariosData = responseFuncionarios.data.filter(funcionario => funcionario.status);
+                const ferramentasData = responseFerramentas.data.filter(f => f.status !== 'Baixa'); // Filtra ferramentas com status 'Baixa'
                 const emprestimosData = responseEmprestimos.data;
 
                 function isValidUrl(string) {
@@ -73,17 +73,17 @@ const VisaoGeral = () => {
                 const ferramentasDisponiveis = ferramentasData.filter(f => f.status === 'Disponível').length;
                 const ferramentasEmprestadas = ferramentasData.filter(f => f.status === 'Emprestada').length;
                 const ferramentasManutencao = ferramentasData.filter(f => f.status === 'Manutenção').length;
-                const ferramentasPerdidas = ferramentasData.filter(f => f.status === 'Perdida').length;
+                const ferramentasBaixa = responseFerramentas.data.filter(f => f.status === 'Baixa').length; // Conta apenas as ferramentas com status 'Baixa'
 
                 setFuncionarios(funcionariosData.length);
-                setFerramentas(ferramentasData.length);
+                setFerramentas(ferramentasData.length); // Usa a lista filtrada para a contagem total
                 setDadosVisaoGeral({
                     semEmprestimo,
                     comEmprestimo,
                     ferramentasDisponiveis,
                     ferramentasEmprestadas,
                     ferramentasManutencao,
-                    ferramentasPerdidas
+                    ferramentasBaixa
                 });
             } catch (error) {
                 console.error('Erro ao buscar dados:', error);
@@ -104,7 +104,6 @@ const VisaoGeral = () => {
         dadosVisaoGeral.ferramentasDisponiveis,
         dadosVisaoGeral.ferramentasEmprestadas,
         dadosVisaoGeral.ferramentasManutencao,
-        dadosVisaoGeral.ferramentasPerdidas
     ];
 
     const seriesFuncionarios = [
