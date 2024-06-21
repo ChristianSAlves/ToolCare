@@ -1,6 +1,7 @@
 from django.db import models
 from django_cpf_cnpj.fields import CPFField
 from django.urls import reverse
+from django.core.exceptions import ValidationError
 import datetime
 
 def upload_path(instance, filename):
@@ -60,7 +61,7 @@ class Funcionario(models.Model):
     matriculaFuncionario = models.CharField(max_length=50, unique=True)
     cpf = CPFField(masked=True, unique=True)  # To enable auto-mask xxx.xxx.xxx-xx
     codigoSetor = models.ForeignKey(
-      Setor, on_delete=models.SET_NULL, null=True
+        Setor, on_delete=models.SET_NULL, null=True
     )
     codigoCargo = models.ForeignKey(
         Cargo, on_delete=models.SET_NULL, null=True
@@ -73,6 +74,21 @@ class Funcionario(models.Model):
     
     def get_absolute_url(self):
         return reverse('FuncionarioView', kwargs={'matriculaFuncionario': self.matriculaFuncionario})
+
+    def clean(self):
+        if not self.status:
+            active_loans = Emprestimo.objects.filter(
+                matriculaFuncionario=self.matriculaFuncionario,
+                dataDevolucao__isnull=True
+            ).exists()
+            if active_loans:
+                raise ValidationError(
+                    "Não é possível desativar o funcionário enquanto houver empréstimos ativos."
+                )
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        super(Funcionario, self).save(*args, **kwargs)
 
 class ManutencaoFerramenta(models.Model):
     codigoManutencao = models.AutoField(primary_key=True)

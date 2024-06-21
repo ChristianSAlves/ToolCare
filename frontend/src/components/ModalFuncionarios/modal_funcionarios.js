@@ -2,10 +2,9 @@ import React, { useState, useEffect } from "react";
 import styles from "./modal_funcionarios.module.css";
 import logo from "../../assets/imagens/logo.png";
 import EditadoComponent from "../Avisos/Editado/editado";
-import RemovidoComponent from "../Avisos/Removido/removido";
-import ConfirmarRemocaoComponent from "../Avisos/ConfirmarRemoção/confirmar_remocao";
 import FalhaEdicaoComponent from "../Avisos/FalhaEdição/falha_edicao";
 import FalhaRemocaoComponent from "../Avisos/FalhaRemoção/falha_remocao";
+import ConfirmarRemocaoComponent from "../Avisos/ConfirmarRemoção/confirmar_remocao";
 
 const extractIdFromUrl = (url) => {
     if (!url) return '';
@@ -13,12 +12,11 @@ const extractIdFromUrl = (url) => {
     return parts[parts.length - 2];
 };
 
-const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal, onRemove }) => {
+const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal, onStatusUpdate }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [showEditado, setShowEditado] = useState(false);
-    const [showRemovido, setShowRemovido] = useState(false);
-    const [showConfirmacao, setShowConfirmacao] = useState(false);
     const [showFalhaEdicao, setShowFalhaEdicao] = useState(false);
+    const [showConfirmacao, setShowConfirmacao] = useState(false);
     const [showFalhaRemocao, setShowFalhaRemocao] = useState(false);
     const [codigoSetor, setCodigoSetor] = useState('');
     const [codigoCargo, setCodigoCargo] = useState('');
@@ -138,30 +136,35 @@ const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal, onRemov
         const token = localStorage.getItem('token');
 
         try {
-            const response = await fetch(`http://127.0.0.1:8000/funcionarios/${funcionario.idFuncionario}/`, {
-                method: 'DELETE',
+            const url = `http://127.0.0.1:8000/funcionarios/${funcionario.idFuncionario}/`;
+            const formData = new FormData();
+            formData.append('status', false);
+
+            const response = await fetch(url, {
+                method: 'PATCH',
                 headers: {
                     'Authorization': `Token ${token}`,
                 },
+                body: formData,
             });
 
             if (response.ok) {
-                setShowRemovido(true);
-                onRemove(); // Chama a função para recarregar a lista de funcionários após remoção
+                setShowEditado(true);
+                //onStatusUpdate(); // Chama a função para recarregar a lista de funcionários após atualização de status
                 setTimeout(() => {
-                    setShowRemovido(false);
+                    setShowEditado(false);
                     onClose();
                     if (onShowModal) onShowModal(false);
                 }, 3000);
             } else {
-                console.error('Falha ao remover o funcionario. Por favor, tente novamente.');
+                console.error('Falha ao atualizar o status do funcionario. Por favor, tente novamente.');
                 setShowFalhaRemocao(true);
                 setTimeout(() => {
                     setShowFalhaRemocao(false);
                 }, 3000);
             }
         } catch (error) {
-            console.error('Erro ao remover o funcionario:', error);
+            console.error('Erro ao atualizar o status do funcionario:', error);
             setShowFalhaRemocao(true);
             setTimeout(() => {
                 setShowFalhaRemocao(false);
@@ -177,7 +180,6 @@ const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal, onRemov
 
     return (
         <>
-            {showRemovido && <RemovidoComponent />}
             {showFalhaEdicao && <FalhaEdicaoComponent />}
             {showFalhaRemocao && <FalhaRemocaoComponent />}
             <div className={styles.tela_cheia} onClick={onClose}>
