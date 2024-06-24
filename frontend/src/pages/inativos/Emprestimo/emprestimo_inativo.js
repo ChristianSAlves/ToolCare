@@ -1,22 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styles from '../Emprestimo/emprestimo_inativo.module.css';
 import MenuInativosComponent from '../../../components/MenuInativos/MenuInativos.js';
 import CardEmprestimosComponent from '../../../components/CardEmprestimos/card_emprestimos';
 import ModalFerramentasComponent from '../../../components/ModalFerramentas/modal_ferramentas';
-import { Link } from 'react-router-dom';
+import { useApi } from '../../../../src/ApiContext.js';
 
 const EmprestimoInativo = () => {
     const [search, setSearch] = useState('');
     const [emprestimos, setEmprestimos] = useState([]);
     const [filteredEmprestimos, setFilteredEmprestimos] = useState([]);
-    const [showModal, setShowModal] = useState(false);  // Estado para controle da visibilidade do modal
+    const [showModal, setShowModal] = useState(false);
     const [selectedEmprestimo, setSelectedEmprestimo] = useState(null);
 
-    const fetchEmprestimos = async () => {
+    const { apiUrl } = useApi();
+
+    const fetchEmprestimos = useCallback(async () => {
         const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage
     
         try {
-            const response = await fetch('http://127.0.0.1:8000/emprestimos/', {
+            const response = await fetch(`${apiUrl}/emprestimos/`, {
                 headers: {
                     'Authorization': `Token ${token}`, // Adicionando o token de autorização ao cabeçalho
                 },
@@ -27,15 +29,15 @@ const EmprestimoInativo = () => {
             }
 
             const data = await response.json();
-            const emprestimosInativos = data.filter(emprestimo => emprestimo.dataDevolucao !== null);
-            setEmprestimos(emprestimosInativos);
-            setFilteredEmprestimos(emprestimosInativos);
+            const filteredData = data.filter(emprestimo => emprestimo.dataDevolucao !== null);
+            setEmprestimos(filteredData);
+            setFilteredEmprestimos(filteredData);
         } catch (error) {
             console.error('Erro:', error);
         }
-    };
+    }, [apiUrl]);
 
-    const fetchNome = async (url, token) => {
+    const fetchNome = useCallback(async (url, token) => {
         try {
             const response = await fetch(url, {
                 headers: {
@@ -51,19 +53,19 @@ const EmprestimoInativo = () => {
             console.error('Erro:', error);
             return '';
         }
-    };
+    }, []);
 
     useEffect(() => {
         fetchEmprestimos();
-    }, []);
+    }, [fetchEmprestimos]);
 
     useEffect(() => {
         const filterEmprestimos = async () => {
             const token = localStorage.getItem('token');
             const filtered = await Promise.all(
                 emprestimos.map(async (emprestimo) => {
-                    const nomeFerramenta = await fetchNome(`http://127.0.0.1:8000/ferramentas/${emprestimo.numSerie}/`, token);
-                    const nomeFuncionario = await fetchNome(`http://127.0.0.1:8000/funcionarios/${emprestimo.matriculaFuncionario}/`, token);
+                    const nomeFerramenta = await fetchNome(`${apiUrl}/ferramentas/${emprestimo.numSerie}/`, token);
+                    const nomeFuncionario = await fetchNome(`${apiUrl}/funcionarios/${emprestimo.matriculaFuncionario}/`, token);
 
                     return {
                         ...emprestimo,
@@ -76,14 +78,14 @@ const EmprestimoInativo = () => {
             const result = filtered.filter(emprestimo => {
                 const codigoEmprestimoMatch = emprestimo.codigoEmprestimo.toString().includes(search);
 
-                return (codigoEmprestimoMatch);
+                return (codigoEmprestimoMatch) && emprestimo.dataDevolucao !== null;
             });
 
             setFilteredEmprestimos(result);
         };
 
         filterEmprestimos();
-    }, [search, emprestimos]);
+    }, [search, emprestimos, fetchNome, apiUrl]);
 
     const defaultFerramenta = 'url_to_default_image';
     const toggleModal = (emprestimo) => {

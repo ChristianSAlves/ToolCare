@@ -4,6 +4,7 @@ import MenuComponent from '../../../components/Menu/Menu';
 import CardFerramentas from '../../../components/CardFerramentas/card_ferramentas';
 import ModalFerramentasComponent from '../../../components/ModalFerramentas/modal_ferramentas';
 import { Link } from 'react-router-dom';
+import { useApi } from '../../../../src/ApiContext.js';
 
 const Ferramenta = () => {
     const [showOptions, setShowOptions] = useState(false);
@@ -12,11 +13,12 @@ const Ferramenta = () => {
     const [Ferramentas, setFerramentas] = useState([]);
     const [showModal, setShowModal] = useState(false);  // Estado para controle da visibilidade do modal
     const [selectedFerramenta, setSelectedFerramenta] = useState(null);
+    const { apiUrl } = useApi();
 
     const filterFerramentas = async (newSearch, newSelectedOption) => {
         const token = localStorage.getItem('token');
         try {
-            const responseFerramentas = await fetch('http://127.0.0.1:8000/ferramentas/', {
+            const responseFerramentas = await fetch(`${apiUrl}/ferramentas/`, {
                 headers: {
                     'Authorization': `Token ${token}`,
                 },
@@ -54,7 +56,7 @@ const Ferramenta = () => {
         const fetchData = async () => {
             try {
             
-                const responseFerramentas = await fetch('http://127.0.0.1:8000/ferramentas/', {
+                const responseFerramentas = await fetch(`${apiUrl}/ferramentas/`, {
                     headers: {
                         'Authorization': `Token ${token}`, // Adicionando o token de autorização ao cabeçalho
                     },
@@ -85,7 +87,7 @@ const Ferramenta = () => {
     const reloadFerramentas = async () => {
         const token = localStorage.getItem('token');
         try {
-            const responseFerramentas = await fetch('http://127.0.0.1:8000/ferramentas/', {
+            const responseFerramentas = await fetch(`${apiUrl}/ferramentas/`, {
                 headers: {
                     'Authorization': `Token ${token}`,
                 },
@@ -114,51 +116,6 @@ const Ferramenta = () => {
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                 />
-                {/*<p
-                    id={styles.filtro}
-                    onClick={() => setShowOptions(!showOptions)}
-                    className="conteudo_searchbar"
-                >Filtro</p>
-                {showOptions && (
-                    <div className={styles.options_box}>
-                        <div className={styles.option_row}>
-                            <label htmlFor="radio_nome" className={styles.label_searchbar}>Nome</label>
-                            <input
-                                id="radio_nome"
-                                className={styles.radio}
-                                type="radio"
-                                name="option"
-                                value="nome"
-                                checked={selectedOption === 'nome'}
-                                onChange={(e) => setSelectedOption(e.target.value)}
-                            />
-                        </div>
-                        <div className={styles.option_row}>
-                            <label htmlFor="radio_num_serie" className={styles.label_searchbar}>Número de série</label>
-                            <input
-                                id="radio_num_serie"
-                                className={styles.radio}
-                                type="radio"
-                                name="option"
-                                value="num_serie"
-                                checked={selectedOption === 'num_serie'}
-                                onChange={(e) => setSelectedOption(e.target.value)}
-                            />
-                        </div>
-                        <div className={styles.option_row}>
-                            <label htmlFor="radio_status" className={styles.label_searchbar}>Status</label>
-                            <input
-                                id="radio_status"
-                                className={styles.radio}
-                                type="radio"
-                                name="option"
-                                value="status"
-                                checked={selectedOption === 'status'}
-                                onChange={(e) => setSelectedOption(e.target.value)}
-                            />
-                        </div>
-                    </div>
-                )} */}
             </div>
             <div className={styles.div_pai}>
                 <div className={styles.card_container}>

@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styles from '../Emprestimo/emprestimo.module.css';
 import MenuComponent from '../../../components/Menu/Menu';
 import CardEmprestimosComponent from '../../../components/CardEmprestimos/card_emprestimos';
 import ModalEmprestimosComponent from '../../../components/ModalEmprestimos/modal_emprestimos.js';
 import { Link } from 'react-router-dom';
+import { useApi } from '../../../../src/ApiContext.js';
 
 const Emprestimo = () => {
     const [search, setSearch] = useState('');
@@ -12,11 +13,13 @@ const Emprestimo = () => {
     const [showModal, setShowModal] = useState(false);
     const [selectedEmprestimo, setSelectedEmprestimo] = useState(null);
 
-    const fetchEmprestimos = async () => {
+    const { apiUrl } = useApi();
+
+    const fetchEmprestimos = useCallback(async () => {
         const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage
     
         try {
-            const response = await fetch('http://127.0.0.1:8000/emprestimos/', {
+            const response = await fetch(`${apiUrl}/emprestimos/`, {
                 headers: {
                     'Authorization': `Token ${token}`, // Adicionando o token de autorização ao cabeçalho
                 },
@@ -27,14 +30,15 @@ const Emprestimo = () => {
             }
 
             const data = await response.json();
-            setEmprestimos(data.filter(emprestimo => emprestimo.dataDevolucao === null));
-            setFilteredEmprestimos(data.filter(emprestimo => emprestimo.dataDevolucao === null));
+            const filteredData = data.filter(emprestimo => emprestimo.dataDevolucao === null);
+            setEmprestimos(filteredData);
+            setFilteredEmprestimos(filteredData);
         } catch (error) {
             console.error('Erro:', error);
         }
-    };
+    }, [apiUrl]);
 
-    const fetchNome = async (url, token) => {
+    const fetchNome = useCallback(async (url, token) => {
         try {
             const response = await fetch(url, {
                 headers: {
@@ -50,19 +54,19 @@ const Emprestimo = () => {
             console.error('Erro:', error);
             return '';
         }
-    };
+    }, []);
 
     useEffect(() => {
         fetchEmprestimos();
-    }, []);
+    }, [fetchEmprestimos]);
 
     useEffect(() => {
         const filterEmprestimos = async () => {
             const token = localStorage.getItem('token');
             const filtered = await Promise.all(
                 emprestimos.map(async (emprestimo) => {
-                    const nomeFerramenta = await fetchNome(`http://127.0.0.1:8000/ferramentas/${emprestimo.numSerie}/`, token);
-                    const nomeFuncionario = await fetchNome(`http://127.0.0.1:8000/funcionarios/${emprestimo.matriculaFuncionario}/`, token);
+                    const nomeFerramenta = await fetchNome(`${apiUrl}/ferramentas/${emprestimo.numSerie}/`, token);
+                    const nomeFuncionario = await fetchNome(`${apiUrl}/funcionarios/${emprestimo.matriculaFuncionario}/`, token);
 
                     return {
                         ...emprestimo,
@@ -82,7 +86,7 @@ const Emprestimo = () => {
         };
 
         filterEmprestimos();
-    }, [search, emprestimos]);
+    }, [search, emprestimos, fetchNome, apiUrl]);
 
     const defaultFerramenta = 'url_to_default_image';
     const toggleModal = (emprestimo) => {

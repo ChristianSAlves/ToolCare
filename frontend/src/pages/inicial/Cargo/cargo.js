@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styles from './cargo.module.css';
 import MenuComponent from '../../../components/Menu/Menu';
 import CardCargos from '../../../components/CardCargos/card_cargos';
 import ModalCargosComponent from '../../../components/ModalCargos/modal_cargos';
 import { Link } from 'react-router-dom';
+import { useApi } from '../../../../src/ApiContext.js';
 
 const Cargo = () => {
     const [showOptions, setShowOptions] = useState(false);
@@ -13,15 +14,17 @@ const Cargo = () => {
     const [showModal, setShowModal] = useState(false);
     const [selectedCargo, setSelectedCargo] = useState(null);
 
-    const filterCargos = async (newSearch, newSelectedOption) => {
+    const { apiUrl } = useApi();
+
+    const filterCargos = useCallback(async (newSearch, newSelectedOption) => {
         const token = localStorage.getItem('token');
         try {
-            const responseCargos = await fetch('http://127.0.0.1:8000/cargos/', {
+            const responseCargos = await fetch(`${apiUrl}/cargos/`, {
                 headers: {
                     'Authorization': `Token ${token}`,
                 },
             });
-
+    
             if (!responseCargos.ok) {
                 throw new Error('Erro ao carregar os Cargos');
             }
@@ -35,18 +38,18 @@ const Cargo = () => {
         } catch (error) {
             console.error('Erro:', error);
         }
-    };
-
-    const reloadCargos = async () => {
+    }, [apiUrl]);
+    
+    const reloadCargos = useCallback(async () => {
         const token = localStorage.getItem('token');
-
+    
         try {
-            const responseCargos = await fetch('http://127.0.0.1:8000/cargos/', {
+            const responseCargos = await fetch(`${apiUrl}/cargos/`, {
                 headers: {
                     'Authorization': `Token ${token}`,
                 },
             });
-
+    
             if (!responseCargos.ok) {
                 throw new Error('Erro ao carregar os Cargos');
             }
@@ -56,15 +59,15 @@ const Cargo = () => {
         } catch (error) {
             console.error('Erro:', error);
         }
-    };
+    }, [apiUrl]);
 
     useEffect(() => {
         reloadCargos();
-    }, []);
+    }, [reloadCargos]);
 
     useEffect(() => {
         filterCargos(search, selectedOption);
-    }, [search, selectedOption]);
+    }, [search, selectedOption, filterCargos]);
 
     const toggleModal = (cargo) => {
         setSelectedCargo(cargo);
@@ -85,27 +88,6 @@ const Cargo = () => {
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                 />
-                {/*<p
-                    id={styles.filtro}
-                    onClick={() => setShowOptions(!showOptions)}
-                    className="conteudo_searchbar"
-                >Filtro</p>
-                {showOptions && (
-                    <div className={styles.options_box}>
-                        <div className={styles.option_row}>
-                            <label htmlFor="radio_nome" className={styles.label_searchbar}>Nome</label>
-                            <input
-                                id="radio_nome"
-                                className={styles.radio}
-                                type="radio"
-                                name="option"
-                                value="nome"
-                                checked={selectedOption === 'nome'}
-                                onChange={(e) => setSelectedOption(e.target.value)}
-                            />
-                        </div>
-                </div>
-                )}*/}
             </div>
             <div className={styles.div_pai}>
                 <div className={styles.card_container}>

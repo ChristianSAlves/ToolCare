@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styles from './manutencao_inativo.module.css';
 import MenuInativosComponent from '../../../components/MenuInativos/MenuInativos.js';
 import CardManutencoesComponent from '../../../components/CardManutencoes/card_manutencoes';
 import ModalManutencaoComponent from '../../../components/ModalManutencoes/modal_manutencoes';
 import { Link } from 'react-router-dom';
+import { useApi } from '../../../../src/ApiContext.js';
 
 const Manutencao = () => {
     const [showOptions, setShowOptions] = useState(false);
@@ -12,11 +13,12 @@ const Manutencao = () => {
     const [Manutencoes, setManutencoes] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [selectedManutencao, setSelectedManutencao] = useState(null);
+    const { apiUrl } = useApi();
 
-    const filterManutencoes = async (newSearch) => {
+    const filterManutencoes = useCallback(async (newSearch) => {
         const token = localStorage.getItem('token');
         try {
-            const responseManutencoes = await fetch('http://127.0.0.1:8000/manutencoes/', {
+            const responseManutencoes = await fetch(`${apiUrl}/manutencoes/`, {
                 headers: {
                     'Authorization': `Token ${token}`,
                 },
@@ -43,34 +45,34 @@ const Manutencao = () => {
         } catch (error) {
             console.error('Erro:', error);
         }
-    };
+    }, [apiUrl]);
 
-    useEffect(() => {
+    const fetchData = useCallback(async () => {
         const token = localStorage.getItem('token');
 
-        const fetchData = async () => {
-            try {
-                const responseManutencoes = await fetch('http://127.0.0.1:8000/manutencoes/', {
-                    headers: {
-                        'Authorization': `Token ${token}`,
-                    },
-                });
-                if (!responseManutencoes.ok) {
-                    throw new Error('Erro ao carregar as Manutenções');
-                }
-                const dataManutencoes = await responseManutencoes.json();
-                setManutencoes(dataManutencoes);
-            } catch (error) {
-                console.error('Erro:', error);
+        try {
+            const responseManutencoes = await fetch(`${apiUrl}/manutencoes/`, {
+                headers: {
+                    'Authorization': `Token ${token}`,
+                },
+            });
+            if (!responseManutencoes.ok) {
+                throw new Error('Erro ao carregar as Manutenções');
             }
-        };
+            const dataManutencoes = await responseManutencoes.json();
+            setManutencoes(dataManutencoes);
+        } catch (error) {
+            console.error('Erro:', error);
+        }
+    }, [apiUrl]);
 
+    useEffect(() => {
         fetchData();
-    }, []);
+    }, [fetchData]);
 
     useEffect(() => {
         filterManutencoes(search);
-    }, [search]);
+    }, [search, filterManutencoes]);
 
     const toggleModal = (manutencao) => {
         setSelectedManutencao(manutencao);

@@ -4,6 +4,7 @@ import defaultFerramenta from '../../../assets/imagens/defaultFerramenta.jpg';
 import MenuComponent from '../../../components/Menu/Menu';
 import CadastradoComponent from '../../../components/Avisos/Cadastrado/cadastrado';
 import FalhaCadastroComponent from '../../../components/Avisos/FalhaCadastro/falha_cadastro';
+import { useApi } from '../../../../src/ApiContext.js';
 
 const FerramentaCadastro = () => {
     const [nome, setNome] = useState('');
@@ -13,6 +14,7 @@ const FerramentaCadastro = () => {
     const [dataAquisicao, setDataAquisicao] = useState('');
     const [showSuccess, setShowSuccess] = useState(false);
     const [showError, setShowError] = useState(false);
+    const { apiUrl } = useApi();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -35,7 +37,7 @@ const FerramentaCadastro = () => {
         formData.append('status', 'Disponível'); // Define o status como "Disponível"
 
         try {
-            const response = await fetch('http://127.0.0.1:8000/ferramentas/', {
+            const response = await fetch(`${apiUrl}/ferramentas/`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Token ${token}`,

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import MenuComponent from '../../../components/Menu/Menu';
 import CadastradoComponent from '../../../components/Avisos/Cadastrado/cadastrado';
 import FalhaCadastroComponent from '../../../components/Avisos/FalhaCadastro/falha_cadastro';
+import { useApi } from '../../../../src/ApiContext.js';
 
 const Emprestimo = () => {
 
@@ -14,6 +15,7 @@ const Emprestimo = () => {
     const [codFerramenta, setCodFerramenta] = useState(0);
     const [showCadastrado, setShowCadastrado] = useState(false);
     const [showFalhaCadastro, setShowFalhaCadastro] = useState(false);
+    const { apiUrl } = useApi();
 
     useEffect(() => {
         const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage
@@ -21,7 +23,7 @@ const Emprestimo = () => {
         const fetchData = async () => {
             try {
                 // Busca as Ferramentas
-                const responseFerramentas = await fetch('http://127.0.0.1:8000/ferramentas/', {
+                const responseFerramentas = await fetch(`${apiUrl}/ferramentas/`, {
                     headers: {
                         'Authorization': `Token ${token}`, // Adicionando o token de autorização ao cabeçalho
                     },
@@ -33,7 +35,7 @@ const Emprestimo = () => {
                 setFerramentas(dataFerramentas);
 
                 // Busca Funcionarios
-                const responseFuncionarios = await fetch('http://127.0.0.1:8000/funcionarios/', {
+                const responseFuncionarios = await fetch(`${apiUrl}/funcionarios/`, {
                     headers: {
                         'Authorization': `Token ${token}`, // Adicionando o token de autorização ao cabeçalho
                     },
@@ -55,8 +57,8 @@ const Emprestimo = () => {
         event.preventDefault();
 
         const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage
-        const linkFerramenta = `http://127.0.0.1:8000/ferramentas/${codFerramenta}/`;
-        const linkFuncionario = `http://127.0.0.1:8000/funcionarios/${idFuncionario}/`;
+        const linkFerramenta = `${apiUrl}/ferramentas/${codFerramenta}/`;
+        const linkFuncionario = `${apiUrl}/funcionarios/${idFuncionario}/`;
 
         const formData = new FormData();
         formData.append('matriculaFuncionario', linkFuncionario);
@@ -66,7 +68,7 @@ const Emprestimo = () => {
         formData.append('observacoes', observacoes);
 
         try {
-            const response = await fetch('http://127.0.0.1:8000/emprestimos/', {
+            const response = await fetch(`${apiUrl}/emprestimos/`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Token ${token}`,

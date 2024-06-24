@@ -4,6 +4,7 @@ import MenuComponent from '../../../components/Menu/Menu';
 import GraficoFuncionario from '../../../components/GraficoFuncionarios/grafico_funcionarios';
 import GraficoFerramentas from '../../../components/GraficoFerramentas/grafico_ferramentas';
 import styles from './visao_geral.module.css';
+import { useApi } from '../../../../src/ApiContext.js';
 
 const VisaoGeral = () => {
     const [funcionarios, setFuncionarios] = useState(0);
@@ -16,6 +17,7 @@ const VisaoGeral = () => {
         ferramentasManutencao: 0,
         ferramentasBaixa: 0
     });
+    const { apiUrl } = useApi();
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -23,19 +25,19 @@ const VisaoGeral = () => {
         // Fetch data for the overview
         const fetchData = async () => {
             try {
-                const responseFuncionarios = await axios.get('http://127.0.0.1:8000/funcionarios/', {
+                const responseFuncionarios = await axios.get(`${apiUrl}/funcionarios/`, {
                     headers: {
                         'Authorization': `Token ${token}`
                     }
                 });
 
-                const responseFerramentas = await axios.get('http://127.0.0.1:8000/ferramentas/', {
+                const responseFerramentas = await axios.get(`${apiUrl}/ferramentas/`, {
                     headers: {
                         'Authorization': `Token ${token}`
                     }
                 });
 
-                const responseEmprestimos = await axios.get('http://127.0.0.1:8000/emprestimos/', {
+                const responseEmprestimos = await axios.get(`${apiUrl}/emprestimos/`, {
                     headers: {
                         'Authorization': `Token ${token}`
                     }
@@ -91,7 +93,7 @@ const VisaoGeral = () => {
         };
 
         fetchData();
-    }, []);
+    }, [apiUrl]);
 
     const calculatePercentage = (value, total) => {
         if (total === 0) {
