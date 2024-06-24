@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styles from './setor.module.css';
 import MenuComponent from '../../../components/Menu/Menu';
 import CardSetores from '../../../components/CardSetores/card_setores';
 import ModalSetoresComponent from '../../../components/ModalSetores/modal_setores';
 import { Link } from 'react-router-dom';
+import { useApi } from '../../../../src/ApiContext.js';
 
 const Setor = () => {
     const [showOptions, setShowOptions] = useState(false);
@@ -12,11 +13,37 @@ const Setor = () => {
     const [Setores, setSetores] = useState([]);
     const [showModal, setShowModal] = useState(false);  // Estado para controle da visibilidade do modal
     const [selectedSetor, setSelectedSetor] = useState(null);
+    const { apiUrl } = useApi();
 
-    const filterSetores = async (newSearch, newSelectedOption) => {
+    const filterSetores = useCallback(async (newSearch, newSelectedOption) => {
         const token = localStorage.getItem('token');
         try {
-            const responseSetores = await fetch('http://127.0.0.1:8000/setores/', {
+            const responseSetores = await fetch(`${apiUrl}/setores/`, {
+                headers: {
+                    'Authorization': `Token ${token}`,
+                },
+            });
+    
+            if (!responseSetores.ok) {
+                throw new Error('Erro ao carregar o setores');
+            }
+
+            const dataSetores = await responseSetores.json();
+            let filteredSetores = dataSetores.filter(setor =>
+                newSelectedOption === 'nome' && setor.nomeSetor.toLowerCase().includes(newSearch.toLowerCase())
+            );
+
+            setSetores(filteredSetores);
+        } catch (error) {
+            console.error('Erro:', error);
+        }
+    }, [apiUrl]);
+    
+    const reloadSetores = useCallback(async () => {
+        const token = localStorage.getItem('token');
+    
+        try {
+            const responseSetores = await fetch(`${apiUrl}/setores/`, {
                 headers: {
                     'Authorization': `Token ${token}`,
                 },
@@ -25,67 +52,27 @@ const Setor = () => {
             if (!responseSetores.ok) {
                 throw new Error('Erro ao carregar os Setores');
             }
-    
+
             const dataSetores = await responseSetores.json();
-            let filteredSetores = dataSetores.filter(setor => 
-                newSelectedOption === 'nome' && setor.nomeSetor.toLowerCase().includes(newSearch.toLowerCase())
-            );
-    
-            setSetores(filteredSetores);
+            setSetores(dataSetores);
         } catch (error) {
             console.error('Erro:', error);
         }
-    };
+    }, [apiUrl]);
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-    
-        const fetchData = async () => {
-            try {
-                const responseSetores = await fetch('http://127.0.0.1:8000/setores/', {
-                    headers: {
-                        'Authorization': `Token ${token}`,
-                    },
-                });
-                if (!responseSetores.ok) {
-                    throw new Error('Erro ao carregar os Setores');
-                }
-                const dataSetores = await responseSetores.json();
-                setSetores(dataSetores);              
-            } catch (error) {
-                console.error('Erro:', error);
-            }
-        };
-    
-        fetchData();
-    }, []);
+        reloadSetores();
+    }, [reloadSetores]);
 
     useEffect(() => {
         filterSetores(search, selectedOption);
-    }, [search, selectedOption]);
+    }, [search, selectedOption, filterSetores]);
 
     const toggleModal = (setor) => {
         setSelectedSetor(setor);
         setShowModal(!showModal);
     };
 
-    const reloadSetores = async () => {
-        const token = localStorage.getItem('token');
-        try {
-            const responseSetores = await fetch('http://127.0.0.1:8000/setores/', {
-                headers: {
-                    'Authorization': `Token ${token}`,
-                },
-            });
-            if (!responseSetores.ok) {
-                throw new Error('Erro ao carregar os Setores');
-            }
-            const dataSetores = await responseSetores.json();
-            setSetores(dataSetores);              
-        } catch (error) {
-            console.error('Erro:', error);
-        }
-    };
 
     return (
         <div id={styles.div_setor}>
