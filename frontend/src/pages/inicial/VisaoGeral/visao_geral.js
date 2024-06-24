@@ -19,7 +19,7 @@ const VisaoGeral = () => {
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-        
+
         // Fetch data for the overview
         const fetchData = async () => {
             try {
@@ -43,7 +43,7 @@ const VisaoGeral = () => {
 
                 const funcionariosData = responseFuncionarios.data.filter(funcionario => funcionario.status);
                 const ferramentasData = responseFerramentas.data.filter(f => f.status !== 'Baixa'); // Filtra ferramentas com status 'Baixa'
-                const emprestimosData = responseEmprestimos.data;
+                const emprestimosData = responseEmprestimos.data.filter(e => !e.dataDevolucao);
 
                 function isValidUrl(string) {
                     try {
@@ -53,7 +53,7 @@ const VisaoGeral = () => {
                         return false; // Não é uma URL válida
                     }
                 }
-                
+
                 const emprestimosDetalhados = await Promise.all(
                     emprestimosData
                        .filter(emprestimo => emprestimo.matriculaFuncionario && isValidUrl(emprestimo.matriculaFuncionario))
@@ -66,7 +66,7 @@ const VisaoGeral = () => {
                             return {...emprestimo, matriculaFuncionario: response.data.matriculaFuncionario };
                         })
                 );
-                
+
                 const semEmprestimo = funcionariosData.filter(f => !emprestimosDetalhados.some(e => e.matriculaFuncionario === f.matriculaFuncionario)).length;
                 const comEmprestimo = funcionariosData.length - semEmprestimo;
 

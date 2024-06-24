@@ -35,10 +35,6 @@ class Ferramenta(models.Model):
     def __str__(self):
         return self.nome
 
-    def clean(self):
-        if self.status == 'Baixa' and self.status in ['Emprestada', 'Manutenção']:
-            raise ValidationError('Não é possível atualizar o status para Baixa se o status atual é Emprestada ou Manutenção')
-
 class Funcionario(models.Model):
     idFuncionario = models.AutoField(primary_key=True)
     nome = models.CharField(max_length=30)

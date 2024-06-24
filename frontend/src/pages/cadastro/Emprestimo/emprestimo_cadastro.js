@@ -123,7 +123,7 @@ const Emprestimo = () => {
                         <label id={styles.funcionario_label}>Funcionário</label>
                         <select name="funcionario" id={styles.funcionario_select} required value={idFuncionario} onChange={evt => setIdFuncionario(evt.target.value)}>
                             <option value={0}>Selecione</option>
-                            {funcionarios.map(funcionario => (
+                            {funcionarios.filter(funcionario => funcionario.status === true).map(funcionario => (
                                 <option key={funcionario.idFuncionario} value={funcionario.idFuncionario}>{funcionario.nome}</option>
                             ))}
                         </select>
