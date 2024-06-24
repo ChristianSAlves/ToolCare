@@ -18,8 +18,6 @@ import Emprestimo from './pages/inicial/Emprestimo/emprestimo.js'
 import Setor from './pages/inicial/Setor/setor.js'
 import Manutencao from './pages/inicial/Manutencao/manutencao.js'
 import EmprestimoInativo from './pages/inativos/Emprestimo/emprestimo_inativo.js'
-import SetorInativo from './pages/inativos/Setor/setor_inativo.js'
-import CargoInativo from './pages/inativos/Cargo/cargo_inativo.js'
 import ManutencaoInativo from './pages/inativos/Manutencao/manutencao_inativo.js'
 import FuncionarioInativo from './pages/inativos/Funcionario/funcionario_inativo.js'
 import FerramentaInativo from './pages/inativos/Ferramenta/ferramenta_inativo.js'
@@ -56,9 +54,7 @@ function Rotas() {
                         <Route path='/emprestimo_inativo' element={<EmprestimoInativo/>}/>
                         <Route path='/ferramenta_inativo' element={<FerramentaInativo/>}/>
                         <Route path='/funcionario_inativo' element={<FuncionarioInativo/>}/>
-                        <Route path='/cargo_inativo' element={<CargoInativo/>}/>
                         <Route path='/manutencao_inativo' element={<ManutencaoInativo/>}/>
-                        <Route path='/setor_inativo' element={<SetorInativo/>}/>
                     </Routes>
                 </RequireAuth>
             }/>
