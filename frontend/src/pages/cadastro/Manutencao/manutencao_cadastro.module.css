@@ -21,6 +21,16 @@
     flex-direction: column;
 }
 
+#voltar {
+    color: white;
+    font-size: 4rem;
+    position: absolute;
+    top: 1.7rem;
+    right: 2.7rem;
+    cursor: pointer;
+}
+
+
 #tela {
     background-color: #3a3a3a;
     padding: 2rem;

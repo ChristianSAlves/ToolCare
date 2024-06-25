@@ -35,6 +35,8 @@ function Rotas() {
                 <RequireAuth>
                     <Routes>
                     <Route path='/card' element={<Card/>}/>
+                    <Route path="/" element={<Navigate replace to="/visao_geral" />} />
+                    <Route path="*" element={<Navigate replace to="/visao_geral" />} />
                         <Route path='/menu' element={<Menu/>}/>
                         <Route path='/modal' element={<Modal/>}/>
                         <Route path='/avisos' element={<Avisos/>}/>

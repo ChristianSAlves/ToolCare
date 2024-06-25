@@ -20,6 +20,16 @@ html {
     padding-left: 25rem;
 }
 
+#voltar {
+    color: white;
+    font-size: 4rem;
+    position: absolute;
+    top: 1.7rem;
+    right: 2.7rem;
+    cursor: pointer;
+}
+
+
 .tela {
     background-color: #444444;
     padding: 4rem;

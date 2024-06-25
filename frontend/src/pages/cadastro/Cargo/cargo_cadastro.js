@@ -105,6 +105,9 @@ class Cargo extends React.Component {
     return (
       <div className={styles.container}>
         <MenuComponent></MenuComponent>
+        <Link to={'/cargo'}>
+                <p id={styles.voltar}>  &lt; </p>
+            </Link>
         <div id='tela' className={styles.tela}>
           <form
             onSubmit={this.handleSubmit}

@@ -105,6 +105,9 @@ class Setor extends React.Component {
         return (
             <div className={styles.container}>
                 <MenuComponent></MenuComponent>
+                <Link to={'/setor'}>
+                <p id={styles.voltar}>  &lt; </p>
+                </Link>
                 <div id='tela' className={styles.tela}>
                     <form onSubmit={this.handleSubmit} action="#" method="post" autoComplete="off" id={styles.cadastro_setor_form}>
                         <p id={styles.cadastro}>Cadastro de Setor</p>

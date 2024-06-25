@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './manutencao_cadastro.module.css';
 import MenuComponent from '../../../components/Menu/Menu';
+import { Link } from 'react-router-dom';
 import CadastradoComponent from '../../../components/Avisos/Cadastrado/cadastrado';
 import FalhaCadastroComponent from '../../../components/Avisos/FalhaCadastro/falha_cadastro';
 import { useApi } from '../../../ApiContext.js';
@@ -96,6 +97,9 @@ const Manutencao = () => {
     return (
         <div className={styles.container}>
             <MenuComponent id={styles.menu}></MenuComponent>
+            <Link to={'/manutencao'}>
+                <p id={styles.voltar}>  &lt; </p>
+            </Link>
             <div id='tela' className={styles.tela}>
                 <form onSubmit={handleSubmit} action="#" method="post" autoComplete="off" id={styles.cadastro_manutencao_form}>
                     <p id={styles.cadastro}>Cadastro de Manutenção</p>

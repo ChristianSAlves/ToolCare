@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from './ferramenta_cadastro.module.css';
+import { Link } from 'react-router-dom';
 import defaultFerramenta from '../../../assets/imagens/defaultFerramenta.jpg';
 import MenuComponent from '../../../components/Menu/Menu';
 import CadastradoComponent from '../../../components/Avisos/Cadastrado/cadastrado';
@@ -73,6 +74,9 @@ const FerramentaCadastro = () => {
     return (
         <div className={styles.container}>
             <MenuComponent id={styles.menu}></MenuComponent>
+            <Link to={'/ferramenta'}>
+                <p id={styles.voltar}>  &lt; </p>
+            </Link>
             <div id='tela' className={styles.tela}>
                 <form onSubmit={handleSubmit} action="#" method="post" autoComplete="off" id={styles.cadastro_ferramenta_form}>
                     <p id={styles.cadastro}>Cadastro de Ferramenta</p>

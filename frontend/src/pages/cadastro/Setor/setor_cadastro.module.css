@@ -16,6 +16,17 @@
     box-shadow: 0 0 50px 5px rgba(0, 0, 0, 0.185);
 }
 
+
+
+#voltar {
+    color: white;
+    font-size: 4rem;
+    position: absolute;
+    top: 1.7rem;
+    right: 2.7rem;
+    cursor: pointer;
+}
+
 #menu {
     display: flex;
     flex-direction: column;

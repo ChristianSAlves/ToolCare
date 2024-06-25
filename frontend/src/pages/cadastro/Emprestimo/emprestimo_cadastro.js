@@ -1,4 +1,5 @@
 import styles from './emprestimo_cadastro.module.css';
+import { Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import MenuComponent from '../../../components/Menu/Menu';
 import CadastradoComponent from '../../../components/Avisos/Cadastrado/cadastrado';
@@ -106,6 +107,10 @@ const Emprestimo = () => {
     return (
         <div className={styles.container}>
             <MenuComponent id={styles.menu}></MenuComponent>
+            <Link to={'/emprestimo'}>
+                <p id={styles.voltar}>  &lt; </p>
+            </Link>
+
             <div className={styles.tela}>
                 {showCadastrado && <CadastradoComponent />}
                 {showFalhaCadastro && <FalhaCadastroComponent />}
