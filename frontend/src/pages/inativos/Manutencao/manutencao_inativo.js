@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './manutencao_inativo.module.css';
 import MenuInativosComponent from '../../../components/MenuInativos/MenuInativos.js';
 import CardManutencoesComponent from '../../../components/CardManutencoes/card_manutencoes';
 import ModalManutencaoComponent from '../../../components/ModalManutencoes/modal_manutencoes';
-import { Link } from 'react-router-dom';
 import { useApi } from '../../../../src/ApiContext.js';
 
 const extractIdFromUrl = (url) => {
@@ -12,7 +11,7 @@ const extractIdFromUrl = (url) => {
     return parts[parts.length - 2];
 };
 
-const Manutencao = () => {
+const ManutencaoInativo = () => {
     const [search, setSearch] = useState('');
     const [manutencoes, setManutencoes] = useState([]);
     const [filteredManutencoes, setFilteredManutencoes] = useState([]);
@@ -61,8 +60,9 @@ const Manutencao = () => {
                 };
             }));
 
-            setManutencoes(manutencoesComNomes.filter(manutencao => manutencao.dataFinal !== null));
-            setFilteredManutencoes(manutencoesComNomes.filter(manutencao => manutencao.dataFinal !== null));
+            const filteredData = manutencoesComNomes.filter(manutencao => manutencao.dataFinal !== null);
+            setManutencoes(filteredData);
+            setFilteredManutencoes(filteredData);
         } catch (error) {
             console.error('Erro:', error);
         }
@@ -73,7 +73,7 @@ const Manutencao = () => {
     }, []);
 
     useEffect(() => {
-        const filterManutencoes = async () => {
+        const filterManutencoes = () => {
             const searchLower = search.toLowerCase();
             const filtered = manutencoes.filter(manutencao => {
                 const codigoManutencaoMatch = manutencao.codigoManutencao.toString().includes(searchLower);
@@ -82,7 +82,13 @@ const Manutencao = () => {
                 const tipoManutencaoMatch = manutencao.tipoManutencao.toLowerCase().includes(searchLower);
                 const nomeFerramentaMatch = manutencao.nomeFerramenta.toLowerCase().includes(searchLower);
 
-                return (codigoManutencaoMatch || manutencaoStringMatch || manutencaoAcentoStringMatch || tipoManutencaoMatch || nomeFerramentaMatch) && manutencao.dataFinal !== null;
+                return (
+                    codigoManutencaoMatch || 
+                    manutencaoStringMatch || 
+                    manutencaoAcentoStringMatch || 
+                    tipoManutencaoMatch || 
+                    nomeFerramentaMatch
+                ) && manutencao.dataFinal !== null;
             });
 
             setFilteredManutencoes(filtered);
@@ -124,4 +130,4 @@ const Manutencao = () => {
     );
 }
 
-export default Manutencao;
+export default ManutencaoInativo;

@@ -81,8 +81,8 @@ const Emprestimo = () => {
             const result = filtered.filter(emprestimo => {
                 const searchLower = search.toLowerCase();
                 const codigoEmprestimoMatch = emprestimo.codigoEmprestimo.toString().includes(searchLower);
-                const emprestimoStringMatch = `emprestimo ${emprestimo.codigoEmprestimo}`.includes(searchLower);
-                const emprestimoAcentoStringMatch = `empréstimo ${emprestimo.codigoEmprestimo}`.includes(searchLower);
+                const emprestimoStringMatch = `emprestimo ${emprestimo.codigoEmprestimo}`.toLowerCase().includes(searchLower);
+                const emprestimoAcentoStringMatch = `empréstimo ${emprestimo.codigoEmprestimo}`.toLowerCase().includes(searchLower);
                 const nomeFuncionarioMatch = emprestimo.nomeFuncionario.toLowerCase().includes(searchLower);
                 const nomeFerramentaMatch = emprestimo.nomeFerramenta.toLowerCase().includes(searchLower);
 

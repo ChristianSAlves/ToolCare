@@ -11,8 +11,8 @@ const extractIdFromUrl = (url) => {
 };
 
 const CardEmprestimosComponent = ({ emprestimo }) => {
-    const [nomeFerramenta, setNomeFerramenta] = useState('Carregando...');
-    const [matriculaFuncionario, setMatriculaFuncionario] = useState('Carregando...');
+    const [nomeFerramenta, setNomeFerramenta] = useState('Ferramenta');
+    const [matriculaFuncionario, setMatriculaFuncionario] = useState('Funcionario');
     const [showModal, setShowModal] = useState(false);
 
     const location = useLocation();

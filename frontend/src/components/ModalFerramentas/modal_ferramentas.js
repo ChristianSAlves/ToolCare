@@ -4,6 +4,7 @@ import logo from "../../assets/imagens/logo.png";
 import EditadoComponent from "../Avisos/Editado/editado";
 import RemovidoComponent from "../Avisos/Removido/removido";
 import FalhaEdicaoComponent from "../Avisos/FalhaEdição/falha_edicao";
+import FalhaRemocaoComponent from "../Avisos/FalhaRemoção/falha_remocao";
 import ConfirmarRemocaoComponent from "../Avisos/ConfirmarRemoção/confirmar_remocao";
 
 const formatDate = (dateString) => {
@@ -16,6 +17,7 @@ const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal, onRemove 
     const [showEditado, setShowEditado] = useState(false);
     const [showRemovido, setShowRemovido] = useState(false);
     const [showFalhaEdicao, setShowFalhaEdicao] = useState(false);
+    const [showFalhaRemocao, setShowFalhaRemocao] = useState(false);
     const [showConfirmacao, setShowConfirmacao] = useState(false);
     const [editData, setEditData] = useState({
         Nome: ferramenta.nome,
@@ -109,16 +111,16 @@ const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal, onRemove 
             } else {
                 const errorData = await response.json();
                 console.error('Erro ao desativar a ferramenta:', errorData);
-                setShowFalhaEdicao(true);
+                setShowFalhaRemocao(true);
                 setTimeout(() => {
-                    setShowFalhaEdicao(false);
+                    setShowFalhaRemocao(false);
                 }, time);
             }
         } catch (error) {
             console.error('Erro ao desativar a ferramenta:', error);
-            setShowFalhaEdicao(true);
+            setShowFalhaRemocao(true);
             setTimeout(() => {
-                setShowFalhaEdicao(false);
+                setShowFalhaRemocao(false);
             }, time);
         }
     };
@@ -140,6 +142,7 @@ const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal, onRemove 
         <>
             {showRemovido && <RemovidoComponent />}
             {showFalhaEdicao && <FalhaEdicaoComponent />}
+            {showFalhaRemocao && <FalhaRemocaoComponent />}
             <div className={styles.tela_cheia} onClick={onClose}>
                 <div className={styles.modal} onClick={e => e.stopPropagation()}>
                     <div id={styles.fundo_img}>

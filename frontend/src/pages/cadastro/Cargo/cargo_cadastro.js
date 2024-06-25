@@ -106,7 +106,7 @@ class Cargo extends React.Component {
       <div className={styles.container}>
         <MenuComponent></MenuComponent>
         <Link to={'/cargo'}>
-                <p id={styles.voltar}> <b>&lt;</b> </p>
+                <p id={styles.voltar}> <b>&lt;</b></p>
             </Link>
         <div id='tela' className={styles.tela}>
           <form

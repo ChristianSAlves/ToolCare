@@ -6,7 +6,7 @@ import ModalFerramentasComponent from '../../../components/ModalFerramentas/moda
 import { Link } from 'react-router-dom';
 import { useApi } from '../../../../src/ApiContext.js';
 
-const Ferramenta = () => {
+const FerramentaInativa = () => {
     const [search, setSearch] = useState('');
     const [selectedOption, setSelectedOption] = useState('');
     const [ferramentas, setFerramentas] = useState([]);
@@ -29,7 +29,7 @@ const Ferramenta = () => {
             }
 
             const dataFerramentas = await responseFerramentas.json();
-            let filtered = dataFerramentas.filter(ferramenta => 
+            const filtered = dataFerramentas.filter(ferramenta => 
                 ferramenta.status.toLowerCase() === 'baixa' &&
                 (
                     (newSelectedOption === 'num_serie' && ferramenta.numSerie.toLowerCase().includes(newSearch.toLowerCase())) ||
@@ -62,8 +62,9 @@ const Ferramenta = () => {
                     throw new Error('Erro ao carregar as Ferramentas');
                 }
                 const dataFerramentas = await responseFerramentas.json();
-                setFerramentas(dataFerramentas.filter(ferramenta => ferramenta.status.toLowerCase() === 'baixa'));
-                setFilteredFerramentas(dataFerramentas.filter(ferramenta => ferramenta.status.toLowerCase() === 'baixa'));
+                const filteredData = dataFerramentas.filter(ferramenta => ferramenta.status.toLowerCase() === 'baixa');
+                setFerramentas(filteredData);
+                setFilteredFerramentas(filteredData);
             } catch (error) {
                 console.error('Erro:', error);
             }
@@ -111,4 +112,4 @@ const Ferramenta = () => {
     );
 }
 
-export default Ferramenta;
+export default FerramentaInativa;

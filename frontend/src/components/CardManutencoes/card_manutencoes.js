@@ -11,7 +11,7 @@ const extractIdFromUrl = (url) => {
 };
 
 const CardManutencoesComponent = ({ manutencao }) => {
-    const [codFerramenta, setCodigoFerramenta] = useState('');
+    const [codFerramenta, setCodigoFerramenta] = useState('Ferramenta');
     const [ferramentas, setFerramentas] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const location = useLocation();

@@ -1,12 +1,13 @@
-import styles from './login.module.css'
-import logo from '../../../src/assets/imagens/mario.png'
-import React from 'react'
+import styles from './login.module.css';
+import logo from '../../../src/assets/imagens/logo.png';
+import React from 'react';
 import { Navigate } from "react-router-dom";
+import FalhaLoginComponent from '../../components/Avisos/FalhaLogin/falha_login';
 
 export default class Login extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { username: '', password: '' };
+        this.state = { username: '', password: '', loginFailed: false };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChangePassword = this.handleChangePassword.bind(this);
@@ -22,8 +23,8 @@ export default class Login extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        //alert(this.state.username);
-        var url = 'http://127.0.0.1:8000/api-token-auth/';
+        this.setState({ loginFailed: false }); // Reseta loginFailed para false a cada tentativa
+        const url = 'http://127.0.0.1:8000/api-token-auth/';
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -35,17 +36,16 @@ export default class Login extends React.Component {
                 if (response.ok) {
                     return response.json();
                 } else {
+                    this.setState({ loginFailed: true });
                     throw new Error('Usuário ou senha inválidos.');
                 }
             })
             .then(data => {
                 localStorage.setItem('token', data.token);
-                this.setState({ token: data.token });
-                // Redirecionar para a página visao_geral
+                this.setState({ token: data.token, loginFailed: false });
             })
             .catch(error => {
-                // Exibir um alerta na tela caso o login falhe
-                alert('Falha no login: ' + error.message);
+                this.setState({ loginFailed: true });
             });
     }
 
@@ -65,15 +65,14 @@ export default class Login extends React.Component {
                         <form id={styles.form_login} action="#" onSubmit={this.handleSubmit}>
                             <input type="text" id={styles.username} className={styles.login_item} placeholder="token de acesso" value={this.state.username} onChange={this.handleChange}></input>
                             <input type="password" id={styles.password} className={styles.login_item} placeholder="senha" value={this.state.password} onChange={this.handleChangePassword}></input>
-                            <button  type="submit" value="submit" className={styles.login_item} id={styles.botao_entrar}>ENTRAR</button>
-                            
+                            <button type="submit" value="submit" className={styles.login_item} id={styles.botao_entrar}>ENTRAR</button>
                         </form>
+                        {this.state.loginFailed && <FalhaLoginComponent />}
                     </div>
                 </div>
             );
         else
             return (
-                
                 <Navigate to="/visao_geral" />
             )
     }

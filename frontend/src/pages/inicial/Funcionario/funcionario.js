@@ -30,7 +30,7 @@ const Funcionario = () => {
                 throw new Error('Erro ao carregar os Funcionarios');
             }
 
-            const dataFuncionarios = await response.json();
+            const dataFuncionarios = await responseFuncionarios.json();
             
             // Filtrando apenas os funcionários com status igual a true
             let filteredFuncionarios = dataFuncionarios.filter(funcionario => funcionario.status === true);
@@ -68,7 +68,7 @@ const Funcionario = () => {
             if (!responseFuncionarios.ok) {
                 throw new Error('Erro ao carregar os Funcionarios');
             }
-            const dataFuncionarios = await response.json();
+            const dataFuncionarios = await responseFuncionarios.json();
             
             // Filtrando apenas os funcionários com status igual a true
             const activeFuncionarios = dataFuncionarios.filter(funcionario => funcionario.status === true);
