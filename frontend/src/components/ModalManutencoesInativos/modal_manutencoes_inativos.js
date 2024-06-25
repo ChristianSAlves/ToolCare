@@ -20,7 +20,7 @@ const ModalManutencaoInativoComponent = ({ onClose, manutencao }) => {
         CodigoFerramenta: manutencao.codFerramenta || '',
         TipoDeManutencao: manutencao.tipoManutencao || '',
         DataInicio: formatDate(manutencao.dataInicio) || '',
-        DataFim: formatDate(manutencao.dataFim) || '',
+        DataFim: formatDate(manutencao.dataFinal) || '',
     });
 
     useEffect(() => {
