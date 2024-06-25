@@ -5,6 +5,12 @@ import CardEmprestimosComponent from '../../../components/CardEmprestimos/card_e
 import ModalFerramentasComponent from '../../../components/ModalFerramentas/modal_ferramentas';
 import { useApi } from '../../../../src/ApiContext.js';
 
+const extractIdFromUrl = (url) => {
+    if (!url) return '';
+    const parts = url.split('/');
+    return parts[parts.length - 2];
+};
+
 const EmprestimoInativo = () => {
     const [search, setSearch] = useState('');
     const [emprestimos, setEmprestimos] = useState([]);
@@ -64,8 +70,8 @@ const EmprestimoInativo = () => {
             const token = localStorage.getItem('token');
             const filtered = await Promise.all(
                 emprestimos.map(async (emprestimo) => {
-                    const nomeFerramenta = await fetchNome(`${apiUrl}/ferramentas/${emprestimo.numSerie}/`, token);
-                    const nomeFuncionario = await fetchNome(`${apiUrl}/funcionarios/${emprestimo.matriculaFuncionario}/`, token);
+                    const nomeFerramenta = await fetchNome(`${apiUrl}/ferramentas/${extractIdFromUrl(emprestimo.numSerie)}/`, token);
+                    const nomeFuncionario = await fetchNome(`${apiUrl}/funcionarios/${extractIdFromUrl(emprestimo.matriculaFuncionario)}/`, token);
 
                     return {
                         ...emprestimo,
@@ -76,9 +82,20 @@ const EmprestimoInativo = () => {
             );
 
             const result = filtered.filter(emprestimo => {
-                const codigoEmprestimoMatch = emprestimo.codigoEmprestimo.toString().includes(search);
+                const searchLower = search.toLowerCase();
+                const codigoEmprestimoMatch = emprestimo.codigoEmprestimo.toString().includes(searchLower);
+                const emprestimoStringMatch = `emprestimo ${emprestimo.codigoEmprestimo}`.includes(searchLower);
+                const emprestimoAcentoStringMatch = `empréstimo ${emprestimo.codigoEmprestimo}`.includes(searchLower);
+                const nomeFuncionarioMatch = emprestimo.nomeFuncionario.toLowerCase().includes(searchLower);
+                const nomeFerramentaMatch = emprestimo.nomeFerramenta.toLowerCase().includes(searchLower);
 
-                return (codigoEmprestimoMatch) && emprestimo.dataDevolucao !== null;
+                return (
+                    codigoEmprestimoMatch ||
+                    emprestimoStringMatch ||
+                    emprestimoAcentoStringMatch ||
+                    nomeFuncionarioMatch ||
+                    nomeFerramentaMatch
+                ) && emprestimo.dataDevolucao !== null;
             });
 
             setFilteredEmprestimos(result);

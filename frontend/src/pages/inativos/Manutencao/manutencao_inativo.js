@@ -6,73 +6,90 @@ import ModalManutencaoComponent from '../../../components/ModalManutencoes/modal
 import { Link } from 'react-router-dom';
 import { useApi } from '../../../../src/ApiContext.js';
 
+const extractIdFromUrl = (url) => {
+    if (!url) return '';
+    const parts = url.split('/');
+    return parts[parts.length - 2];
+};
+
 const Manutencao = () => {
-    const [showOptions, setShowOptions] = useState(false);
     const [search, setSearch] = useState('');
-    const [selectedOption, setSelectedOption] = useState('codigo');
-    const [Manutencoes, setManutencoes] = useState([]);
+    const [manutencoes, setManutencoes] = useState([]);
+    const [filteredManutencoes, setFilteredManutencoes] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [selectedManutencao, setSelectedManutencao] = useState(null);
     const { apiUrl } = useApi();
 
-    const filterManutencoes = useCallback(async (newSearch) => {
-        const token = localStorage.getItem('token');
+    const fetchNome = async (url, token) => {
         try {
-            const responseManutencoes = await fetch(`${apiUrl}/manutencoes/`, {
+            const response = await fetch(url, {
                 headers: {
                     'Authorization': `Token ${token}`,
                 },
             });
-
-            if (!responseManutencoes.ok) {
-                throw new Error('Erro ao carregar as Manutenções');
+            if (!response.ok) {
+                throw new Error('Erro ao carregar o nome');
             }
-
-            const dataManutencoes = await responseManutencoes.json();
-            let filteredManutencoes = dataManutencoes.filter(manutencao => {
-                if (manutencao.dataFinal === null) {
-                    return false;
-                }
-                const codigoManutencao = manutencao.codigoManutencao.toString() || '';
-                const tipoManutencao = manutencao.tipoManutencao || '';
-                return (
-                    codigoManutencao.toLowerCase().includes(newSearch.toLowerCase()) ||
-                    tipoManutencao.toLowerCase().includes(newSearch.toLowerCase())
-                );
-            });
-
-            setManutencoes(filteredManutencoes);
+            const data = await response.json();
+            return data.nome;
         } catch (error) {
             console.error('Erro:', error);
+            return '';
         }
-    }, [apiUrl]);
+    };
 
-    const fetchData = useCallback(async () => {
-        const token = localStorage.getItem('token');
+    const fetchManutencoes = async () => {
+        const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage
 
         try {
-            const responseManutencoes = await fetch(`${apiUrl}/manutencoes/`, {
+            const response = await fetch(`${apiUrl}/manutencoes/`, {
                 headers: {
-                    'Authorization': `Token ${token}`,
+                    'Authorization': `Token ${token}`, // Adicionando o token de autorização ao cabeçalho
                 },
             });
-            if (!responseManutencoes.ok) {
+
+            if (!response.ok) {
                 throw new Error('Erro ao carregar as Manutenções');
             }
-            const dataManutencoes = await responseManutencoes.json();
-            setManutencoes(dataManutencoes);
+
+            const data = await response.json();
+            const manutencoesComNomes = await Promise.all(data.map(async (manutencao) => {
+                const nomeFerramenta = await fetchNome(`${apiUrl}/ferramentas/${extractIdFromUrl(manutencao.codFerramenta)}/`, token);
+                return {
+                    ...manutencao,
+                    nomeFerramenta,
+                };
+            }));
+
+            setManutencoes(manutencoesComNomes.filter(manutencao => manutencao.dataFinal !== null));
+            setFilteredManutencoes(manutencoesComNomes.filter(manutencao => manutencao.dataFinal !== null));
         } catch (error) {
             console.error('Erro:', error);
         }
-    }, [apiUrl]);
+    };
 
     useEffect(() => {
-        fetchData();
-    }, [fetchData]);
+        fetchManutencoes();
+    }, []);
 
     useEffect(() => {
-        filterManutencoes(search);
-    }, [search, filterManutencoes]);
+        const filterManutencoes = async () => {
+            const searchLower = search.toLowerCase();
+            const filtered = manutencoes.filter(manutencao => {
+                const codigoManutencaoMatch = manutencao.codigoManutencao.toString().includes(searchLower);
+                const manutencaoStringMatch = `manutencao ${manutencao.codigoManutencao}`.toLowerCase().includes(searchLower);
+                const manutencaoAcentoStringMatch = `manutenção ${manutencao.codigoManutencao}`.toLowerCase().includes(searchLower);
+                const tipoManutencaoMatch = manutencao.tipoManutencao.toLowerCase().includes(searchLower);
+                const nomeFerramentaMatch = manutencao.nomeFerramenta.toLowerCase().includes(searchLower);
+
+                return (codigoManutencaoMatch || manutencaoStringMatch || manutencaoAcentoStringMatch || tipoManutencaoMatch || nomeFerramentaMatch) && manutencao.dataFinal !== null;
+            });
+
+            setFilteredManutencoes(filtered);
+        };
+
+        filterManutencoes();
+    }, [search, manutencoes]);
 
     const toggleModal = (manutencao) => {
         setSelectedManutencao(manutencao);
@@ -93,7 +110,7 @@ const Manutencao = () => {
             </div>
             <div className={styles.div_pai}>
                 <div className={styles.card_container}>
-                    {Manutencoes.map((manutencao, index) => (
+                    {filteredManutencoes.map((manutencao, index) => (
                         <CardManutencoesComponent
                             key={manutencao.codigoManutencao ? manutencao.codigoManutencao : index} 
                             manutencao={manutencao} 

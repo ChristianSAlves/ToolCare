@@ -11,10 +11,10 @@ const Funcionario = () => {
     const [search, setSearch] = useState('');
     const [selectedOption, setSelectedOption] = useState('');
     const [Funcionarios, setFuncionarios] = useState([]);
+    const [filteredFuncionarios, setFilteredFuncionarios] = useState([]);
     const [showModal, setShowModal] = useState(false);  // Estado para controle da visibilidade do modal
     const [selectedFuncionario, setSelectedFuncionario] = useState(null);
     const { apiUrl } = useApi();
-
 
     const filterFuncionarios = useCallback(async (newSearch, newSelectedOption) => {
         const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage
@@ -30,7 +30,7 @@ const Funcionario = () => {
                 throw new Error('Erro ao carregar os Funcionarios');
             }
 
-            const dataFuncionarios = await responseFuncionarios.json();
+            const dataFuncionarios = await response.json();
             
             // Filtrando apenas os funcionários com status igual a true
             let filteredFuncionarios = dataFuncionarios.filter(funcionario => funcionario.status === true);
@@ -49,7 +49,7 @@ const Funcionario = () => {
                 );
             }
 
-            setFuncionarios(filteredFuncionarios);
+            setFilteredFuncionarios(filteredFuncionarios);
         } catch (error) {
             console.error('Erro:', error);
         }
@@ -68,12 +68,13 @@ const Funcionario = () => {
             if (!responseFuncionarios.ok) {
                 throw new Error('Erro ao carregar os Funcionarios');
             }
-            const dataFuncionarios = await responseFuncionarios.json();
+            const dataFuncionarios = await response.json();
             
             // Filtrando apenas os funcionários com status igual a true
             const activeFuncionarios = dataFuncionarios.filter(funcionario => funcionario.status === true);
 
-            setFuncionarios(activeFuncionarios);              
+            setFuncionarios(activeFuncionarios);
+            setFilteredFuncionarios(activeFuncionarios);
         } catch (error) {
             console.error('Erro:', error);
         }
@@ -110,11 +111,12 @@ const Funcionario = () => {
                     type='search'
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
+                    placeholder="Pesquisar por nome, matrícula ou CPF"
                 />
             </div>
             <div className={styles.div_pai}>
                 <div className={styles.card_container}>
-                    {Funcionarios.map((funcionario, index) => (
+                    {filteredFuncionarios.map((funcionario, index) => (
                         <CardFuncionarios 
                             key={funcionario.idFuncionario ? funcionario.idFuncionario : index} 
                             funcionario={funcionario} 

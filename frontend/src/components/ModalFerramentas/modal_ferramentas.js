@@ -4,6 +4,7 @@ import logo from "../../assets/imagens/logo.png";
 import EditadoComponent from "../Avisos/Editado/editado";
 import RemovidoComponent from "../Avisos/Removido/removido";
 import FalhaEdicaoComponent from "../Avisos/FalhaEdição/falha_edicao";
+import ConfirmarRemocaoComponent from "../Avisos/ConfirmarRemoção/confirmar_remocao";
 
 const formatDate = (dateString) => {
     const [year, month, day] = dateString.split('-');
@@ -15,6 +16,7 @@ const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal, onRemove 
     const [showEditado, setShowEditado] = useState(false);
     const [showRemovido, setShowRemovido] = useState(false);
     const [showFalhaEdicao, setShowFalhaEdicao] = useState(false);
+    const [showConfirmacao, setShowConfirmacao] = useState(false);
     const [editData, setEditData] = useState({
         Nome: ferramenta.nome,
         NúmeroDeSerie: ferramenta.numSerie,
@@ -121,6 +123,19 @@ const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal, onRemove 
         }
     };
 
+    const confirmRemove = () => {
+        setShowConfirmacao(true);
+    };
+
+    const cancelRemove = () => {
+        setShowConfirmacao(false);
+    };
+
+    const handleConfirmRemove = () => {
+        setShowConfirmacao(false);
+        handleRemove();
+    };
+
     return (
         <>
             {showRemovido && <RemovidoComponent />}
@@ -150,13 +165,14 @@ const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal, onRemove 
                             ) : (
                                 <>
                                     <button className={styles.edit_button} onClick={handleEdit}>EDITAR</button>
-                                    <button className={styles.remove_button} onClick={handleRemove}>DESATIVAR</button>
+                                    <button className={styles.remove_button} onClick={confirmRemove}>DESATIVAR</button>
                                     <button className={styles.relatorio_button}>RELATÓRIO</button>
                                 </> 
                             )}
                         </div>
                     </div>
                     {showEditado && <EditadoComponent />}
+                    {showConfirmacao && <ConfirmarRemocaoComponent onConfirm={handleConfirmRemove} onCancel={cancelRemove} />}
                 </div>
             </div>
         </>

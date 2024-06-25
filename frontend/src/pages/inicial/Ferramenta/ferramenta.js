@@ -7,10 +7,10 @@ import { Link } from 'react-router-dom';
 import { useApi } from '../../../../src/ApiContext.js';
 
 const Ferramenta = () => {
-    const [showOptions, setShowOptions] = useState(false);
     const [search, setSearch] = useState('');
     const [selectedOption, setSelectedOption] = useState('');
     const [Ferramentas, setFerramentas] = useState([]);
+    const [filteredFerramentas, setFilteredFerramentas] = useState([]);
     const [showModal, setShowModal] = useState(false);  // Estado para controle da visibilidade do modal
     const [selectedFerramenta, setSelectedFerramenta] = useState(null);
     const { apiUrl } = useApi();
@@ -23,11 +23,11 @@ const Ferramenta = () => {
                     'Authorization': `Token ${token}`,
                 },
             });
-    
+
             if (!responseFerramentas.ok) {
                 throw new Error('Erro ao carregar as Ferramentas');
             }
-    
+
             const dataFerramentas = await responseFerramentas.json();
             let filteredFerramentas = dataFerramentas.filter(ferramenta => 
                 ferramenta.status.toLowerCase() !== 'baixa' &&
@@ -42,20 +42,18 @@ const Ferramenta = () => {
                     ))
                 )
             );
-    
-            setFerramentas(filteredFerramentas);
+
+            setFilteredFerramentas(filteredFerramentas);
         } catch (error) {
             console.error('Erro:', error);
         }
     };
-    
 
     useEffect(() => {
         const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage
     
         const fetchData = async () => {
             try {
-            
                 const responseFerramentas = await fetch(`${apiUrl}/ferramentas/`, {
                     headers: {
                         'Authorization': `Token ${token}`, // Adicionando o token de autorização ao cabeçalho
@@ -65,7 +63,9 @@ const Ferramenta = () => {
                     throw new Error('Erro ao carregar as Ferramentas');
                 }
                 const dataFerramentas = await responseFerramentas.json();
-                setFerramentas(dataFerramentas);              
+                const filteredData = dataFerramentas.filter(ferramenta => ferramenta.status.toLowerCase() !== 'baixa');
+                setFerramentas(filteredData);              
+                setFilteredFerramentas(filteredData);
             } catch (error) {
                 console.error('Erro:', error);
             }
@@ -96,7 +96,9 @@ const Ferramenta = () => {
                 throw new Error('Erro ao carregar as Ferramentas');
             }
             const dataFerramentas = await responseFerramentas.json();
-            setFerramentas(dataFerramentas);
+            const filteredData = dataFerramentas.filter(ferramenta => ferramenta.status.toLowerCase() !== 'baixa');
+            setFerramentas(filteredData);
+            setFilteredFerramentas(filteredData);
         } catch (error) {
             console.error('Erro:', error);
         }
@@ -119,7 +121,7 @@ const Ferramenta = () => {
             </div>
             <div className={styles.div_pai}>
                 <div className={styles.card_container}>
-                    {Ferramentas.map((ferramenta, index) => (
+                    {filteredFerramentas.map((ferramenta, index) => (
                         <CardFerramentas 
                             key={ferramenta.idFerramenta ? ferramenta.idFerramenta : index} 
                             ferramenta={ferramenta} 

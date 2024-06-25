@@ -1,10 +1,15 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from '../Emprestimo/emprestimo.module.css';
 import MenuComponent from '../../../components/Menu/Menu';
 import CardEmprestimosComponent from '../../../components/CardEmprestimos/card_emprestimos';
 import ModalEmprestimosComponent from '../../../components/ModalEmprestimos/modal_emprestimos.js';
 import { Link } from 'react-router-dom';
-import { useApi } from '../../../../src/ApiContext.js';
+
+const extractIdFromUrl = (url) => {
+    if (!url) return '';
+    const parts = url.split('/');
+    return parts[parts.length - 2];
+};
 
 const Emprestimo = () => {
     const [search, setSearch] = useState('');
@@ -13,13 +18,11 @@ const Emprestimo = () => {
     const [showModal, setShowModal] = useState(false);
     const [selectedEmprestimo, setSelectedEmprestimo] = useState(null);
 
-    const { apiUrl } = useApi();
-
-    const fetchEmprestimos = useCallback(async () => {
+    const fetchEmprestimos = async () => {
         const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage
     
         try {
-            const response = await fetch(`${apiUrl}/emprestimos/`, {
+            const response = await fetch('http://127.0.0.1:8000/emprestimos/', {
                 headers: {
                     'Authorization': `Token ${token}`, // Adicionando o token de autorização ao cabeçalho
                 },
@@ -30,15 +33,14 @@ const Emprestimo = () => {
             }
 
             const data = await response.json();
-            const filteredData = data.filter(emprestimo => emprestimo.dataDevolucao === null);
-            setEmprestimos(filteredData);
-            setFilteredEmprestimos(filteredData);
+            setEmprestimos(data.filter(emprestimo => emprestimo.dataDevolucao === null));
+            setFilteredEmprestimos(data.filter(emprestimo => emprestimo.dataDevolucao === null));
         } catch (error) {
             console.error('Erro:', error);
         }
-    }, [apiUrl]);
+    };
 
-    const fetchNome = useCallback(async (url, token) => {
+    const fetchNome = async (url, token) => {
         try {
             const response = await fetch(url, {
                 headers: {
@@ -54,19 +56,19 @@ const Emprestimo = () => {
             console.error('Erro:', error);
             return '';
         }
-    }, []);
+    };
 
     useEffect(() => {
         fetchEmprestimos();
-    }, [fetchEmprestimos]);
+    }, []);
 
     useEffect(() => {
         const filterEmprestimos = async () => {
             const token = localStorage.getItem('token');
             const filtered = await Promise.all(
                 emprestimos.map(async (emprestimo) => {
-                    const nomeFerramenta = await fetchNome(`${apiUrl}/ferramentas/${emprestimo.numSerie}/`, token);
-                    const nomeFuncionario = await fetchNome(`${apiUrl}/funcionarios/${emprestimo.matriculaFuncionario}/`, token);
+                    const nomeFerramenta = await fetchNome(`http://127.0.0.1:8000/ferramentas/${extractIdFromUrl(emprestimo.numSerie)}/`, token);
+                    const nomeFuncionario = await fetchNome(`http://127.0.0.1:8000/funcionarios/${extractIdFromUrl(emprestimo.matriculaFuncionario)}/`, token);
 
                     return {
                         ...emprestimo,
@@ -77,16 +79,27 @@ const Emprestimo = () => {
             );
 
             const result = filtered.filter(emprestimo => {
-                const codigoEmprestimoMatch = emprestimo.codigoEmprestimo.toString().includes(search);
+                const searchLower = search.toLowerCase();
+                const codigoEmprestimoMatch = emprestimo.codigoEmprestimo.toString().includes(searchLower);
+                const emprestimoStringMatch = `emprestimo ${emprestimo.codigoEmprestimo}`.includes(searchLower);
+                const emprestimoAcentoStringMatch = `empréstimo ${emprestimo.codigoEmprestimo}`.includes(searchLower);
+                const nomeFuncionarioMatch = emprestimo.nomeFuncionario.toLowerCase().includes(searchLower);
+                const nomeFerramentaMatch = emprestimo.nomeFerramenta.toLowerCase().includes(searchLower);
 
-                return (codigoEmprestimoMatch) && emprestimo.dataDevolucao === null;
+                return (
+                    codigoEmprestimoMatch || 
+                    emprestimoStringMatch || 
+                    emprestimoAcentoStringMatch || 
+                    nomeFuncionarioMatch || 
+                    nomeFerramentaMatch
+                ) && emprestimo.dataDevolucao === null;
             });
 
             setFilteredEmprestimos(result);
         };
 
         filterEmprestimos();
-    }, [search, emprestimos, fetchNome, apiUrl]);
+    }, [search, emprestimos]);
 
     const defaultFerramenta = 'url_to_default_image';
     const toggleModal = (emprestimo) => {
