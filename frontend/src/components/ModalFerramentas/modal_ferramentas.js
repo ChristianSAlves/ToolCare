@@ -3,26 +3,31 @@ import styles from "./modal_ferramentas.module.css";
 import logo from "../../assets/imagens/logo.png";
 import EditadoComponent from "../Avisos/Editado/editado";
 import RemovidoComponent from "../Avisos/Removido/removido";
-import ConfirmarRemocaoComponent from "../Avisos/ConfirmarRemoção/confirmar_remocao";
 import FalhaEdicaoComponent from "../Avisos/FalhaEdição/falha_edicao";
 import FalhaRemocaoComponent from "../Avisos/FalhaRemoção/falha_remocao";
+import ConfirmarRemocaoComponent from "../Avisos/ConfirmarRemoção/confirmar_remocao";
+import { useApi } from '../../../src/ApiContext.js';
 
-const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal }) => {
+const formatDate = (dateString) => {
+    const [year, month, day] = dateString.split('-');
+    return `${day}/${month}/${year}`;
+};
+
+const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal, onRemove = () => {} }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [showEditado, setShowEditado] = useState(false);
     const [showRemovido, setShowRemovido] = useState(false);
-    const [showConfirmacao, setShowConfirmacao] = useState(false);
     const [showFalhaEdicao, setShowFalhaEdicao] = useState(false);
     const [showFalhaRemocao, setShowFalhaRemocao] = useState(false);
+    const [showConfirmacao, setShowConfirmacao] = useState(false);
     const [editData, setEditData] = useState({
         Nome: ferramenta.nome,
         NúmeroDeSerie: ferramenta.numSerie,
         Descricao: ferramenta.descricao,
-        DataAquisicao: ferramenta.dataAquisicao,
-        Status: ferramenta.status,
+        DataAquisicao: formatDate(ferramenta.dataAquisicao),
     });
     const time = 3000;
-    const timeRemovido = 3000;
+    const { apiUrl } = useApi();
 
     const handleEdit = () => {
         setIsEditing(true);
@@ -37,10 +42,12 @@ const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal }) => {
             formData.append('nome', editData.Nome);
             formData.append('numSerie', editData.NúmeroDeSerie);
             formData.append('descricao', editData.Descricao);
-            formData.append('dataAquisicao', editData.DataAquisicao);
-            formData.append('status', editData.Status);
+            // Formatando a data de volta para o formato yyyy-mm-dd
+            const [day, month, year] = editData.DataAquisicao.split('/');
+            const formattedDate = `${year}-${month}-${day}`;
+            formData.append('dataAquisicao', formattedDate);
 
-            response = await fetch(`http://127.0.0.1:8000/ferramentas/${ferramenta.codFerramenta}/`, {
+            response = await fetch(`${apiUrl}/ferramentas/${ferramenta.codFerramenta}/`, {
                 method: 'PATCH',
                 headers: {
                     'Authorization': `Token ${token}`,
@@ -79,48 +86,58 @@ const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal }) => {
         setEditData(prev => ({ ...prev, [field]: value }));
     };
 
-    const handleRemove = () => {
-        setShowConfirmacao(true);
-    };
-
-    const confirmRemove = async () => {
+    const handleRemove = async () => {
         const token = localStorage.getItem('token');
+        let response;
 
         try {
-            const response = await fetch(`http://127.0.0.1:8000/ferramentas/${ferramenta.codFerramenta}/`, {
-                method: 'DELETE',
+            const formData = new FormData();
+            formData.append('status', 'Baixa');
+
+            response = await fetch(`${apiUrl}/ferramentas/${ferramenta.codFerramenta}/`, {
+                method: 'PATCH',
                 headers: {
                     'Authorization': `Token ${token}`,
                 },
+                body: formData,
             });
 
             if (response.ok) {
                 setShowRemovido(true);
                 setTimeout(() => {
                     setShowRemovido(false);
+                    onRemove(); // Chama a função para recarregar a lista de ferramentas após remoção
                     onClose(); // Fechar o modal após a remoção
                     if (onShowModal) onShowModal(false); // Atualiza o estado do modal no componente pai, se necessário
-                }, timeRemovido);
+                }, time);
             } else {
-                console.error('Falha ao remover a ferramenta. Por favor, tente novamente.');
+                const errorData = await response.json();
+                console.error('Erro ao desativar a ferramenta:', errorData);
                 setShowFalhaRemocao(true);
                 setTimeout(() => {
                     setShowFalhaRemocao(false);
                 }, time);
             }
         } catch (error) {
-            console.error('Erro ao remover a ferramenta:', error);
+            console.error('Erro ao desativar a ferramenta:', error);
             setShowFalhaRemocao(true);
             setTimeout(() => {
                 setShowFalhaRemocao(false);
             }, time);
         }
+    };
 
-        setShowConfirmacao(false);
+    const confirmRemove = () => {
+        setShowConfirmacao(true);
     };
 
     const cancelRemove = () => {
         setShowConfirmacao(false);
+    };
+
+    const handleConfirmRemove = () => {
+        setShowConfirmacao(false);
+        handleRemove();
     };
 
     return (
@@ -137,19 +154,8 @@ const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal }) => {
                         {Object.entries(editData).map(([key, value]) => (
                             <div className={styles.info_row} key={key}>
                                 <span className={styles.label}>{key.replace(/([A-Z])/g, ' $1').trim()}</span>
-                                {isEditing && key !== "NúmeroDeSerie" ? (
-                                    key === "DataAquisicao" ? (
-                                        <input type="date" value={value} id={styles.datepicker_aquisicao} onChange={e => handleChange(e, key)} />
-                                    ) : key === "Status" ? (
-                                        <select value={value} id={styles.select_status} onChange={e => handleChange(e, key)}>
-                                            <option value="Emprestada">Emprestada</option>
-                                            <option value="Disponível">Disponível</option>
-                                            <option value="Perdida">Perdida</option>
-                                            <option value="Manutenção">Manutenção</option>
-                                        </select>
-                                    ) : (
-                                        <input type="text" id={styles.input_text} value={value} onChange={e => handleChange(e, key)} />
-                                    )
+                                {isEditing && key !== "Nome" && key !== "DataAquisicao" && key !== "NúmeroDeSerie" ? (
+                                    <input type="text" id={styles.input_text} value={value} onChange={e => handleChange(e, key)} />
                                 ) : (
                                     <p>{value}</p>
                                 )}
@@ -164,13 +170,14 @@ const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal }) => {
                             ) : (
                                 <>
                                     <button className={styles.edit_button} onClick={handleEdit}>EDITAR</button>
-                                    <button className={styles.remove_button} onClick={handleRemove}>REMOVER</button>
+                                    <button className={styles.remove_button} onClick={confirmRemove}>DESATIVAR</button>
+                                    <button className={styles.relatorio_button}>RELATÓRIO</button>
                                 </> 
                             )}
                         </div>
                     </div>
                     {showEditado && <EditadoComponent />}
-                    {showConfirmacao && <ConfirmarRemocaoComponent onConfirm={confirmRemove} onCancel={cancelRemove} />}
+                    {showConfirmacao && <ConfirmarRemocaoComponent onConfirm={handleConfirmRemove} onCancel={cancelRemove} />}
                 </div>
             </div>
         </>

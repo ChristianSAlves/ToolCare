@@ -11,7 +11,7 @@
 #cadastro_manutencao_form{
     background-color: #444444;
     padding: 4rem;
-    width: 60vw;
+    width: 40vw;
     border-radius: 4rem;
     box-shadow: 0 0 50px 5px rgba(0, 0, 0, 0.185);
 }
@@ -20,6 +20,16 @@
     display: flex;
     flex-direction: column;
 }
+
+#voltar {
+    color: white;
+    font-size: 4rem;
+    position: absolute;
+    top: 1.7rem;
+    right: 2.7rem;
+    cursor: pointer;
+}
+
 
 #tela {
     background-color: #3a3a3a;

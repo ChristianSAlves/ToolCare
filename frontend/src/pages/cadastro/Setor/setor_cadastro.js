@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './setor_cadastro.module.css';
 import { Link } from 'react-router-dom';
 import MenuComponent from '../../../components/Menu/Menu';
 import CadastradoComponent from '../../../components/Avisos/Cadastrado/cadastrado';
 import FalhaCadastroComponent from '../../../components/Avisos/FalhaCadastro/falha_cadastro';
+import withApi from '../../../withApi'; // Adjust the path according to your project structure
 
-export default class Setor extends React.Component {
+class Setor extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -21,7 +22,8 @@ export default class Setor extends React.Component {
     }
 
     async componentDidMount() {
-        const url = 'http://127.0.0.1:8000/setores/';
+        const { apiUrl } = this.props.apiContext; // Get apiUrl from props
+        const url = `${apiUrl}/setores/`;
     
         const config = {
             headers: {
@@ -57,6 +59,7 @@ export default class Setor extends React.Component {
 
     handleSubmit = async (event) => {
         event.preventDefault();
+        const { apiUrl } = this.props.apiContext; // Get apiUrl from props
         const token = localStorage.getItem('token');
         const data = {
             nomeSetor: this.state.nomeSetor,
@@ -71,7 +74,7 @@ export default class Setor extends React.Component {
         };
 
         try {
-            const response = await fetch('http://127.0.0.1:8000/setores/', {
+            const response = await fetch(`${apiUrl}/setores/`, {
                 method: 'POST',
                 headers: config.headers,
                 body: JSON.stringify(data),
@@ -102,6 +105,9 @@ export default class Setor extends React.Component {
         return (
             <div className={styles.container}>
                 <MenuComponent></MenuComponent>
+                <Link to={'/setor'}>
+                <p id={styles.voltar}>  &lt; </p>
+                </Link>
                 <div id='tela' className={styles.tela}>
                     <form onSubmit={this.handleSubmit} action="#" method="post" autoComplete="off" id={styles.cadastro_setor_form}>
                         <p id={styles.cadastro}>Cadastro de Setor</p>
@@ -116,3 +122,5 @@ export default class Setor extends React.Component {
         );
     }
 }
+
+export default withApi(Setor);

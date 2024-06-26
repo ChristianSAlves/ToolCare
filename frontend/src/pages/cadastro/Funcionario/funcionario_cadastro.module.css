@@ -20,6 +20,16 @@ html {
     padding-left: 25rem;
 }
 
+#voltar {
+    color: white;
+    font-size: 4rem;
+    position: absolute;
+    top: 1.7rem;
+    right: 2.7rem;
+    cursor: pointer;
+}
+
+
 .tela {
     background-color: #444444;
     padding: 4rem;
@@ -58,7 +68,7 @@ html {
 }
 
 .input_file {
-    width: calc(100% - 8rem); /* Ajuste a largura para deixar espaço para o label */
+    width: 100%; /* Ajuste a largura para ocupar todo o espaço disponível */
     padding: 1rem;
     height: 5vh;
     border: none;
@@ -82,11 +92,10 @@ html {
     color: rgb(255, 255, 255);
     padding: 1rem;
     border-radius: 0.5rem;
-    margin-right: 1rem; /* Ajusta o espaçamento entre o label e o input */
 }
 
 #foto {
-    flex: 1; /* Permite que o input ocupe o restante do espaço disponível */
+    margin-left: 0rem;
 }
 
 button {

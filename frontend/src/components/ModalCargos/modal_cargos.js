@@ -5,8 +5,9 @@ import RemovidoComponent from "../Avisos/Removido/removido";
 import ConfirmarRemocaoComponent from "../Avisos/ConfirmarRemoção/confirmar_remocao";
 import FalhaEdicaoComponent from "../Avisos/FalhaEdição/falha_edicao";
 import FalhaRemocaoComponent from "../Avisos/FalhaRemoção/falha_remocao";
+import { useApi } from '../../../src/ApiContext.js'; // Importe o useApi do ApiContext
 
-const ModalCargosComponent = ({ onClose, cargo, onShowModal }) => {
+const ModalCargosComponent = ({ onClose, cargo, onShowModal, onRemove }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [showEditado, setShowEditado] = useState(false);
     const [showRemovido, setShowRemovido] = useState(false);
@@ -17,6 +18,7 @@ const ModalCargosComponent = ({ onClose, cargo, onShowModal }) => {
         Nome: cargo.nomeCargo,
         Descricao: cargo.descricaoCargo,
     });
+    const { apiUrl } = useApi(); // Use o useApi para obter a URL da API
 
     const time = 3000;
     const timeRemovido = 3000;
@@ -34,7 +36,7 @@ const ModalCargosComponent = ({ onClose, cargo, onShowModal }) => {
             formData.append('nomeCargo', editData.Nome);
             formData.append('descricaoCargo', editData.Descricao);
 
-            response = await fetch(`http://127.0.0.1:8000/cargos/${cargo.codigoCargo}/`, {
+            response = await fetch(`${apiUrl}/cargos/${cargo.codigoCargo}/`, {
                 method: 'PATCH',
                 headers: {
                     'Authorization': `Token ${token}`,
@@ -81,7 +83,7 @@ const ModalCargosComponent = ({ onClose, cargo, onShowModal }) => {
         const token = localStorage.getItem('token');
 
         try {
-            const response = await fetch(`http://127.0.0.1:8000/cargos/${cargo.codigoCargo}/`, {
+            const response = await fetch(`${apiUrl}/cargos/${cargo.codigoCargo}/`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Token ${token}`,
@@ -90,6 +92,7 @@ const ModalCargosComponent = ({ onClose, cargo, onShowModal }) => {
 
             if (response.ok) {
                 setShowRemovido(true);
+                onRemove(); // Chama a função para recarregar a lista de cargos
                 setTimeout(() => {
                     setShowRemovido(false);
                     onClose(); // Fechar o modal após a remoção
@@ -127,11 +130,7 @@ const ModalCargosComponent = ({ onClose, cargo, onShowModal }) => {
                     <div className={styles.modal_content}>
                         <div className={styles.info_row}>
                             <span className={styles.label}>Nome</span>
-                            {isEditing ? (
-                                <input type="text" id={styles.input_text} value={editData.Nome} onChange={e => handleChange(e, 'Nome')} />
-                            ) : (
-                                <p>{editData.Nome}</p>
-                            )}
+                            <p>{editData.Nome}</p>
                         </div>
                         <div className={styles.info_row}>
                             <span className={styles.label}>Descrição</span>
@@ -150,7 +149,7 @@ const ModalCargosComponent = ({ onClose, cargo, onShowModal }) => {
                             ) : (
                                 <>
                                     <button className={styles.edit_button} onClick={handleEdit}>EDITAR</button>
-                                    <button className={styles.remove_button} onClick={handleRemove}>REMOVER</button>
+                                    <button className={styles.remove_button} onClick={handleRemove}>DESATIVAR</button>
                                 </>
                             )}
                         </div>

@@ -4,7 +4,7 @@ import styles from "./confirmar_remocao.module.css";
 const ConfirmarRemocaoComponent = ({ onConfirm, onCancel }) => {
     return (
         <div className={styles.removeMessage}>
-            <p className={styles.messageText}>Realmente deseja remover?</p>
+            <p className={styles.messageText}>Realmente deseja desativar?</p>
             <div className={styles.buttonContainer}>
                 <button className={styles.confirmButton} onClick={onConfirm}>Sim</button>
                 <button className={styles.cancelButton} onClick={onCancel}>Não</button>

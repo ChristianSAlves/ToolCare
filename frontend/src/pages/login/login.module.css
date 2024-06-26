@@ -10,7 +10,7 @@
 
 /* Container de login */
 .login_container {
-    background-color: #f46524; /* Cor de fundo do container de login */
+    background-color: #353535; /* Cor de fundo do container de login */
     padding: 1rem;
     width: 20%;
     border-radius: 1rem;
@@ -62,7 +62,7 @@
     padding: 1rem;
     border: none;
     border-radius: 0.5rem;
-    background-color: #353535;
+    background-color: #f46524;
     color: #e1e1e1;
     font-size: 1.6rem;
     cursor: pointer;
@@ -70,5 +70,5 @@
 }
 
 #botao_entrar:hover {
-    background-color: #525252; /* Cor de fundo ao passar o mouse */
+    background-color: #d8561a; /* Cor de fundo ao passar o mouse */
 }

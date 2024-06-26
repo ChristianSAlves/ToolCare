@@ -4,39 +4,46 @@ import MenuComponent from '../../../components/Menu/Menu';
 import CardFerramentas from '../../../components/CardFerramentas/card_ferramentas';
 import ModalFerramentasComponent from '../../../components/ModalFerramentas/modal_ferramentas';
 import { Link } from 'react-router-dom';
+import { useApi } from '../../../../src/ApiContext.js';
 
 const Ferramenta = () => {
-    const [showOptions, setShowOptions] = useState(false);
     const [search, setSearch] = useState('');
     const [selectedOption, setSelectedOption] = useState('');
     const [Ferramentas, setFerramentas] = useState([]);
+    const [filteredFerramentas, setFilteredFerramentas] = useState([]);
     const [showModal, setShowModal] = useState(false);  // Estado para controle da visibilidade do modal
     const [selectedFerramenta, setSelectedFerramenta] = useState(null);
+    const { apiUrl } = useApi();
 
     const filterFerramentas = async (newSearch, newSelectedOption) => {
         const token = localStorage.getItem('token');
         try {
-            const responseFerramentas = await fetch('http://127.0.0.1:8000/ferramentas/', {
+            const responseFerramentas = await fetch(`${apiUrl}/ferramentas/`, {
                 headers: {
                     'Authorization': `Token ${token}`,
                 },
             });
-    
+
             if (!responseFerramentas.ok) {
                 throw new Error('Erro ao carregar as Ferramentas');
             }
-    
+
             const dataFerramentas = await responseFerramentas.json();
             let filteredFerramentas = dataFerramentas.filter(ferramenta => 
-                (newSelectedOption === 'num_serie' && ferramenta.numSerie.toLowerCase().includes(newSearch.toLowerCase())) ||
-                (newSelectedOption === 'nome' && ferramenta.nome.toLowerCase().includes(newSearch.toLowerCase())) ||
-                (newSelectedOption === 'status' && ferramenta.status.toLowerCase().includes(newSearch.toLowerCase())) ||
-                (!newSelectedOption && (ferramenta.numSerie.toLowerCase().includes(newSearch.toLowerCase()) ||
-                ferramenta.nome.toLowerCase().includes(newSearch.toLowerCase()) ||
-                ferramenta.status.toLowerCase().includes(newSearch.toLowerCase())))
+                ferramenta.status.toLowerCase() !== 'baixa' &&
+                (
+                    (newSelectedOption === 'num_serie' && ferramenta.numSerie.toLowerCase().includes(newSearch.toLowerCase())) ||
+                    (newSelectedOption === 'nome' && ferramenta.nome.toLowerCase().includes(newSearch.toLowerCase())) ||
+                    (newSelectedOption === 'status' && ferramenta.status.toLowerCase().includes(newSearch.toLowerCase())) ||
+                    (!newSelectedOption && (
+                        ferramenta.numSerie.toLowerCase().includes(newSearch.toLowerCase()) ||
+                        ferramenta.nome.toLowerCase().includes(newSearch.toLowerCase()) ||
+                        ferramenta.status.toLowerCase().includes(newSearch.toLowerCase())
+                    ))
+                )
             );
-    
-            setFerramentas(filteredFerramentas);
+
+            setFilteredFerramentas(filteredFerramentas);
         } catch (error) {
             console.error('Erro:', error);
         }
@@ -47,8 +54,7 @@ const Ferramenta = () => {
     
         const fetchData = async () => {
             try {
-            
-                const responseFerramentas = await fetch('http://127.0.0.1:8000/ferramentas/', {
+                const responseFerramentas = await fetch(`${apiUrl}/ferramentas/`, {
                     headers: {
                         'Authorization': `Token ${token}`, // Adicionando o token de autorização ao cabeçalho
                     },
@@ -57,7 +63,9 @@ const Ferramenta = () => {
                     throw new Error('Erro ao carregar as Ferramentas');
                 }
                 const dataFerramentas = await responseFerramentas.json();
-                setFerramentas(dataFerramentas);              
+                const filteredData = dataFerramentas.filter(ferramenta => ferramenta.status.toLowerCase() !== 'baixa');
+                setFerramentas(filteredData);              
+                setFilteredFerramentas(filteredData);
             } catch (error) {
                 console.error('Erro:', error);
             }
@@ -76,6 +84,26 @@ const Ferramenta = () => {
         setShowModal(!showModal);
     };
 
+    const reloadFerramentas = async () => {
+        const token = localStorage.getItem('token');
+        try {
+            const responseFerramentas = await fetch(`${apiUrl}/ferramentas/`, {
+                headers: {
+                    'Authorization': `Token ${token}`,
+                },
+            });
+            if (!responseFerramentas.ok) {
+                throw new Error('Erro ao carregar as Ferramentas');
+            }
+            const dataFerramentas = await responseFerramentas.json();
+            const filteredData = dataFerramentas.filter(ferramenta => ferramenta.status.toLowerCase() !== 'baixa');
+            setFerramentas(filteredData);
+            setFilteredFerramentas(filteredData);
+        } catch (error) {
+            console.error('Erro:', error);
+        }
+    };
+
     return (
         <div id={styles.div_ferramenta}>
             <MenuComponent id="menu" />
@@ -90,55 +118,10 @@ const Ferramenta = () => {
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                 />
-                {/*<p
-                    id={styles.filtro}
-                    onClick={() => setShowOptions(!showOptions)}
-                    className="conteudo_searchbar"
-                >Filtro</p>
-                {showOptions && (
-                    <div className={styles.options_box}>
-                        <div className={styles.option_row}>
-                            <label htmlFor="radio_nome" className={styles.label_searchbar}>Nome</label>
-                            <input
-                                id="radio_nome"
-                                className={styles.radio}
-                                type="radio"
-                                name="option"
-                                value="nome"
-                                checked={selectedOption === 'nome'}
-                                onChange={(e) => setSelectedOption(e.target.value)}
-                            />
-                        </div>
-                        <div className={styles.option_row}>
-                            <label htmlFor="radio_num_serie" className={styles.label_searchbar}>Número de série</label>
-                            <input
-                                id="radio_num_serie"
-                                className={styles.radio}
-                                type="radio"
-                                name="option"
-                                value="num_serie"
-                                checked={selectedOption === 'num_serie'}
-                                onChange={(e) => setSelectedOption(e.target.value)}
-                            />
-                        </div>
-                        <div className={styles.option_row}>
-                            <label htmlFor="radio_status" className={styles.label_searchbar}>Status</label>
-                            <input
-                                id="radio_status"
-                                className={styles.radio}
-                                type="radio"
-                                name="option"
-                                value="status"
-                                checked={selectedOption === 'status'}
-                                onChange={(e) => setSelectedOption(e.target.value)}
-                            />
-                        </div>
-                    </div>
-                )} */}
             </div>
             <div className={styles.div_pai}>
                 <div className={styles.card_container}>
-                    {Ferramentas.map((ferramenta, index) => (
+                    {filteredFerramentas.map((ferramenta, index) => (
                         <CardFerramentas 
                             key={ferramenta.idFerramenta ? ferramenta.idFerramenta : index} 
                             ferramenta={ferramenta} 
@@ -148,7 +131,14 @@ const Ferramenta = () => {
                     ))}
                 </div>
             </div>
-            {showModal && <ModalFerramentasComponent onClose={toggleModal} ferramenta={selectedFerramenta} />}
+            {showModal && (
+                <ModalFerramentasComponent
+                    onClose={toggleModal}
+                    ferramenta={selectedFerramenta}
+                    onShowModal={setShowModal}
+                    onRemove={reloadFerramentas}
+                />
+            )}
         </div>
     );
 }

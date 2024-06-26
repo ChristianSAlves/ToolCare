@@ -31,7 +31,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'app_backend',
     'backend',
-    # 'cpf_field',
+    'django_cron',
     'django_cpf_cnpj',
     'corsheaders',
     'rest_framework.authtoken',
@@ -67,6 +67,49 @@ TEMPLATES = [
         },
     },
 ]
+
+# settings.py
+CRON_CLASSES = [
+    'app_backend.cron.UpdateFerramentaStatusCronJob',
+]
+
+# settings.py
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'meu_app.log',
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'meu_app': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
+
+
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 

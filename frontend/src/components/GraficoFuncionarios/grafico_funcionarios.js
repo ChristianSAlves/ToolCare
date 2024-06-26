@@ -7,7 +7,7 @@ class GraficoFuncionarios extends React.Component {
         super(props);
 
         this.state = {
-            series: [1, 1],
+            series: props.series || [1, 1],
             options: {
                 fill: {
                     colors: ['#0BDD17', '#DD0B0B']
@@ -64,6 +64,13 @@ class GraficoFuncionarios extends React.Component {
                 }]
             },
         };
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.series && nextProps.series.join('') !== prevState.series.join('')) {
+            return { series: nextProps.series };
+        }
+        return null;
     }
 
     render() {

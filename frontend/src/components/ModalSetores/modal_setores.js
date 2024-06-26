@@ -5,8 +5,9 @@ import RemovidoComponent from "../Avisos/Removido/removido";
 import ConfirmarRemocaoComponent from "../Avisos/ConfirmarRemoção/confirmar_remocao";
 import FalhaEdicaoComponent from "../Avisos/FalhaEdição/falha_edicao";
 import FalhaRemocaoComponent from "../Avisos/FalhaRemoção/falha_remocao";
+import { useApi } from '../../../src/ApiContext.js';
 
-const ModalSetoresComponent = ({ onClose, setor, onShowModal }) => {
+const ModalSetoresComponent = ({ onClose, setor, onShowModal, onRemoveSuccess }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [showEditado, setShowEditado] = useState(false);
     const [showRemovido, setShowRemovido] = useState(false);
@@ -20,6 +21,7 @@ const ModalSetoresComponent = ({ onClose, setor, onShowModal }) => {
 
     const time = 3000;
     const timeRemovido = 3000;
+    const { apiUrl } = useApi();
 
     const handleEdit = () => {
         setIsEditing(true);
@@ -34,7 +36,7 @@ const ModalSetoresComponent = ({ onClose, setor, onShowModal }) => {
             formData.append('nomeSetor', editData.Nome);
             formData.append('descricaoSetor', editData.Descricao);
 
-            response = await fetch(`http://127.0.0.1:8000/setores/${setor.codigoSetor}/`, {
+            response = await fetch(`${apiUrl}/setores/${setor.codigoSetor}/`, {
                 method: 'PATCH',
                 headers: {
                     'Authorization': `Token ${token}`,
@@ -81,7 +83,7 @@ const ModalSetoresComponent = ({ onClose, setor, onShowModal }) => {
         const token = localStorage.getItem('token');
 
         try {
-            const response = await fetch(`http://127.0.0.1:8000/setores/${setor.codigoSetor}/`, {
+            const response = await fetch(`${apiUrl}/setores/${setor.codigoSetor}/`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Token ${token}`,
@@ -90,9 +92,10 @@ const ModalSetoresComponent = ({ onClose, setor, onShowModal }) => {
 
             if (response.ok) {
                 setShowRemovido(true);
+                onRemoveSuccess();  // Chama a função de callback imediatamente
                 setTimeout(() => {
                     setShowRemovido(false);
-                    onClose(); // Fechar o modal após a remoção
+                    onClose(); // Fechar o modal após a exibição da mensagem
                     if (onShowModal) onShowModal(false); // Atualiza o estado do modal no componente pai, se necessário
                 }, timeRemovido);
             } else {
@@ -146,7 +149,7 @@ const ModalSetoresComponent = ({ onClose, setor, onShowModal }) => {
                             ) : (
                                 <>
                                     <button className={styles.edit_button} onClick={handleEdit}>EDITAR</button>
-                                    <button className={styles.remove_button} onClick={handleRemove}>REMOVER</button>
+                                    <button className={styles.remove_button} onClick={handleRemove}>DESATIVAR</button>
                                 </>
                             )}
                         </div>

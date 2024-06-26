@@ -1,70 +1,58 @@
-# Getting Started with Create React App
+# Projeto Django com React para Empréstimo de Ferramentas
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Este projeto é uma aplicação web desenvolvida com Django, React e Django Rest Framework (DRF) para gerenciar o empréstimo de ferramentas de empresas que possuem uma ferramentaria. Ele fornece uma interface amigável para cadastros de funcionários, ferramentas, emprestimos, e manutenções, o administrador do setor terá controle total das ferramentas, podendo observar o status de todos emprestimos.
 
-## Available Scripts
+## Funcionalidades Principais
 
-In the project directory, you can run:
+1. **Usuário Administrador:** O usuário administrador pode cadastrar Funcionarios e Ferramentas, e realizar emprestimos para os funcionarios cadastrados.
 
-### `npm start`
+2. **Cadastro de Ferramentas:** O administrador pode cadastrar as ferramentas que deseja emprestar, fornecendo informações como nome da ferramenta, descrição, condição, e foto, se necessário.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+3. **Empréstimo:** O Administrador pode realizar um emprestimo envolvendo uma ferramenta e um funcionario.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+4. **Manutenção:** O Administrador poderá colocar a ferramenta no estado de manutenção.
 
-### `npm test`
+5. **Acompanhamento dos Emprestimos:** O Administrador poderá saber se uma ferramenta foi devolvida ou não, pesquisando por ela.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Configuração do Ambiente de Desenvolvimento
 
-### `npm run build`
+### Backend (Django com DRF)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Clone este repositório.
+- Navegue até o diretório do projeto backend.
+- Certifique-se de ter o poetry instalado.
+- Dentro do diretório backend: `poetry shell`.
+- Logo após utilize o comando: `poetry install` para instalar as dependecias.
+- Configure o banco de dados conforme necessário no arquivo `settings.py`.
+- Execute as migrações do Django: `python manage.py migrate`.
+- Inicie o servidor Django: `python manage.py runserver`.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Frontend (React)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Navegue até o diretório do projeto frontend.
+- Instale as dependências do Node.js usando npm ou yarn: `npm install` ou `yarn install`.
+- Configure a URL da API no arquivo de configuração para se comunicar com o backend.
+- Inicie o servidor de desenvolvimento React: `npm start` ou `yarn start`.
 
-### `npm run eject`
+## Estrutura do Projeto
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```
+ToolCare/
+│
+├── backend/                      # Diretório do projeto Django com DRF
+│   ├── app/                      # Aplicação Django principal
+│   ├── projeto/                  # Configurações do projeto Django
+│   ├── media/                    # Armazenamento de arquivos de mídia (fotos das ferramentas)
+│   └── manage.py                 # Script de gerenciamento do Django
+│
+└── frontend/                     # Diretório do projeto React
+    ├── public/                   # Arquivos públicos
+    ├── src/                      # Código-fonte React
+    ├── package.json              # Dependências e scripts do Node.js
+    └── README.md                 # Instruções de configuração do frontend
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Autores
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Este projeto foi desenvolvido por Christian de Sousa Alves e Alex Cole.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

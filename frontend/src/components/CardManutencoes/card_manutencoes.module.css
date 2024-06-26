@@ -45,7 +45,7 @@
     margin-top: -1rem;
 }
 
-.tipoManutencao{
+.tipoManutencao,.nomeFerramenta{
     font-size: 1.7rem; /* Tamanho da fonte ajustado para número de série e status */
     color: #666666;
 }
