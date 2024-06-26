@@ -5,6 +5,7 @@ import RemovidoComponent from "../Avisos/Removido/removido";
 import ConfirmarRemocaoComponent from "../Avisos/ConfirmarRemoção/confirmar_remocao";
 import FalhaEdicaoComponent from "../Avisos/FalhaEdição/falha_edicao";
 import FalhaRemocaoComponent from "../Avisos/FalhaRemoção/falha_remocao";
+import { useApi } from '../../../src/ApiContext.js'; // Importe o useApi do ApiContext
 
 const ModalCargosComponent = ({ onClose, cargo, onShowModal, onRemove }) => {
     const [isEditing, setIsEditing] = useState(false);
@@ -17,6 +18,7 @@ const ModalCargosComponent = ({ onClose, cargo, onShowModal, onRemove }) => {
         Nome: cargo.nomeCargo,
         Descricao: cargo.descricaoCargo,
     });
+    const { apiUrl } = useApi(); // Use o useApi para obter a URL da API
 
     const time = 3000;
     const timeRemovido = 3000;
@@ -34,7 +36,7 @@ const ModalCargosComponent = ({ onClose, cargo, onShowModal, onRemove }) => {
             formData.append('nomeCargo', editData.Nome);
             formData.append('descricaoCargo', editData.Descricao);
 
-            response = await fetch(`http://127.0.0.1:8000/cargos/${cargo.codigoCargo}/`, {
+            response = await fetch(`${apiUrl}/cargos/${cargo.codigoCargo}/`, {
                 method: 'PATCH',
                 headers: {
                     'Authorization': `Token ${token}`,
@@ -81,7 +83,7 @@ const ModalCargosComponent = ({ onClose, cargo, onShowModal, onRemove }) => {
         const token = localStorage.getItem('token');
 
         try {
-            const response = await fetch(`http://127.0.0.1:8000/cargos/${cargo.codigoCargo}/`, {
+            const response = await fetch(`${apiUrl}/cargos/${cargo.codigoCargo}/`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Token ${token}`,

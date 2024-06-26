@@ -6,6 +6,7 @@ import RemovidoComponent from "../Avisos/Removido/removido";
 import FalhaEdicaoComponent from "../Avisos/FalhaEdição/falha_edicao";
 import FalhaRemocaoComponent from "../Avisos/FalhaRemoção/falha_remocao";
 import ConfirmarRemocaoComponent from "../Avisos/ConfirmarRemoção/confirmar_remocao";
+import { useApi } from '../../../src/ApiContext.js';
 
 const formatDate = (dateString) => {
     const [year, month, day] = dateString.split('-');
@@ -26,6 +27,7 @@ const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal, onRemove 
         DataAquisicao: formatDate(ferramenta.dataAquisicao),
     });
     const time = 3000;
+    const { apiUrl } = useApi();
 
     const handleEdit = () => {
         setIsEditing(true);
@@ -45,7 +47,7 @@ const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal, onRemove 
             const formattedDate = `${year}-${month}-${day}`;
             formData.append('dataAquisicao', formattedDate);
 
-            response = await fetch(`http://127.0.0.1:8000/ferramentas/${ferramenta.codFerramenta}/`, {
+            response = await fetch(`${apiUrl}/ferramentas/${ferramenta.codFerramenta}/`, {
                 method: 'PATCH',
                 headers: {
                     'Authorization': `Token ${token}`,
@@ -92,7 +94,7 @@ const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal, onRemove 
             const formData = new FormData();
             formData.append('status', 'Baixa');
 
-            response = await fetch(`http://127.0.0.1:8000/ferramentas/${ferramenta.codFerramenta}/`, {
+            response = await fetch(`${apiUrl}/ferramentas/${ferramenta.codFerramenta}/`, {
                 method: 'PATCH',
                 headers: {
                     'Authorization': `Token ${token}`,

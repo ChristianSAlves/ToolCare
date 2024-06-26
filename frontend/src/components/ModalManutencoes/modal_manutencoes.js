@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./modal_manutencoes.module.css";
 import FinalizadoComponent from "../Avisos/Finalizado/finalizado";
+import { useApi } from '../../../src/ApiContext.js';
 
 const extractIdFromUrl = (url) => {
     if (!url) return '';
@@ -15,9 +16,7 @@ const formatDate = (dateString) => {
 };
 
 const ModalManutencaoComponent = ({ onClose, manutencao, onShowModal, onEdit }) => {
-    const [isEditing, setIsEditing] = useState(false);
     const [showEditado, setShowEditado] = useState(false);
-    const [showFalhaEdicao, setShowFalhaEdicao] = useState(false);
     const [showFalhaRemocao, setShowFalhaRemocao] = useState(false);
     const [codigoFerramenta, setCodigoFerramenta] = useState('');
     const [ferramentas, setFerramentas] = useState([]);
@@ -27,13 +26,14 @@ const ModalManutencaoComponent = ({ onClose, manutencao, onShowModal, onEdit }) 
         DataInicio: formatDate(manutencao.dataInicio) || '',
         DataFim: formatDate(manutencao.dataFim) || '',
     });
+    const { apiUrl } = useApi();
 
     useEffect(() => {
         const token = localStorage.getItem('token');
 
         const fetchData = async () => {
             try {
-                const responseFerramentas = await fetch('http://127.0.0.1:8000/ferramentas/', {
+                const responseFerramentas = await fetch(`${apiUrl}/ferramentas/`, {
                     headers: {
                         'Authorization': `Token ${token}`,
                     },
@@ -49,7 +49,7 @@ const ModalManutencaoComponent = ({ onClose, manutencao, onShowModal, onEdit }) 
         };
 
         fetchData();
-    }, []);
+    }, [apiUrl]); // Adicionando apiUrl como dependência
 
     useEffect(() => {
         if (manutencao && manutencao.codFerramenta) {
@@ -59,10 +59,9 @@ const ModalManutencaoComponent = ({ onClose, manutencao, onShowModal, onEdit }) 
 
     const handleRemove = async () => {
         const token = localStorage.getItem('token');
-        const today = new Date().toISOString().split('T')[0]; // Obtém a data atual no formato yyyy-mm-dd
-        console.log(`Data final definida: ${today}`); // Printar a data definida no console
+        const today = new Date().toISOString().split('T')[0];
         try {
-            const url = `http://127.0.0.1:8000/manutencoes/${manutencao.codigoManutencao}/`;
+            const url = `${apiUrl}/manutencoes/${manutencao.codigoManutencao}/`;
 
             const formData = new FormData();
             formData.append('codigoManutencao', manutencao.codigoManutencao);

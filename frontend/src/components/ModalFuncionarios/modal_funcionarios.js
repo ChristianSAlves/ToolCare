@@ -134,12 +134,16 @@ const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal, onStatu
 
     const confirmRemove = async () => {
         const token = localStorage.getItem('token');
-
+    
         try {
             const url = `http://127.0.0.1:8000/funcionarios/${funcionario.idFuncionario}/`;
             const formData = new FormData();
             formData.append('status', false);
-
+    
+            console.log('URL:', url);
+            console.log('Token:', token);
+            console.log('FormData:', formData);
+    
             const response = await fetch(url, {
                 method: 'PATCH',
                 headers: {
@@ -147,10 +151,9 @@ const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal, onStatu
                 },
                 body: formData,
             });
-
+    
             if (response.ok) {
                 setShowEditado(true);
-                //onStatusUpdate(); // Chama a função para recarregar a lista de funcionários após atualização de status
                 setTimeout(() => {
                     setShowEditado(false);
                     onClose();
@@ -158,6 +161,8 @@ const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal, onStatu
                 }, 3000);
             } else {
                 console.error('Falha ao atualizar o status do funcionario. Por favor, tente novamente.');
+                console.error('Response status:', response.status);
+                console.error('Response text:', await response.text());
                 setShowFalhaRemocao(true);
                 setTimeout(() => {
                     setShowFalhaRemocao(false);
@@ -170,13 +175,14 @@ const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal, onStatu
                 setShowFalhaRemocao(false);
             }, 3000);
         }
-
+    
         setShowConfirmacao(false);
     };
-
+    
     const cancelRemove = () => {
         setShowConfirmacao(false);
     };
+    
 
     return (
         <>

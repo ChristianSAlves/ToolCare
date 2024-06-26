@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from "./modal_ferramentas_inativos.module.css";
 import logo from "../../assets/imagens/logo.png";
 import Ativado from "../Avisos/Ativado/ativado";
+import { useApi } from '../../../src/ApiContext.js';
 
 const formatDate = (dateString) => {
     const [year, month, day] = dateString.split('-');
@@ -19,6 +20,7 @@ const ModalFerramentasInativosComponent = ({ onClose, ferramenta, onShowModal, o
     const [showEditado, setShowEditado] = useState(false);
     const [showFalhaEdicao, setShowFalhaEdicao] = useState(false);
     const time = 3000;
+    const { apiUrl } = useApi();
 
     const handleAtivar = async () => {
         const token = localStorage.getItem('token');
@@ -28,7 +30,7 @@ const ModalFerramentasInativosComponent = ({ onClose, ferramenta, onShowModal, o
             const formData = new FormData();
             formData.append('status', 'Disponível');
 
-            response = await fetch(`http://127.0.0.1:8000/ferramentas/${ferramenta.codFerramenta}/`, {
+            response = await fetch(`${apiUrl}/ferramentas/${ferramenta.codFerramenta}/`, {
                 method: 'PATCH',
                 headers: {
                     'Authorization': `Token ${token}`,

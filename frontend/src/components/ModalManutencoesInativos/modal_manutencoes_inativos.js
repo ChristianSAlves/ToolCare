@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "./modal_manutencoes_inativos.module.css";
+import { useApi } from '../../../src/ApiContext.js'
 
 const extractIdFromUrl = (url) => {
     if (!url) return '';
@@ -22,13 +23,14 @@ const ModalManutencaoInativoComponent = ({ onClose, manutencao }) => {
         DataInicio: formatDate(manutencao.dataInicio) || '',
         DataFim: formatDate(manutencao.dataFinal) || '',
     });
+    const { apiUrl } = useApi();
 
     useEffect(() => {
         const token = localStorage.getItem('token');
 
         const fetchData = async () => {
             try {
-                const responseFerramentas = await fetch('http://127.0.0.1:8000/ferramentas/', {
+                const responseFerramentas = await fetch(`${apiUrl}/ferramentas/`, {
                     headers: {
                         'Authorization': `Token ${token}`,
                     },
@@ -44,7 +46,7 @@ const ModalManutencaoInativoComponent = ({ onClose, manutencao }) => {
         };
 
         fetchData();
-    }, []);
+    }, [apiUrl]);
 
     useEffect(() => {
         if (manutencao && manutencao.codFerramenta) {

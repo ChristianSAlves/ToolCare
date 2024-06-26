@@ -6,6 +6,7 @@ import RemovidoComponent from "../Avisos/Removido/removido";
 import ConfirmarRemocaoComponent from "../Avisos/ConfirmarRemoção/confirmar_remocao";
 import FalhaEdicaoComponent from "../Avisos/FalhaEdição/falha_edicao";
 import FalhaRemocaoComponent from "../Avisos/FalhaRemoção/falha_remocao";
+import { useApi } from '../../../src/ApiContext.js';
 
 const extractIdFromUrl = (url) => {
     if (!url) return '';
@@ -35,6 +36,7 @@ const ModalEmprestimosComponent = ({ onClose, emprestimo }) => {
 
     const [nomeFerramenta, setNomeFerramenta] = useState('Carregando...');
     const [nomeFuncionario, setNomeFuncionario] = useState('Carregando...');
+    const { apiUrl } = useApi();
 
     useEffect(() => {
         if (emprestimo) {
@@ -51,7 +53,7 @@ const ModalEmprestimosComponent = ({ onClose, emprestimo }) => {
 
         const fetchFerramenta = async () => {
             try {
-                const response = await fetch(`http://127.0.0.1:8000/ferramentas/${numSerie}/`, {
+                const response = await fetch(`${apiUrl}/ferramentas/${numSerie}/`, {
                     headers: {
                         'Authorization': `Token ${token}`,
                     },
@@ -69,7 +71,7 @@ const ModalEmprestimosComponent = ({ onClose, emprestimo }) => {
 
         const fetchFuncionario = async () => {
             try {
-                const response = await fetch(`http://127.0.0.1:8000/funcionarios/${matriculaFuncionario}/`, {
+                const response = await fetch(`${apiUrl}/funcionarios/${matriculaFuncionario}/`, {
                     headers: {
                         'Authorization': `Token ${token}`,
                     },
@@ -101,7 +103,7 @@ const ModalEmprestimosComponent = ({ onClose, emprestimo }) => {
     const handleConfirmEdit = async () => {
         const token = localStorage.getItem('token');
         try {
-            const url = `http://127.0.0.1:8000/emprestimos/${emprestimo.codigoEmprestimo}/`;
+            const url = `${apiUrl}/emprestimos/${emprestimo.codigoEmprestimo}/`;
 
             const formData = new FormData();
             formData.append('codigoEmprestimo', emprestimo.codigoEmprestimo);
@@ -148,7 +150,7 @@ const ModalEmprestimosComponent = ({ onClose, emprestimo }) => {
         const token = localStorage.getItem('token');
 
         try {
-            const response = await fetch(`http://127.0.0.1:8000/emprestimos/${emprestimo.codigoEmprestimo}/`, {
+            const response = await fetch(`${apiUrl}/emprestimos/${emprestimo.codigoEmprestimo}/`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Token ${token}`,
@@ -186,7 +188,7 @@ const ModalEmprestimosComponent = ({ onClose, emprestimo }) => {
     const handleDevolver = async () => {
         const token = localStorage.getItem('token');
         try {
-            const url = `http://127.0.0.1:8000/emprestimos/${emprestimo.codigoEmprestimo}/`;
+            const url = `${apiUrl}/emprestimos/${emprestimo.codigoEmprestimo}/`;
 
             const formData = new FormData();
             formData.append('codigoEmprestimo', emprestimo.codigoEmprestimo);

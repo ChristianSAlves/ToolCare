@@ -5,6 +5,7 @@ import RemovidoComponent from "../Avisos/Removido/removido";
 import ConfirmarRemocaoComponent from "../Avisos/ConfirmarRemoção/confirmar_remocao";
 import FalhaEdicaoComponent from "../Avisos/FalhaEdição/falha_edicao";
 import FalhaRemocaoComponent from "../Avisos/FalhaRemoção/falha_remocao";
+import { useApi } from '../../../src/ApiContext.js';
 
 const ModalSetoresComponent = ({ onClose, setor, onShowModal, onRemoveSuccess }) => {
     const [isEditing, setIsEditing] = useState(false);
@@ -20,6 +21,7 @@ const ModalSetoresComponent = ({ onClose, setor, onShowModal, onRemoveSuccess })
 
     const time = 3000;
     const timeRemovido = 3000;
+    const { apiUrl } = useApi();
 
     const handleEdit = () => {
         setIsEditing(true);
@@ -34,7 +36,7 @@ const ModalSetoresComponent = ({ onClose, setor, onShowModal, onRemoveSuccess })
             formData.append('nomeSetor', editData.Nome);
             formData.append('descricaoSetor', editData.Descricao);
 
-            response = await fetch(`http://127.0.0.1:8000/setores/${setor.codigoSetor}/`, {
+            response = await fetch(`${apiUrl}/setores/${setor.codigoSetor}/`, {
                 method: 'PATCH',
                 headers: {
                     'Authorization': `Token ${token}`,
@@ -81,7 +83,7 @@ const ModalSetoresComponent = ({ onClose, setor, onShowModal, onRemoveSuccess })
         const token = localStorage.getItem('token');
 
         try {
-            const response = await fetch(`http://127.0.0.1:8000/setores/${setor.codigoSetor}/`, {
+            const response = await fetch(`${apiUrl}/setores/${setor.codigoSetor}/`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Token ${token}`,

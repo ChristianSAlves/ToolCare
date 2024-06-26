@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "./modal_emprestimos_inativos.module.css";
+import { useApi } from '../../../src/ApiContext.js';
 
 const extractIdFromUrl = (url) => {
     if (!url) return '';
@@ -22,6 +23,7 @@ const ModalEmprestimosInativosComponent = ({ onClose, emprestimo }) => {
 
     const [nomeFerramenta, setNomeFerramenta] = useState('');
     const [nomeFuncionario, setNomeFuncionario] = useState('');
+    const { apiUrl } = useApi();
 
     useEffect(() => {
         if (emprestimo) {
@@ -38,7 +40,7 @@ const ModalEmprestimosInativosComponent = ({ onClose, emprestimo }) => {
 
         const fetchFerramenta = async () => {
             try {
-                const response = await fetch(`http://127.0.0.1:8000/ferramentas/${numSerie}/`, {
+                const response = await fetch(`${apiUrl}/ferramentas/${numSerie}/`, {
                     headers: {
                         'Authorization': `Token ${token}`,
                     },
@@ -56,7 +58,7 @@ const ModalEmprestimosInativosComponent = ({ onClose, emprestimo }) => {
 
         const fetchFuncionario = async () => {
             try {
-                const response = await fetch(`http://127.0.0.1:8000/funcionarios/${matriculaFuncionario}/`, {
+                const response = await fetch(`${apiUrl}/funcionarios/${matriculaFuncionario}/`, {
                     headers: {
                         'Authorization': `Token ${token}`,
                     },
@@ -74,7 +76,7 @@ const ModalEmprestimosInativosComponent = ({ onClose, emprestimo }) => {
 
         fetchFerramenta();
         fetchFuncionario();
-    }, [emprestimo]);
+    }, [emprestimo, apiUrl]); // Adicionando apiUrl como dependência
 
     if (!emprestimo) {
         return null;

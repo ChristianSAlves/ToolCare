@@ -2,10 +2,13 @@ from django.db import models
 from django_cpf_cnpj.fields import CPFField
 from django.urls import reverse
 from django.core.exceptions import ValidationError
+from django.core.validators import RegexValidator
 import datetime
 
 def upload_path(instance, filename):
     return '/'.join(['funcionarios', str(instance.nome), filename])
+
+numeric_validator = RegexValidator(r'^\d+$', 'Somente números são permitidos.')
 
 class Setor(models.Model):
     codigoSetor = models.AutoField(primary_key=True)
@@ -38,7 +41,11 @@ class Ferramenta(models.Model):
 class Funcionario(models.Model):
     idFuncionario = models.AutoField(primary_key=True)
     nome = models.CharField(max_length=30)
-    matriculaFuncionario = models.CharField(max_length=50, unique=True)
+    matriculaFuncionario = models.CharField(
+        max_length=50, 
+        unique=True, 
+        validators=[numeric_validator]
+    )
     cpf = CPFField(masked=True, unique=True)  # To enable auto-mask xxx.xxx.xxx-xx
     codigoSetor = models.ForeignKey(Setor, on_delete=models.SET_NULL, null=True)
     codigoCargo = models.ForeignKey(Cargo, on_delete=models.SET_NULL, null=True)
@@ -83,6 +90,7 @@ class Emprestimo(models.Model):
             ferramenta = self.numSerie
             ferramenta.status = "Disponível"
             ferramenta.save()
+            
 class ManutencaoFerramenta(models.Model):
     codigoManutencao = models.AutoField(primary_key=True)
     codFerramenta = models.ForeignKey(
