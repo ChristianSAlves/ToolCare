@@ -3,7 +3,6 @@ import styles from "./modal_funcionarios_inativos.module.css";
 import logo from "../../assets/imagens/logo.png";
 import { useApi } from '../../../src/ApiContext.js';
 
-
 const extractIdFromUrl = (url) => {
     if (!url) return '';
     const parts = url.split('/');
@@ -64,6 +63,32 @@ const ModalFuncionariosComponent = ({ onClose, funcionario }) => {
         CPF: funcionario.cpf,
     };
 
+    const ativarFuncionario = async () => {
+        const token = localStorage.getItem('token');
+        const url = `${apiUrl}/funcionarios/${funcionario.idFuncionario}/`;
+        const formData = new FormData();
+        formData.append('status', true);
+
+        try {
+            const response = await fetch(url, {
+                method: 'PATCH',
+                headers: {
+                    'Authorization': `Token ${token}`,
+                },
+                body: formData,
+            });
+
+            if (response.ok) {
+                console.log('Funcionário ativado com sucesso.');
+                // Você pode adicionar lógica aqui para atualizar a interface ou o estado conforme necessário
+            } else {
+                console.error('Falha ao ativar o funcionário. Por favor, tente novamente.');
+            }
+        } catch (error) {
+            console.error('Erro ao ativar o funcionário:', error);
+        }
+    };
+
     return (
         <>
             <div className={styles.tela_cheia} onClick={onClose}>
@@ -95,7 +120,7 @@ const ModalFuncionariosComponent = ({ onClose, funcionario }) => {
                         <p id={styles.fechar} onClick={onClose}>x</p>
                         <div className={styles.modal_buttons}>
                             <>
-                                <button className={styles.remove_button}>ATIVAR</button>
+                                <button className={styles.remove_button} onClick={ativarFuncionario}>ATIVAR</button>
                                 <button className={styles.relatorio_button}>RELATÓRIO</button>
                             </>
                         </div>

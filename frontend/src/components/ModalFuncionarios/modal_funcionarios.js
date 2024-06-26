@@ -5,6 +5,7 @@ import EditadoComponent from "../Avisos/Editado/editado";
 import FalhaEdicaoComponent from "../Avisos/FalhaEdição/falha_edicao";
 import FalhaRemocaoComponent from "../Avisos/FalhaRemoção/falha_remocao";
 import ConfirmarRemocaoComponent from "../Avisos/ConfirmarRemoção/confirmar_remocao";
+import { useApi } from '../../../src/ApiContext.js';
 
 const extractIdFromUrl = (url) => {
     if (!url) return '';
@@ -22,13 +23,14 @@ const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal, onStatu
     const [codigoCargo, setCodigoCargo] = useState('');
     const [cargos, setCargos] = useState([]);
     const [setores, setSetores] = useState([]);
+    const { apiUrl } = useApi();
 
     useEffect(() => {
         const token = localStorage.getItem('token');
 
         const fetchData = async () => {
             try {
-                const responseCargos = await fetch('http://127.0.0.1:8000/cargos/', {
+                const responseCargos = await fetch(`${apiUrl}:8000/cargos/`, {
                     headers: {
                         'Authorization': `Token ${token}`,
                     },
@@ -39,7 +41,7 @@ const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal, onStatu
                 const dataCargos = await responseCargos.json();
                 setCargos(dataCargos);
 
-                const responseSetores = await fetch('http://127.0.0.1:8000/setores/', {
+                const responseSetores = await fetch(`${apiUrl}/setores/`, {
                     headers: {
                         'Authorization': `Token ${token}`,
                     },
@@ -85,9 +87,9 @@ const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal, onStatu
     const handleConfirmEdit = async () => {
         const token = localStorage.getItem('token');
         try {
-            const url = `http://127.0.0.1:8000/funcionarios/${funcionario.idFuncionario}/`;
-            const linksetor = `http://127.0.0.1:8000/setores/${codigoSetor}/`;
-            const linkcargo = `http://127.0.0.1:8000/cargos/${codigoCargo}/`;
+            const url = `${apiUrl}/funcionarios/${funcionario.idFuncionario}/`;
+            const linksetor = `${apiUrl}/setores/${codigoSetor}/`;
+            const linkcargo = `${apiUrl}/cargos/${codigoCargo}/`;
 
             const formData = new FormData();
             formData.append('nome', editData.Nome);
@@ -136,7 +138,7 @@ const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal, onStatu
         const token = localStorage.getItem('token');
     
         try {
-            const url = `http://127.0.0.1:8000/funcionarios/${funcionario.idFuncionario}/`;
+            const url = `${apiUrl}/funcionarios/${funcionario.idFuncionario}/`;
             const formData = new FormData();
             formData.append('status', false);
     
