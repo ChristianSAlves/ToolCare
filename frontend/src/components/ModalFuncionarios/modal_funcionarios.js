@@ -4,6 +4,7 @@ import logo from "../../assets/imagens/logo.png";
 import EditadoComponent from "../Avisos/Editado/editado";
 import FalhaEdicaoComponent from "../Avisos/FalhaEdição/falha_edicao";
 import FalhaRemocaoComponent from "../Avisos/FalhaRemoção/falha_remocao";
+import RemovidoComponent from "../Avisos/Removido/removido.js";
 import ConfirmarRemocaoComponent from "../Avisos/ConfirmarRemoção/confirmar_remocao";
 import { useApi } from '../../../src/ApiContext.js';
 
@@ -30,7 +31,7 @@ const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal, onStatu
 
         const fetchData = async () => {
             try {
-                const responseCargos = await fetch(`${apiUrl}:8000/cargos/`, {
+                const responseCargos = await fetch(`${apiUrl}/cargos/`, {
                     headers: {
                         'Authorization': `Token ${token}`,
                     },
