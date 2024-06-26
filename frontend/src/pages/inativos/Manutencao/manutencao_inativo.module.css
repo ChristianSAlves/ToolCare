@@ -7,15 +7,15 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100vh; /* Altura total da tela */
-    width: 100vw; /* Largura total da tela */
-    position: relative; /* Para posicionar o botão adicionar */
-    padding-left: 25rem; /* Espaço à esquerda para o menu */
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+    padding-left: 25rem;
     background-color: #ffffff;
 }
 
 body::-webkit-scrollbar {
-    width: 0; /* Esconde a barra de rolagem */
+    width: 0;
 }
 
 #searchbar {
@@ -30,24 +30,23 @@ body::-webkit-scrollbar {
     position: inherit;
     left: 17.5%;
     top: 4rem;
-    transform: translateX(-50%); /* Centraliza horizontalmente */
+    transform: translateX(-50%);
     min-width: 30vw;
-    padding: 0 1rem; /* Adiciona padding para evitar o corte das bordas */
+    padding: 0 1rem;
 }
 
 #input_searchbar {
-    border: none; /* Remove a borda */
+    border: none;
     flex: 1;
     height: 2.5rem;
-    outline: none; /* Remove o contorno ao focar */
-    color: #ffffff; /* Cor do texto */
-    font-size: 1.6rem; /* Tamanho da fonte */
-    font-family: 'Lato', sans-serif; /* Família da fonte */
-    text-align: left; /* Alinhamento do texto */
+    outline: none;
+    color: #ffffff;
+    font-size: 1.6rem;
+    font-family: 'Lato', sans-serif;
+    text-align: left;
     background-color: #353535;
 }
 
-/* Botão de adicionar */
 #adicionar {
     color: white;
     font-size: 5rem;
@@ -57,7 +56,6 @@ body::-webkit-scrollbar {
     cursor: pointer;
 }
 
-/* Radio buttons */
 .radio {
     position: relative;
     width: 2rem;
@@ -101,7 +99,6 @@ body::-webkit-scrollbar {
     color: #353535;
 }
 
-/* Caixa de opções */
 .options_box {
     position: absolute;
     left: 100%;
@@ -112,17 +109,16 @@ body::-webkit-scrollbar {
     font: normal 500 1.5rem 'Lato';
     color: white;
     background-color: #F46524;
-    width: 15rem; /* Ajuste a largura conforme necessário */
+    width: 15rem;
     height: auto;
     padding: 1rem;
     border-radius: 0.5rem;
 }
 
-/* Linha de opção */
 .option_row {
     display: flex;
     align-items: center;
-    margin-bottom: 0.5rem; /* Espaço entre as linhas */
+    margin-bottom: 0.5rem;
 }
 
 .div_pai {
@@ -132,21 +128,19 @@ body::-webkit-scrollbar {
     overflow-y: auto;
     overflow-x: hidden;
     width: 87vw;
-    height: 90vh; 
-    scrollbar-width: none; /* Para navegadores que suportam (e.g., Firefox) */
-    -ms-overflow-style: none; /* Para Internet Explorer 10+ */
+    height: 90vh;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
-/* Para esconder a barra de rolagem em Webkit browsers como Chrome e Safari */
 .div_pai::-webkit-scrollbar {
     display: none;
 }
 
-
 .card_container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-start; 
+    justify-content: flex-start;
     gap: 4rem;
     padding: 1rem;
     width: 100%;

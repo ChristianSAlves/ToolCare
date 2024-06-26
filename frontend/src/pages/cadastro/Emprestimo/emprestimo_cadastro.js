@@ -19,14 +19,13 @@ const Emprestimo = () => {
     const { apiUrl } = useApi();
 
     useEffect(() => {
-        const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage
+        const token = localStorage.getItem('token'); 
 
         const fetchData = async () => {
             try {
-                // Busca as Ferramentas
                 const responseFerramentas = await fetch(`${apiUrl}/ferramentas/`, {
                     headers: {
-                        'Authorization': `Token ${token}`, // Adicionando o token de autorização ao cabeçalho
+                        'Authorization': `Token ${token}`,
                     },
                 });
                 if (!responseFerramentas.ok) {
@@ -35,10 +34,10 @@ const Emprestimo = () => {
                 const dataFerramentas = await responseFerramentas.json();
                 setFerramentas(dataFerramentas);
 
-                // Busca Funcionarios
+                
                 const responseFuncionarios = await fetch(`${apiUrl}/funcionarios/`, {
                     headers: {
-                        'Authorization': `Token ${token}`, // Adicionando o token de autorização ao cabeçalho
+                        'Authorization': `Token ${token}`, 
                     },
                 });
                 if (!responseFuncionarios.ok) {
@@ -57,7 +56,7 @@ const Emprestimo = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage
+        const token = localStorage.getItem('token'); 
         const linkFerramenta = `${apiUrl}/ferramentas/${codFerramenta}/`;
         const linkFuncionario = `${apiUrl}/funcionarios/${idFuncionario}/`;
 

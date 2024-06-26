@@ -18,7 +18,7 @@ class GraficoFuncionarios extends React.Component {
                     width: '100%'
                 },
                 stroke: {
-                    show: false, // Desativa as bordas brancas
+                    show: false, 
                     width: 0
                 },
                 legend: {
@@ -34,7 +34,7 @@ class GraficoFuncionarios extends React.Component {
                     }
                 },
                 dataLabels: {
-                    enabled: false // Desativa a legenda dentro das fatias
+                    enabled: false 
                 },
                 states: {
                     hover: {
@@ -49,7 +49,7 @@ class GraficoFuncionarios extends React.Component {
                     }
                 },
                 tooltip: {
-                    enabled: false // Desativa o tooltip
+                    enabled: false 
                 },
                 responsive: [{
                     breakpoint: 480,

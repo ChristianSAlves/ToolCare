@@ -1,17 +1,14 @@
-
-/* Container principal */
 .container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     width: 100vw;
-    background-color: #2c2c2c; /* Cor de fundo */
+    background-color: #2c2c2c;
 }
 
-/* Container de login */
 .login_container {
-    background-color: #353535; /* Cor de fundo do container de login */
+    background-color: #353535;
     padding: 1rem;
     width: 20%;
     border-radius: 1rem;
@@ -21,13 +18,11 @@
     box-shadow: 0 0 50px 5px rgba(0, 0, 0, 0.185);
 }
 
-/* Estilo para o logo */
 #logo {
-    width: 20rem; /* Ajuste a largura do logo conforme necessário */
-    margin-bottom: 2rem; /* Espaçamento abaixo do logo */
+    width: 20rem;
+    margin-bottom: 2rem;
 }
 
-/* Estilo para o formulário de login */
 #form_login {
     width: 90%;
     display: flex;
@@ -35,7 +30,6 @@
     align-items: center;
 }
 
-/* Estilo para os inputs de username e password */
 .login_item:not(#botao_entrar) {
     width: 100%;
     padding: 1rem;
@@ -49,7 +43,7 @@
 }
 
 #username, #password {
-    font-size: 1.6rem; /* Ajuste o tamanho da fonte conforme necessário */
+    font-size: 1.6rem;
 }
 
 #username::placeholder,#password::placeholder{
@@ -57,7 +51,6 @@
     font: normal 400 2rem 'Lato';
 }
 
-/* Estilo para o botão de login */
 #botao_entrar {
     width: 100%;
     padding: 1rem;
@@ -71,5 +64,5 @@
 }
 
 #botao_entrar:hover {
-    background-color: #d8561a; /* Cor de fundo ao passar o mouse */
+    background-color: #d8561a;
 }

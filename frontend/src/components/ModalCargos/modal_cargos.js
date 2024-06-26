@@ -18,7 +18,7 @@ const ModalCargosComponent = ({ onClose, cargo, onShowModal, onRemove }) => {
         Nome: cargo.nomeCargo,
         Descricao: cargo.descricaoCargo,
     });
-    const { apiUrl } = useApi(); // Use o useApi para obter a URL da API
+    const { apiUrl } = useApi(); 
 
     const time = 3000;
     const timeRemovido = 3000;
@@ -48,8 +48,8 @@ const ModalCargosComponent = ({ onClose, cargo, onShowModal, onRemove }) => {
                 setShowEditado(true);
                 setTimeout(() => {
                     setShowEditado(false);
-                    onClose(); // Fechar o modal após a atualização
-                    if (onShowModal) onShowModal(false); // Atualiza o estado do modal no componente pai, se necessário
+                    onClose(); 
+                    if (onShowModal) onShowModal(false); 
                 }, time);
             } else {
                 const errorData = await response.json();
@@ -67,7 +67,7 @@ const ModalCargosComponent = ({ onClose, cargo, onShowModal, onRemove }) => {
             }, time);
         }
 
-        setIsEditing(false); // Sair do modo de edição após confirmar
+        setIsEditing(false); 
     };
 
     const handleChange = (event, field) => {
@@ -92,11 +92,11 @@ const ModalCargosComponent = ({ onClose, cargo, onShowModal, onRemove }) => {
 
             if (response.ok) {
                 setShowRemovido(true);
-                onRemove(); // Chama a função para recarregar a lista de cargos
+                onRemove(); 
                 setTimeout(() => {
                     setShowRemovido(false);
-                    onClose(); // Fechar o modal após a remoção
-                    if (onShowModal) onShowModal(false); // Atualiza o estado do modal no componente pai, se necessário
+                    onClose(); 
+                    if (onShowModal) onShowModal(false); 
                 }, timeRemovido);
             } else {
                 console.error('Falha ao remover o cargo. Por favor, tente novamente.');

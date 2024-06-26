@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./modal_funcionarios_inativos.module.css";
 import logo from "../../assets/imagens/logo.png";
+import CadastradoComponent from "../Avisos/Ativado/ativado.js";
 import { useApi } from '../../../src/ApiContext.js';
 
 const extractIdFromUrl = (url) => {
@@ -14,6 +15,7 @@ const ModalFuncionariosComponent = ({ onClose, funcionario }) => {
     const [codigoCargo, setCodigoCargo] = useState('');
     const [cargos, setCargos] = useState([]);
     const [setores, setSetores] = useState([]);
+    const [showCadastrado, setShowCadastrado] = useState(false);
     const { apiUrl } = useApi();
 
     useEffect(() => {
@@ -79,8 +81,11 @@ const ModalFuncionariosComponent = ({ onClose, funcionario }) => {
             });
 
             if (response.ok) {
-                console.log('Funcionário ativado com sucesso.');
-                // Você pode adicionar lógica aqui para atualizar a interface ou o estado conforme necessário
+                setShowCadastrado(true);
+                setTimeout(() => {
+                    setShowCadastrado(false);
+                    onClose();
+                }, 3000);
             } else {
                 console.error('Falha ao ativar o funcionário. Por favor, tente novamente.');
             }
@@ -91,6 +96,7 @@ const ModalFuncionariosComponent = ({ onClose, funcionario }) => {
 
     return (
         <>
+            {showCadastrado && <CadastradoComponent />}
             <div className={styles.tela_cheia} onClick={onClose}>
                 <div className={styles.modal} onClick={e => e.stopPropagation()}>
                     <div id={styles.fundo_img}>

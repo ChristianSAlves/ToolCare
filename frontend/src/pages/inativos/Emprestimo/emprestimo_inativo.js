@@ -21,12 +21,12 @@ const EmprestimoInativo = () => {
     const { apiUrl } = useApi();
 
     const fetchEmprestimos = useCallback(async () => {
-        const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage
+        const token = localStorage.getItem('token');
     
         try {
             const response = await fetch(`${apiUrl}/emprestimos/`, {
                 headers: {
-                    'Authorization': `Token ${token}`, // Adicionando o token de autorização ao cabeçalho
+                    'Authorization': `Token ${token}`, 
                 },
             });
 

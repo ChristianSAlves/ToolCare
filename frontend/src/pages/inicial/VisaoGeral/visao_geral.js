@@ -22,7 +22,7 @@ const VisaoGeral = () => {
     useEffect(() => {
         const token = localStorage.getItem('token');
 
-        // Fetch data for the overview
+        
         const fetchData = async () => {
             try {
                 const responseFuncionarios = await axios.get(`${apiUrl}/funcionarios/`, {
@@ -44,7 +44,7 @@ const VisaoGeral = () => {
                 });
 
                 const funcionariosData = responseFuncionarios.data.filter(funcionario => funcionario.status);
-                const ferramentasData = responseFerramentas.data.filter(f => f.status !== 'Baixa'); // Filtra ferramentas com status 'Baixa'
+                const ferramentasData = responseFerramentas.data.filter(f => f.status !== 'Baixa'); 
                 const emprestimosData = responseEmprestimos.data.filter(e => !e.dataDevolucao);
 
                 function isValidUrl(string) {
@@ -52,7 +52,7 @@ const VisaoGeral = () => {
                         new URL(string);
                         return true;
                     } catch (_) {
-                        return false; // Não é uma URL válida
+                        return false; 
                     }
                 }
 
@@ -75,10 +75,10 @@ const VisaoGeral = () => {
                 const ferramentasDisponiveis = ferramentasData.filter(f => f.status === 'Disponível').length;
                 const ferramentasEmprestadas = ferramentasData.filter(f => f.status === 'Emprestada').length;
                 const ferramentasManutencao = ferramentasData.filter(f => f.status === 'Manutenção').length;
-                const ferramentasBaixa = responseFerramentas.data.filter(f => f.status === 'Baixa').length; // Conta apenas as ferramentas com status 'Baixa'
+                const ferramentasBaixa = responseFerramentas.data.filter(f => f.status === 'Baixa').length;
 
                 setFuncionarios(funcionariosData.length);
-                setFerramentas(ferramentasData.length); // Usa a lista filtrada para a contagem total
+                setFerramentas(ferramentasData.length); 
                 setDadosVisaoGeral({
                     semEmprestimo,
                     comEmprestimo,

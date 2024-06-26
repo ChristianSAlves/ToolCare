@@ -136,7 +136,7 @@
     background-color: #ff7637;
 }
 
-/* Media Queries para tornar responsivo */
+
 @media (max-width: 80rem) {
     .modal {
         width: 70vw;
@@ -229,7 +229,7 @@
     }
 }
 
-/* Media Queries para orientação vertical */
+
 @media (orientation: portrait) {
     .modal {
         width: 90vw;

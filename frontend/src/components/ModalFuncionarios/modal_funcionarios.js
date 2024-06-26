@@ -20,6 +20,7 @@ const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal, onStatu
     const [showFalhaEdicao, setShowFalhaEdicao] = useState(false);
     const [showConfirmacao, setShowConfirmacao] = useState(false);
     const [showFalhaRemocao, setShowFalhaRemocao] = useState(false);
+    const [showRemovido, setShowRemovido] = useState(false);
     const [codigoSetor, setCodigoSetor] = useState('');
     const [codigoCargo, setCodigoCargo] = useState('');
     const [cargos, setCargos] = useState([]);
@@ -58,7 +59,7 @@ const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal, onStatu
         };
 
         fetchData();
-    }, []);
+    }, [apiUrl]);
 
     useEffect(() => {
         if (funcionario) {
@@ -156,9 +157,9 @@ const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal, onStatu
             });
     
             if (response.ok) {
-                setShowEditado(true);
+                setShowRemovido(true);
                 setTimeout(() => {
-                    setShowEditado(false);
+                    setShowRemovido(false);
                     onClose();
                     if (onShowModal) onShowModal(false);
                 }, 3000);
@@ -185,12 +186,12 @@ const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal, onStatu
     const cancelRemove = () => {
         setShowConfirmacao(false);
     };
-    
 
     return (
         <>
             {showFalhaEdicao && <FalhaEdicaoComponent />}
             {showFalhaRemocao && <FalhaRemocaoComponent />}
+            {showRemovido && <RemovidoComponent />}
             <div className={styles.tela_cheia} onClick={onClose}>
                 <div className={styles.modal} onClick={e => e.stopPropagation()}>
                     <div id={styles.fundo_img}>

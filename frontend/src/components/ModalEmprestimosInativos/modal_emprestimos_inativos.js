@@ -76,7 +76,7 @@ const ModalEmprestimosInativosComponent = ({ onClose, emprestimo }) => {
 
         fetchFerramenta();
         fetchFuncionario();
-    }, [emprestimo, apiUrl]); // Adicionando apiUrl como dependência
+    }, [emprestimo, apiUrl]); 
 
     if (!emprestimo) {
         return null;

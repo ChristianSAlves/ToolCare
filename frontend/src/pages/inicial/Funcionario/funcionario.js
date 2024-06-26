@@ -12,17 +12,17 @@ const Funcionario = () => {
     const [selectedOption, setSelectedOption] = useState('');
     const [Funcionarios, setFuncionarios] = useState([]);
     const [filteredFuncionarios, setFilteredFuncionarios] = useState([]);
-    const [showModal, setShowModal] = useState(false);  // Estado para controle da visibilidade do modal
+    const [showModal, setShowModal] = useState(false);  
     const [selectedFuncionario, setSelectedFuncionario] = useState(null);
     const { apiUrl } = useApi();
 
     const filterFuncionarios = useCallback(async (newSearch, newSelectedOption) => {
-        const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage
+        const token = localStorage.getItem('token'); 
 
         try {
             const responseFuncionarios = await fetch(`${apiUrl}/funcionarios/`, {
                 headers: {
-                    'Authorization': `Token ${token}`, // Adicionando o token de autorização ao cabeçalho
+                    'Authorization': `Token ${token}`, 
                 },
             });
 
@@ -32,7 +32,7 @@ const Funcionario = () => {
 
             const dataFuncionarios = await responseFuncionarios.json();
             
-            // Filtrando apenas os funcionários com status igual a true
+            
             let filteredFuncionarios = dataFuncionarios.filter(funcionario => funcionario.status === true);
 
             if (newSelectedOption === 'nome') {
@@ -56,13 +56,13 @@ const Funcionario = () => {
     }, [apiUrl]);
 
     const fetchData = useCallback(async () => {
-        const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage
+        const token = localStorage.getItem('token'); 
     
         try {
-            // Busca os funcionarios
+            
             const responseFuncionarios = await fetch(`${apiUrl}/funcionarios/`, {
                 headers: {
-                    'Authorization': `Token ${token}`, // Adicionando o token de autorização ao cabeçalho
+                    'Authorization': `Token ${token}`, 
                 },
             });
             if (!responseFuncionarios.ok) {
@@ -70,7 +70,7 @@ const Funcionario = () => {
             }
             const dataFuncionarios = await responseFuncionarios.json();
             
-            // Filtrando apenas os funcionários com status igual a true
+            
             const activeFuncionarios = dataFuncionarios.filter(funcionario => funcionario.status === true);
 
             setFuncionarios(activeFuncionarios);

@@ -42,7 +42,6 @@ const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal, onRemove 
             formData.append('nome', editData.Nome);
             formData.append('numSerie', editData.NúmeroDeSerie);
             formData.append('descricao', editData.Descricao);
-            // Formatando a data de volta para o formato yyyy-mm-dd
             const [day, month, year] = editData.DataAquisicao.split('/');
             const formattedDate = `${year}-${month}-${day}`;
             formData.append('dataAquisicao', formattedDate);
@@ -59,8 +58,8 @@ const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal, onRemove 
                 setShowEditado(true);
                 setTimeout(() => {
                     setShowEditado(false);
-                    onClose(); // Fechar o modal após a atualização
-                    if (onShowModal) onShowModal(false); // Atualiza o estado do modal no componente pai, se necessário
+                    onClose();
+                    if (onShowModal) onShowModal(false); 
                 }, time);
             } else {
                 const errorData = await response.json();
@@ -78,7 +77,7 @@ const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal, onRemove 
             }, time);
         }
 
-        setIsEditing(false); // Sair do modo de edição após confirmar
+        setIsEditing(false); 
     };
 
     const handleChange = (event, field) => {
@@ -106,9 +105,9 @@ const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal, onRemove 
                 setShowRemovido(true);
                 setTimeout(() => {
                     setShowRemovido(false);
-                    onRemove(); // Chama a função para recarregar a lista de ferramentas após remoção
-                    onClose(); // Fechar o modal após a remoção
-                    if (onShowModal) onShowModal(false); // Atualiza o estado do modal no componente pai, se necessário
+                    onRemove(); 
+                    onClose(); 
+                    if (onShowModal) onShowModal(false); 
                 }, time);
             } else {
                 const errorData = await response.json();

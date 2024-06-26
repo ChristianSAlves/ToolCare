@@ -65,8 +65,8 @@
     white-space: nowrap;
     color: white;
     margin-bottom: 0.5rem;
-    width: 40%; /* Definindo uma largura fixa para todos os labels */
-    text-align: left; /* Alinhando o texto à esquerda */
+    width: 40%; 
+    text-align: left; 
 }
 
 .modal_content p {
@@ -248,6 +248,6 @@
     #select_status, #datepicker_aquisicao {
         font-size: 1.2rem;
         padding: 0.8rem;
-        width: 100%; /* Tornando a largura do input responsiva */
+        width: 100%; 
     }
 }

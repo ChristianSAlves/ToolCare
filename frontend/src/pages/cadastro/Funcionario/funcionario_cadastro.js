@@ -8,7 +8,7 @@ import CadastradoComponent from '../../../components/Avisos/Cadastrado/cadastrad
 import { useApi } from '../../../../src/ApiContext.js';
 
 const Funcionario = () => {
-    const { apiUrl } = useApi(); // Obtém o apiUrl do contexto ApiContext
+    const { apiUrl } = useApi(); 
     const [nome, setNome] = useState('');
     const [matriculaFuncionario, setMatriculaFuncionario] = useState('');
     const [cpf, setCpf] = useState('');
@@ -24,8 +24,8 @@ const Funcionario = () => {
         event.preventDefault();
 
         const token = localStorage.getItem('token');
-        const linksetor = `${apiUrl}/setores/${codigoSetor}/`; // Usa apiUrl para formar a URL
-        const linkcargo = `${apiUrl}/cargos/${codigoCargo}/`; // Usa apiUrl para formar a URL
+        const linksetor = `${apiUrl}/setores/${codigoSetor}/`; 
+        const linkcargo = `${apiUrl}/cargos/${codigoCargo}/`; 
 
         const formData = new FormData();
         formData.append('nome', nome);
@@ -38,7 +38,7 @@ const Funcionario = () => {
         if (imgFunc) {
             formData.append('imgFunc', imgFunc, imgFunc.name);
         } else {
-            // Simula carregar uma imagem padrão do servidor
+            
             const response = await fetch(defaultFuncionario);
             const blob = await response.blob();
             const file = new File([blob], 'defaultFuncionario.jpg', { type: 'image/jpeg' });
@@ -46,7 +46,7 @@ const Funcionario = () => {
         }
 
         try {
-            const response = await fetch(`${apiUrl}/funcionarios/`, { // Usa apiUrl para formar a URL
+            const response = await fetch(`${apiUrl}/funcionarios/`, { 
                 method: 'POST',
                 headers: {
                     'Authorization': `Token ${token}`,
@@ -63,9 +63,7 @@ const Funcionario = () => {
             const data = await response.json();
             console.log('Success:', data);
             setShowSuccess(true);
-            setTimeout(() => setShowSuccess(false), 3000); // Ocultar após 3 segundos
-
-            // Limpar os inputs após o cadastro bem-sucedido
+            setTimeout(() => setShowSuccess(false), 3000); 
             setNome('');
             setMatriculaFuncionario('');
             setCpf('');
@@ -76,7 +74,7 @@ const Funcionario = () => {
             console.error('Error:', error);
             console.log('Detalhes do erro:', error.message);
             setShowError(true);
-            setTimeout(() => setShowError(false), 3000); // Ocultar após 3 segundos
+            setTimeout(() => setShowError(false), 3000); 
         }
     };
 
@@ -85,7 +83,7 @@ const Funcionario = () => {
 
         const fetchData = async () => {
             try {
-                const responseCargos = await fetch(`${apiUrl}/cargos/`, { // Usa apiUrl para formar a URL
+                const responseCargos = await fetch(`${apiUrl}/cargos/`, { 
                     headers: {
                         'Authorization': `Token ${token}`,
                     },
@@ -96,7 +94,7 @@ const Funcionario = () => {
                 const dataCargos = await responseCargos.json();
                 setCargos(dataCargos);
 
-                const responseSetores = await fetch(`${apiUrl}/setores/`, { // Usa apiUrl para formar a URL
+                const responseSetores = await fetch(`${apiUrl}/setores/`, {
                     headers: {
                         'Authorization': `Token ${token}`,
                     },
@@ -113,7 +111,7 @@ const Funcionario = () => {
         };
 
         fetchData();
-    }, [apiUrl]); // Dependência do useEffect para recarregar quando apiUrl muda
+    }, [apiUrl]); 
 
     return (
         <div className={styles.container}>

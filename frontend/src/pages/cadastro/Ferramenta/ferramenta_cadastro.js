@@ -35,7 +35,7 @@ const FerramentaCadastro = () => {
         }
 
         formData.append('dataAquisicao', dataAquisicao);
-        formData.append('status', 'Disponível'); // Define o status como "Disponível"
+        formData.append('status', 'Disponível'); 
 
         try {
             const response = await fetch(`${apiUrl}/ferramentas/`, {
@@ -55,9 +55,7 @@ const FerramentaCadastro = () => {
             const data = await response.json();
             console.log('Success:', data);
             setShowSuccess(true);
-            setTimeout(() => setShowSuccess(false), 3000); // Ocultar após 3 segundos
-
-            // Limpar os inputs após o cadastro bem-sucedido
+            setTimeout(() => setShowSuccess(false), 3000); 
             setNome('');
             setNumSerie('');
             setDescricao('');
@@ -67,7 +65,7 @@ const FerramentaCadastro = () => {
             console.error('Error:', error);
             console.log('Detalhes do erro:', error.message);
             setShowError(true);
-            setTimeout(() => setShowError(false), 3000); // Ocultar após 3 segundos
+            setTimeout(() => setShowError(false), 3000); 
         }
     };
 
