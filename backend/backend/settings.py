@@ -122,7 +122,7 @@ DATABASES = {
         #'ENGINE': 'django.db.backends.sqlite3',
         #'NAME': BASE_DIR / 'db.sqlite3',
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'Toolcare',
+        'NAME': 'toolcare_db',
         'USER': 'postgres',
         'PASSWORD': '1806',
         'HOST': 'localhost',

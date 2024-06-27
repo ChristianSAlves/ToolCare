@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import styles from "./modal_ferramentas.module.css";
 import logo from "../../assets/imagens/logo.png";
 import EditadoComponent from "../Avisos/Editado/editado";
@@ -13,7 +14,7 @@ const formatDate = (dateString) => {
     return `${day}/${month}/${year}`;
 };
 
-const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal, onRemove = () => {} }) => {
+const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal, onRemove = () => { } }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [showEditado, setShowEditado] = useState(false);
     const [showRemovido, setShowRemovido] = useState(false);
@@ -28,6 +29,7 @@ const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal, onRemove 
     });
     const time = 3000;
     const { apiUrl } = useApi();
+    const navigate = useNavigate();
 
     const handleEdit = () => {
         setIsEditing(true);
@@ -140,6 +142,10 @@ const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal, onRemove 
         handleRemove();
     };
 
+    const handleRelatorio = () => {
+        navigate('/relatorio_ferramenta', { state: { ferramenta } });
+    };
+
     return (
         <>
             {showRemovido && <RemovidoComponent />}
@@ -171,8 +177,8 @@ const ModalFerramentasComponent = ({ onClose, ferramenta, onShowModal, onRemove 
                                 <>
                                     <button className={styles.edit_button} onClick={handleEdit}>EDITAR</button>
                                     <button className={styles.remove_button} onClick={confirmRemove}>DESATIVAR</button>
-                                    <button className={styles.relatorio_button}>RELATÓRIO</button>
-                                </> 
+                                    <button className={styles.remove_button} onClick={handleRelatorio}>RELATÓRIO</button>
+                                </>
                             )}
                         </div>
                     </div>
