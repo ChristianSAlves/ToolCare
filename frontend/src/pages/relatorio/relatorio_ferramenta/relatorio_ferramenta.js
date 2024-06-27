@@ -239,6 +239,7 @@ const RelatorioFerramenta = () => {
                             <p>Data de Empréstimo: {emprestimo.dataEmprestimo}</p>
                             <p>Data de Devolução: {emprestimo.dataDevolucao}</p>
                             <p>Observações: {emprestimo.observacoes}</p>
+                            <p>Funcionario: {emprestimo.nomeFuncionario}</p>
                         </div>
                     ))}
                 </div>
