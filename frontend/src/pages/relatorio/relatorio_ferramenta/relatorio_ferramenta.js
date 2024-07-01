@@ -201,56 +201,28 @@ const RelatorioFerramenta = () => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
     return (
         <div className={styles.container}>
             <MenuComponent />
 
             <div className={styles.container2} ref={pdf}>
-                <h1>Relatório</h1>
-                <c>Ferramenta:</c>
-                {ferramenta ? (
-                    <div className={styles.itens_relatorio}>
-                        <p>Nome: {ferramenta.nome}</p>
-                        <p>Número de Série: {ferramenta.numSerie}</p>
-                        <p>Descrição: {ferramenta.descricao}</p>
-                        <p>Data de Aquisição: {ferramenta.dataAquisicao}</p>
-                        <p>Status : {ferramenta.status}</p>
-                    </div>
-                ) : (
-                    <p>Nenhuma ferramenta selecionada.</p>
-                )}
+                <h1>Relatório da ferramenta: {ferramenta.nome}-{ferramenta.numSerie}</h1>
                 <div>
-                    <c>Emprestimos da ferramenta:</c>
+                    <h2>Emprestimos da ferramenta:</h2>
                     {filteredEmprestimos.map((emprestimo, index) => (
                         <div key={index} className={styles.itens_relatorio}>
-                            <p>Código Empréstimo: {emprestimo.codigoEmprestimo}</p>
-                            <p>Data de Empréstimo: {emprestimo.dataEmprestimo}</p>
-                            <p>Data de Devolução: {emprestimo.dataDevolucao}</p>
+                            <h3>Empréstimo {emprestimo.codigoEmprestimo}</h3>
+                            <p>{emprestimo.dataEmprestimo}  até  {emprestimo.dataDevolucao} - {emprestimo.nomeFuncionario}</p>
                             <p>Observações: {emprestimo.observacoes}</p>
-                            <p>Funcionario: {emprestimo.nomeFuncionario}</p>
                         </div>
                     ))}
                 </div>
                 <div>
-                    <c>Manutenções da ferramenta:</c>
+                    <h2>Manutenções da ferramenta:</h2>
                     {filteredManutencoes.map((manutencao, index) => (
                         <div key={index} className={styles.itens_relatorio}>
-                            <p>Código Manutenção: {manutencao.codigoManutencao}</p>
-                            <p>Tipo de Manutenção: {manutencao.tipoManutencao}</p>
-                            <p>Data de inicio: {manutencao.dataInicio}</p>
-                            <p>Data Final: {manutencao.dataFinal}</p>
+                            <h3> Manutenção {manutencao.codigoManutencao}</h3>
+                            <p>{manutencao.dataInicio}  até  {manutencao.dataFinal}-{manutencao.tipoManutencao}</p>
                         </div>
                     ))}
                 </div>
