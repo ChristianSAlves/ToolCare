@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import styles from "./modal_funcionarios_inativos.module.css";
 import logo from "../../assets/imagens/logo.png";
-import CadastradoComponent from "../Avisos/Ativado/ativado.js";
 import { useApi } from '../../../src/ApiContext.js';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const extractIdFromUrl = (url) => {
     if (!url) return '';
@@ -15,7 +17,6 @@ const ModalFuncionariosComponent = ({ onClose, funcionario }) => {
     const [codigoCargo, setCodigoCargo] = useState('');
     const [cargos, setCargos] = useState([]);
     const [setores, setSetores] = useState([]);
-    const [showCadastrado, setShowCadastrado] = useState(false);
     const { apiUrl } = useApi();
 
     useEffect(() => {
@@ -65,38 +66,136 @@ const ModalFuncionariosComponent = ({ onClose, funcionario }) => {
         CPF: funcionario.cpf,
     };
 
-    const ativarFuncionario = async () => {
-        const token = localStorage.getItem('token');
-        const url = `${apiUrl}/funcionarios/${funcionario.idFuncionario}/`;
-        const formData = new FormData();
-        formData.append('status', true);
+    const gerarRelatorio = () => {
+        const formatDate = (dateString) => {
+            if (!dateString) return '--/--/----'; // Retorna uma string vazia se dateString for nulo
+
+            const [year, month, day] = dateString.split('-');
+            return `${day}/${month}/${year}`;
+        };
+
+        const documentDefinition = {
+            content: [
+                { text: `Relatório do funcionário ${funcionario.nome}`, style: 'header' },
+                { text: `Matrícula: ${funcionario.matriculaFuncionario}` },
+                { text: `CPF: ${funcionario.cpf}` },
+                { text: `Status: inativo` },
+                { text: 'Empréstimos:', style: 'subheader' },
+                {
+                    ul: filteredEmprestimos.map(emprestimo => `Empréstimo ${emprestimo.codigoEmprestimo}: 
+                        Duração - ${formatDate(emprestimo.dataEmprestimo)} até ${formatDate(emprestimo.dataDevolucao)} 
+                        Ferramenta - ${emprestimo.nomeFerramenta}`)
+                }
+            ],
+            styles: {
+                header: { fontSize: 18, bold: true },
+                subheader: { fontSize: 16, bold: true, margin: [0, 15, 0, 5] }
+            }
+        };
+
+        // Define o nome do arquivo PDF
+        const fileName = `Relatório_${funcionario.nome.replace(/\s+/g, '_')}.pdf`;
+
+        pdfMake.createPdf(documentDefinition).download(fileName);
+    };
+
+
+
+
+    const [manutencoes, setManutencoes] = useState([]);
+    const [filteredManutencoes, setFilteredManutencoes] = useState([]);
+    const [search, setSearch] = useState('');
+    const [emprestimos, setEmprestimos] = useState([]);
+    const [filteredEmprestimos, setFilteredEmprestimos] = useState([]);
+
+
+    const fetchEmprestimos = useCallback(async () => {
+        const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage
 
         try {
+            const response = await fetch(`${apiUrl}/emprestimos/`, {
+                headers: {
+                    'Authorization': `Token ${token}`, // Adicionando o token de autorização ao cabeçalho
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Erro ao carregar os Emprestimos');
+            }
+            const data = await response.json();
+            const filteredData = data.filter(emprestimo => emprestimo.matriculaFuncionario === `${apiUrl}/funcionarios/${funcionario.idFuncionario}/`);
+            setEmprestimos(filteredData);
+            setFilteredEmprestimos(filteredData);
+        } catch (error) {
+            console.error('Erro:', error);
+        }
+    }, [apiUrl]);
+
+    const fetchNome = useCallback(async (url, token) => {
+        try {
             const response = await fetch(url, {
-                method: 'PATCH',
                 headers: {
                     'Authorization': `Token ${token}`,
                 },
-                body: formData,
+            });
+            if (!response.ok) {
+                throw new Error('Erro ao carregar o nome');
+            }
+            const data = await response.json();
+            return data.nome;
+        } catch (error) {
+            console.error('Erro:', error);
+            return '';
+        }
+    }, []);
+
+    useEffect(() => {
+        fetchEmprestimos();
+    }, [fetchEmprestimos]);
+
+    useEffect(() => {
+        const filterEmprestimos = async () => {
+            const token = localStorage.getItem('token');
+            const filtered = await Promise.all(
+                emprestimos.map(async (emprestimo) => {
+                    const nomeFerramenta = await fetchNome(`${apiUrl}/ferramentas/${extractIdFromUrl(emprestimo.numSerie)}/`, token);
+                    const nomeFuncionario = await fetchNome(`${apiUrl}/funcionarios/${extractIdFromUrl(emprestimo.matriculaFuncionario)}/`, token);
+
+                    return {
+                        ...emprestimo,
+                        nomeFerramenta,
+                        nomeFuncionario
+                    };
+                })
+            );
+
+            const result = filtered.filter(emprestimo => {
+                const searchLower = search.toLowerCase();
+                const codigoEmprestimoMatch = emprestimo.codigoEmprestimo.toString().includes(searchLower);
+                const emprestimoStringMatch = `emprestimo ${emprestimo.codigoEmprestimo}`.toLowerCase().includes(searchLower);
+                const emprestimoAcentoStringMatch = `empréstimo ${emprestimo.codigoEmprestimo}`.toLowerCase().includes(searchLower);
+                const nomeFuncionarioMatch = emprestimo.nomeFuncionario.toLowerCase().includes(searchLower);
+                const nomeFerramentaMatch = emprestimo.nomeFerramenta.toLowerCase().includes(searchLower);
+
+                return (
+                    codigoEmprestimoMatch ||
+                    emprestimoStringMatch ||
+                    emprestimoAcentoStringMatch ||
+                    nomeFuncionarioMatch ||
+                    nomeFerramentaMatch
+                );
             });
 
-            if (response.ok) {
-                setShowCadastrado(true);
-                setTimeout(() => {
-                    setShowCadastrado(false);
-                    onClose();
-                }, 3000);
-            } else {
-                console.error('Falha ao ativar o funcionário. Por favor, tente novamente.');
-            }
-        } catch (error) {
-            console.error('Erro ao ativar o funcionário:', error);
-        }
-    };
+            setFilteredEmprestimos(result);
+        };
+
+        filterEmprestimos();
+    }, [search, emprestimos, fetchNome, apiUrl]);
+
+
 
     return (
         <>
-            {showCadastrado && <CadastradoComponent />}
             <div className={styles.tela_cheia} onClick={onClose}>
                 <div className={styles.modal} onClick={e => e.stopPropagation()}>
                     <div id={styles.fundo_img}>
@@ -126,8 +225,8 @@ const ModalFuncionariosComponent = ({ onClose, funcionario }) => {
                         <p id={styles.fechar} onClick={onClose}>x</p>
                         <div className={styles.modal_buttons}>
                             <>
-                                <button className={styles.remove_button} onClick={ativarFuncionario}>ATIVAR</button>
-                                <button className={styles.relatorio_button}>RELATÓRIO</button>
+                                <button className={styles.remove_button}>ATIVAR</button>
+                                <button className={styles.relatorio_button} onClick={gerarRelatorio}>RELATÓRIO</button>
                             </>
                         </div>
                     </div>
