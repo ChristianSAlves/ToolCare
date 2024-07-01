@@ -27,7 +27,7 @@ const CardManutencoesComponent = ({ manutencao }) => {
 
         const fetchData = async () => {
             try {
-                const responseFerramentas = await fetch('http://127.0.0.1:8000/ferramentas/', {
+                const responseFerramentas = await fetch('http://192.168.7.17:8000/ferramentas/', {
                     headers: {
                         'Authorization': `Token ${token}`,
                     },

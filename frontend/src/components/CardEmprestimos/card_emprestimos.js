@@ -24,7 +24,7 @@ const CardEmprestimosComponent = ({ emprestimo }) => {
 
         const fetchFerramenta = async () => {
             try {
-                const response = await fetch(`http://127.0.0.1:8000/ferramentas/${numSerie}/`, {
+                const response = await fetch(`http://192.168.7.17:8000/ferramentas/${numSerie}/`, {
                     headers: {
                         'Authorization': `Token ${token}`,
                     },
@@ -42,7 +42,7 @@ const CardEmprestimosComponent = ({ emprestimo }) => {
 
         const fetchFuncionario = async () => {
             try {
-                const response = await fetch(`http://127.0.0.1:8000/funcionarios/${matriculaFuncionario}/`, {
+                const response = await fetch(`http://192.168.7.17:8000/funcionarios/${matriculaFuncionario}/`, {
                     headers: {
                         'Authorization': `Token ${token}`,
                     },
