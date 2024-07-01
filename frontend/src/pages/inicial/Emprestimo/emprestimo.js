@@ -19,12 +19,12 @@ const Emprestimo = () => {
     const [selectedEmprestimo, setSelectedEmprestimo] = useState(null);
 
     const fetchEmprestimos = async () => {
-        const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage
+        const token = localStorage.getItem('token'); 
     
         try {
             const response = await fetch('http://127.0.0.1:8000/emprestimos/', {
                 headers: {
-                    'Authorization': `Token ${token}`, // Adicionando o token de autorização ao cabeçalho
+                    'Authorization': `Token ${token}`, 
                 },
             });
 

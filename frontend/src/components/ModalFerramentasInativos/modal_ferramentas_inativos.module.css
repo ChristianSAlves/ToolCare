@@ -21,7 +21,7 @@
     border-radius: 3rem;
     box-shadow: 0 0.4rem 0.6rem rgba(0,0,0,0.1);
     position: relative;
-    flex-direction: row; /* Configura o layout de linha */
+    flex-direction: row;
 }
 
 #fechar {
@@ -47,7 +47,7 @@
 .modal_info {
     display: flex;
     flex-direction: column;
-    gap: 2.5rem; /* Ajustando o espaço para melhor visualização */
+    gap: 2.5rem; 
 }
 
 .info_row {
@@ -62,7 +62,7 @@
     font-weight: 400;
     border-radius: 1.5rem;
     font-size: 3rem;
-    flex-basis: 30%; /* Alocando espaço para o rótulo */
+    flex-basis: 30%;
     white-space: nowrap;
     color: white;
 }
@@ -80,20 +80,20 @@
 .modal_buttons {
     display: flex;
     justify-content: space-around;
-    width: 100%; /* Assegurando que os botões preencham toda a largura */
+    width: 100%; 
     gap: 1rem;
-    margin-top: 1rem; /* Espaço extra acima dos botões */
+    margin-top: 1rem; 
 }
 
 .edit_button, .remove_button, .relatorio_button {
-    flex: 1; /* Garante que os botões ocupem espaço igual */
+    flex: 1; 
     padding: 1rem 2rem;
     border: none;
     color: white;
     cursor: pointer;
     border-radius: 1.5rem;
     text-transform: uppercase;
-    height: 7.5vh; /* Permitindo que a altura se ajuste baseada no conteúdo */
+    height: 7.5vh; 
     font-weight: 500;
     font-size: 3rem;
 }
@@ -230,7 +230,7 @@
     }
 }
 
-/* Media Queries para orientação vertical */
+
 @media (orientation: portrait) {
     .modal {
         width: 90vw;

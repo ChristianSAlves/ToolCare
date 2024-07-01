@@ -41,7 +41,6 @@ const Manutencao = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        // Validate form data
         if (codFerramenta === 0 || tipoManutencao === '') {
             alert('Por favor, selecione uma ferramenta e um tipo de manutenção.');
             return;
@@ -58,7 +57,7 @@ const Manutencao = () => {
         formData.append('codFerramenta', linkferramenta);
         formData.append('tipoManutencao', tipoManutencao);
         formData.append('dataInicio', dataInicio);
-        formData.append('dataFim', ''); // Assuming dataFim is required in the API
+        formData.append('dataFim', ''); 
 
         try {
             const response = await fetch(`${apiUrl}/manutencoes/`, {
@@ -73,9 +72,7 @@ const Manutencao = () => {
                 const responseData = await response.json();
                 console.log('Success:', responseData);
                 setShowSuccess(true);
-                setTimeout(() => setShowSuccess(false), 3000); // Ocultar após 3 segundos
-
-                // Limpar os inputs após o cadastro bem-sucedido
+                setTimeout(() => setShowSuccess(false), 3000); 
                 setCodFerramenta(0);
                 setTipoManutencao('');
             } else {
@@ -83,14 +80,14 @@ const Manutencao = () => {
                 const errorData = await response.json();
                 console.log('Error details:', errorData);
                 setShowError(true);
-                setTimeout(() => setShowError(false), 3000); // Ocultar após 3 segundos
+                setTimeout(() => setShowError(false), 3000);
             }
 
         } catch (error) {
             console.error('Error:', error);
             console.log('Detalhes do erro:', error.message);
             setShowError(true);
-            setTimeout(() => setShowError(false), 3000); // Ocultar após 3 segundos
+            setTimeout(() => setShowError(false), 3000); 
         }
     };
 

@@ -42,9 +42,9 @@ const ModalFerramentasInativosComponent = ({ onClose, ferramenta, onShowModal, o
                 setShowEditado(true);
                 setTimeout(() => {
                     setShowEditado(false);
-                    if (onRemove) onRemove(); // Verifica se onRemove é passado e chama a função para recarregar a lista de ferramentas após ativação
-                    onClose(); // Fechar o modal após a ativação
-                    if (onShowModal) onShowModal(false); // Atualiza o estado do modal no componente pai, se necessário
+                    if (onRemove) onRemove();
+                    onClose(); 
+                    if (onShowModal) onShowModal(false); 
                 }, time);
             } else {
                 const errorData = await response.json();

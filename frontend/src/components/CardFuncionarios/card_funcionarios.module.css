@@ -21,12 +21,12 @@
 
 #card img {
     width: 100%;
-    height: 25rem; /* Altura fixa */
-    object-fit: cover; /* Cobrir o espaço sem perder as proporções */
+    height: 25rem;
+    object-fit: cover; 
 }
 
 #fundo {
-    padding: 1.5rem; /* Padding interno aumentado */
+    padding: 1.5rem; 
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -45,14 +45,14 @@
 }
 
 .nome {
-    font-size: 2.2rem; /* Tamanho da fonte aumentado para o nome */
+    font-size: 2.2rem;
     font-weight: 900;
     margin-top: -1rem;
 }
 
 .matriculaFuncionario,
 .cpf {
-    font-size: 1.7rem; /* Tamanho da fonte ajustado para número de série e status */
+    font-size: 1.7rem; 
     color: #666666;
 }
 
@@ -69,7 +69,7 @@
     border: none;
     border-radius: 0.5rem;
     cursor: pointer;
-    font-size: 1.2rem; /* Tamanho da fonte aumentado */
+    font-size: 1.2rem; 
     height: auto;
     font-weight: bold;
     font: normal 500 1.7rem 'Lato';

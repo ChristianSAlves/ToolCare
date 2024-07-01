@@ -11,7 +11,7 @@ const Setor = () => {
     const [search, setSearch] = useState('');
     const [selectedOption, setSelectedOption] = useState('nome');
     const [Setores, setSetores] = useState([]);
-    const [showModal, setShowModal] = useState(false);  // Estado para controle da visibilidade do modal
+    const [showModal, setShowModal] = useState(false);  
     const [selectedSetor, setSelectedSetor] = useState(null);
     const { apiUrl } = useApi();
 

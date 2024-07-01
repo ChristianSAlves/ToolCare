@@ -68,7 +68,7 @@ html {
 }
 
 .input_file {
-    width: 100%; /* Ajuste a largura para ocupar todo o espaço disponível */
+    width: 100%; 
     padding: 1rem;
     height: 5vh;
     border: none;
@@ -118,7 +118,7 @@ button:hover {
 .spacer {
     width: 100%;
     display: flex;
-    justify-content: flex-start; /* Alinha os itens à esquerda */
+    justify-content: flex-start;
     align-items: center;
     margin-bottom: 1rem;
 }
@@ -132,7 +132,7 @@ button:hover {
     padding: 1rem;
     border-radius: 0.5rem;
     width: 10rem;
-    margin-right: 1rem; /* Espaço entre o label e o select */
+    margin-right: 1rem; 
     color: rgb(255, 255, 255);
     font: normal 500 1.75rem 'Lato';
 }

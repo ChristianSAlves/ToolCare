@@ -49,8 +49,8 @@ export const MenuComponent = () => {
 
     const logout = () => {
         localStorage.removeItem('token');
-        setSelectedItem('visao_geral'); // Redefine o estado selecionado para "visao_geral"
-        localStorage.setItem('selectedItem', 'visao_geral'); // Salva o estado como "visao_geral"
+        setSelectedItem('visao_geral'); 
+        localStorage.setItem('selectedItem', 'visao_geral'); 
         navigate('/login');
     };
 

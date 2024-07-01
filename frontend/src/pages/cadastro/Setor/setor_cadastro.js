@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import MenuComponent from '../../../components/Menu/Menu';
 import CadastradoComponent from '../../../components/Avisos/Cadastrado/cadastrado';
 import FalhaCadastroComponent from '../../../components/Avisos/FalhaCadastro/falha_cadastro';
-import withApi from '../../../withApi'; // Adjust the path according to your project structure
+import withApi from '../../../withApi'; 
 
 class Setor extends React.Component {
     constructor(props) {
@@ -22,7 +22,7 @@ class Setor extends React.Component {
     }
 
     async componentDidMount() {
-        const { apiUrl } = this.props.apiContext; // Get apiUrl from props
+        const { apiUrl } = this.props.apiContext; 
         const url = `${apiUrl}/setores/`;
     
         const config = {
@@ -59,7 +59,7 @@ class Setor extends React.Component {
 
     handleSubmit = async (event) => {
         event.preventDefault();
-        const { apiUrl } = this.props.apiContext; // Get apiUrl from props
+        const { apiUrl } = this.props.apiContext; 
         const token = localStorage.getItem('token');
         const data = {
             nomeSetor: this.state.nomeSetor,
@@ -87,9 +87,7 @@ class Setor extends React.Component {
             const responseData = await response.json();
             console.log('Success:', responseData);
             this.setState({ showSuccess: true, showError: false });
-            setTimeout(() => this.setState({ showSuccess: false }), 3000); // Ocultar após 3 segundos
-
-            // Limpar os inputs após o cadastro bem-sucedido
+            setTimeout(() => this.setState({ showSuccess: false }), 3000); 
             this.setState({
                 nomeSetor: '',
                 descricaoSetor: '',
@@ -97,7 +95,7 @@ class Setor extends React.Component {
         } catch (error) {
             console.error('Error:', error);
             this.setState({ showError: true, showSuccess: false });
-            setTimeout(() => this.setState({ showError: false }), 3000); // Ocultar após 3 segundos
+            setTimeout(() => this.setState({ showError: false }), 3000);
         }
     }
 

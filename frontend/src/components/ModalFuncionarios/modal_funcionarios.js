@@ -4,6 +4,7 @@ import logo from "../../assets/imagens/logo.png";
 import EditadoComponent from "../Avisos/Editado/editado";
 import FalhaEdicaoComponent from "../Avisos/FalhaEdição/falha_edicao";
 import FalhaRemocaoComponent from "../Avisos/FalhaRemoção/falha_remocao";
+import RemovidoComponent from "../Avisos/Removido/removido.js";
 import ConfirmarRemocaoComponent from "../Avisos/ConfirmarRemoção/confirmar_remocao";
 import { useApi } from '../../../src/ApiContext.js';
 
@@ -19,6 +20,7 @@ const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal, onStatu
     const [showFalhaEdicao, setShowFalhaEdicao] = useState(false);
     const [showConfirmacao, setShowConfirmacao] = useState(false);
     const [showFalhaRemocao, setShowFalhaRemocao] = useState(false);
+    const [showRemovido, setShowRemovido] = useState(false);
     const [codigoSetor, setCodigoSetor] = useState('');
     const [codigoCargo, setCodigoCargo] = useState('');
     const [cargos, setCargos] = useState([]);
@@ -30,7 +32,7 @@ const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal, onStatu
 
         const fetchData = async () => {
             try {
-                const responseCargos = await fetch(`${apiUrl}:8000/cargos/`, {
+                const responseCargos = await fetch(`${apiUrl}/cargos/`, {
                     headers: {
                         'Authorization': `Token ${token}`,
                     },
@@ -57,7 +59,7 @@ const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal, onStatu
         };
 
         fetchData();
-    }, []);
+    }, [apiUrl]);
 
     useEffect(() => {
         if (funcionario) {
@@ -155,9 +157,9 @@ const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal, onStatu
             });
     
             if (response.ok) {
-                setShowEditado(true);
+                setShowRemovido(true);
                 setTimeout(() => {
-                    setShowEditado(false);
+                    setShowRemovido(false);
                     onClose();
                     if (onShowModal) onShowModal(false);
                 }, 3000);
@@ -184,12 +186,12 @@ const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal, onStatu
     const cancelRemove = () => {
         setShowConfirmacao(false);
     };
-    
 
     return (
         <>
             {showFalhaEdicao && <FalhaEdicaoComponent />}
             {showFalhaRemocao && <FalhaRemocaoComponent />}
+            {showRemovido && <RemovidoComponent />}
             <div className={styles.tela_cheia} onClick={onClose}>
                 <div className={styles.modal} onClick={e => e.stopPropagation()}>
                     <div id={styles.fundo_img}>

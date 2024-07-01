@@ -23,7 +23,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 1000; /* Valor alto para garantir que o menu esteja sobreposto */
+    z-index: 1000; 
 }
 
 #info_visao_geral {
@@ -84,7 +84,7 @@
 .numero, .porcentagem {
     font: normal 700 4rem 'Inter';
     color: white;
-    width: 10rem; /* Definir uma largura fixa para garantir o alinhamento */
+    width: 10rem; 
     text-align: center;
     position: relative;
 }
@@ -92,57 +92,57 @@
 .texto {
     font: normal 500 2rem 'Inter';
     color: white;
-    width: 25rem; /* Definir uma largura fixa para garantir o alinhamento */
+    width: 25rem; 
 }
 
-/* Pseudoelementos para os retângulos coloridos */
+
 .porcentagem::before, .numero::before {
     content: '';
     position: absolute;
     left: -1.5rem;
     width: 1rem;
     height: 100%;
-    background-color: transparent; /* Será alterado para a cor desejada */
+    background-color: transparent; 
 }
 
-/* Cores específicas para cada retângulo */
+
 .info_row:nth-child(1) .porcentagem::before {
-    background-color: #0BDD17; /* Verde */
+    background-color: #0BDD17; 
 }
 
 .info_row:nth-child(2) .numero::before {
-    background-color: #0BDD17; /* Verde */
+    background-color: #0BDD17; 
 }
 
 .info_row:nth-child(3) .porcentagem::before {
-    background-color: #DD0B0B; /* Vermelho */
+    background-color: #DD0B0B; 
 }
 
 .info_row:nth-child(4) .numero::before {
-    background-color: #DD0B0B; /* Vermelho */
+    background-color: #DD0B0B; 
 }
 
-/* Cores específicas para info_ferramentas */
+
 #info_ferramentas .info_row:nth-child(1) .porcentagem::before {
-    background-color: #0BDD17; /* Verde */
+    background-color: #0BDD17; 
 }
 
 #info_ferramentas .info_row:nth-child(2) .numero::before {
-    background-color: #0BDD17; /* Verde */
+    background-color: #0BDD17; 
 }
 
 #info_ferramentas .info_row:nth-child(3) .porcentagem::before {
-    background-color: #DD0B0B; /* Vermelho */
+    background-color: #DD0B0B; 
 }
 
 #info_ferramentas .info_row:nth-child(4) .numero::before {
-    background-color: #DD0B0B; /* Vermelho */
+    background-color: #DD0B0B; 
 }
 
 #info_ferramentas .info_row:nth-child(5) .porcentagem::before {
-    background-color: #FFA500; /* Laranja */
+    background-color: #FFA500; 
 }
 
 #info_ferramentas .info_row:nth-child(6) .numero::before {
-    background-color: #FFA500; /* Laranja */
+    background-color: #FFA500;
 }

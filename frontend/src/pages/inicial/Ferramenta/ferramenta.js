@@ -11,7 +11,7 @@ const Ferramenta = () => {
     const [selectedOption, setSelectedOption] = useState('');
     const [Ferramentas, setFerramentas] = useState([]);
     const [filteredFerramentas, setFilteredFerramentas] = useState([]);
-    const [showModal, setShowModal] = useState(false);  // Estado para controle da visibilidade do modal
+    const [showModal, setShowModal] = useState(false);  
     const [selectedFerramenta, setSelectedFerramenta] = useState(null);
     const { apiUrl } = useApi();
 
@@ -50,13 +50,13 @@ const Ferramenta = () => {
     };
 
     useEffect(() => {
-        const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage
+        const token = localStorage.getItem('token'); 
     
         const fetchData = async () => {
             try {
                 const responseFerramentas = await fetch(`${apiUrl}/ferramentas/`, {
                     headers: {
-                        'Authorization': `Token ${token}`, // Adicionando o token de autorização ao cabeçalho
+                        'Authorization': `Token ${token}`, 
                     },
                 });
                 if (!responseFerramentas.ok) {

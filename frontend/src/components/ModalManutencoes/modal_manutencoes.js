@@ -49,7 +49,7 @@ const ModalManutencaoComponent = ({ onClose, manutencao, onShowModal, onEdit }) 
         };
 
         fetchData();
-    }, [apiUrl]); // Adicionando apiUrl como dependência
+    }, [apiUrl]); 
 
     useEffect(() => {
         if (manutencao && manutencao.codFerramenta) {
@@ -80,7 +80,7 @@ const ModalManutencaoComponent = ({ onClose, manutencao, onShowModal, onEdit }) 
 
             if (response.ok) {
                 setShowEditado(true);
-                if (onEdit) onEdit(); // Chama a função para recarregar a lista de manutenções após edição
+                if (onEdit) onEdit(); 
                 setTimeout(() => {
                     setShowEditado(false);
                     onClose();

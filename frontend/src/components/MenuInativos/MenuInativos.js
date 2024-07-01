@@ -42,8 +42,8 @@ export const MenuInativosComponent = () => {
 
     const logout = () => {
         localStorage.removeItem('token');
-        setSelectedItem('visao_geral'); // Redefine o estado selecionado para "visao_geral"
-        localStorage.setItem('selectedItem', 'visao_geral'); // Salva o estado como "visao_geral"
+        setSelectedItem('visao_geral'); 
+        localStorage.setItem('selectedItem', 'visao_geral'); 
         navigate('/login');
     };
 
@@ -91,26 +91,6 @@ export const MenuInativosComponent = () => {
                             <h4 id="texto_manutencoes" className={`${styles.item} ${styles.texto_menu} ${selectedItem === 'manutencoes' ? styles.selected : ''}`}>MANUTENÇÕES</h4>
                         </li>
                     </Link>
-                    {/*<Link to="/cargo_inativo">
-                        <li
-                            id="cargos"
-                            className={`${styles.div_navbar} ${selectedItem === 'cargos' ? styles.selected : ''}`}
-                            onClick={() => handleItemClick('cargos')}
-                        >
-                            <img src={getIconSrc('cargos', cargosIcon, cargosIconLaranja)} className={`${styles.item} ${styles.quadradinho}`} alt="Ícone de cargos" />
-                            <h4 id="texto_cargos" className={`${styles.item} ${styles.texto_menu} ${selectedItem === 'cargos' ? styles.selected : ''}`}>CARGOS</h4>
-                        </li>
-                    </Link>
-                    <Link to="/setor_inativo">
-                        <li
-                            id="setores"
-                            className={`${styles.div_navbar} ${selectedItem === 'setores' ? styles.selected : ''}`}
-                            onClick={() => handleItemClick('setores')}
-                        >
-                            <img src={getIconSrc('setores', setoresIcon, setoresIconLaranja)} className={`${styles.item} ${styles.quadradinho}`} alt="Ícone de setores" />
-                            <h4 id="texto_setores" className={`${styles.item} ${styles.texto_menu} ${selectedItem === 'setores' ? styles.selected : ''}`}>SETORES</h4>
-                        </li>
-                    </Link>*/}
                 </ul>
                 <Link to="/visao_geral" state={{ selectedItem: 'visao_geral' }}>
                 <li id="ativos" className={`${styles.div_navbar} ${styles.div_ativos}`}>

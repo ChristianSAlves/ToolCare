@@ -48,8 +48,8 @@ const ModalSetoresComponent = ({ onClose, setor, onShowModal, onRemoveSuccess })
                 setShowEditado(true);
                 setTimeout(() => {
                     setShowEditado(false);
-                    onClose(); // Fechar o modal após a atualização
-                    if (onShowModal) onShowModal(false); // Atualiza o estado do modal no componente pai, se necessário
+                    onClose(); 
+                    if (onShowModal) onShowModal(false); 
                 }, time);
             } else {
                 const errorData = await response.json();
@@ -67,7 +67,7 @@ const ModalSetoresComponent = ({ onClose, setor, onShowModal, onRemoveSuccess })
             }, time);
         }
 
-        setIsEditing(false); // Sair do modo de edição após confirmar
+        setIsEditing(false); 
     };
 
     const handleChange = (event, field) => {
@@ -92,11 +92,11 @@ const ModalSetoresComponent = ({ onClose, setor, onShowModal, onRemoveSuccess })
 
             if (response.ok) {
                 setShowRemovido(true);
-                onRemoveSuccess();  // Chama a função de callback imediatamente
+                onRemoveSuccess(); 
                 setTimeout(() => {
                     setShowRemovido(false);
-                    onClose(); // Fechar o modal após a exibição da mensagem
-                    if (onShowModal) onShowModal(false); // Atualiza o estado do modal no componente pai, se necessário
+                    onClose();
+                    if (onShowModal) onShowModal(false); 
                 }, timeRemovido);
             } else {
                 console.error('Falha ao remover o setor. Por favor, tente novamente.');

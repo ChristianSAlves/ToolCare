@@ -14,12 +14,12 @@ const FuncionarioInativo = () => {
     const { apiUrl } = useApi();
 
     const fetchFuncionarios = useCallback(async () => {
-        const token = localStorage.getItem('token'); // Obtendo o token de autorização do localStorage
+        const token = localStorage.getItem('token'); 
     
         try {
             const response = await fetch(`${apiUrl}/funcionarios/`, {
                 headers: {
-                    'Authorization': `Token ${token}`, // Adicionando o token de autorização ao cabeçalho
+                    'Authorization': `Token ${token}`, 
                 },
             });
 
