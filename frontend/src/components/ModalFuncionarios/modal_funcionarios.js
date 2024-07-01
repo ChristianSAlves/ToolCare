@@ -33,7 +33,7 @@ const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal, onStatu
 
         const fetchData = async () => {
             try {
-                const responseCargos = await fetch('http://127.0.0.1:8000/cargos/', {
+                const responseCargos = await fetch('http://192.168.7.17:8000/cargos/', {
                     headers: {
                         'Authorization': `Token ${token}`,
                     },
@@ -44,7 +44,7 @@ const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal, onStatu
                 const dataCargos = await responseCargos.json();
                 setCargos(dataCargos);
 
-                const responseSetores = await fetch('http://127.0.0.1:8000/setores/', {
+                const responseSetores = await fetch('http://192.168.7.17:8000/setores/', {
                     headers: {
                         'Authorization': `Token ${token}`,
                     },
@@ -90,9 +90,9 @@ const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal, onStatu
     const handleConfirmEdit = async () => {
         const token = localStorage.getItem('token');
         try {
-            const url = `http://127.0.0.1:8000/funcionarios/${funcionario.idFuncionario}/`;
-            const linksetor = `http://127.0.0.1:8000/setores/${codigoSetor}/`;
-            const linkcargo = `http://127.0.0.1:8000/cargos/${codigoCargo}/`;
+            const url = `http://192.168.7.17/funcionarios/${funcionario.idFuncionario}/`;
+            const linksetor = `http://192.168.7.17/setores/${codigoSetor}/`;
+            const linkcargo = `http://192.168.7.17/cargos/${codigoCargo}/`;
 
             const formData = new FormData();
             formData.append('nome', editData.Nome);
@@ -141,7 +141,7 @@ const ModalFuncionariosComponent = ({ onClose, funcionario, onShowModal, onStatu
         const token = localStorage.getItem('token');
 
         try {
-            const url = `http://127.0.0.1:8000/funcionarios/${funcionario.idFuncionario}/`;
+            const url = `http://192.168.7.17:8000/funcionarios/${funcionario.idFuncionario}/`;
             const formData = new FormData();
             formData.append('status', false);
 
