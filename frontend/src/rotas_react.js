@@ -23,7 +23,7 @@ import FuncionarioInativo from './pages/inativos/Funcionario/funcionario_inativo
 import FerramentaInativo from './pages/inativos/Ferramenta/ferramenta_inativo.js'
 import Login from './pages/login/login.js'
 import RequireAuth from './RequireAuth.js'
-import RelatorioFerramenta from './pages/relatorio/relatorio_ferramenta/relatorio_ferramenta.js'
+
 function Rotas() {
 
     return (
@@ -57,7 +57,7 @@ function Rotas() {
                         <Route path='/ferramenta_inativo' element={<FerramentaInativo />} />
                         <Route path='/funcionario_inativo' element={<FuncionarioInativo />} />
                         <Route path='/manutencao_inativo' element={<ManutencaoInativo />} />
-                        <Route path='/relatorio_ferramenta' element={<RelatorioFerramenta />} />
+
                     </Routes>
                 </RequireAuth>
             } />
