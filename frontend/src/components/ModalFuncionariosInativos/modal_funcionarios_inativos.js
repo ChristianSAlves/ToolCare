@@ -66,6 +66,35 @@ const ModalFuncionariosComponent = ({ onClose, funcionario }) => {
         CPF: funcionario.cpf,
     };
 
+    const ativarFuncionario = async () => {
+        const token = localStorage.getItem('token');
+        const url = `${apiUrl}/funcionarios/${funcionario.idFuncionario}/`;
+        const formData = new FormData();
+        formData.append('status', true);
+
+        try {
+            const response = await fetch(url, {
+                method: 'PATCH',
+                headers: {
+                    'Authorization': `Token ${token}`,
+                },
+                body: formData,
+            });
+
+            if (response.ok) {
+                setShowCadastrado(true);
+                setTimeout(() => {
+                    setShowCadastrado(false);
+                    onClose();
+                }, 3000);
+            } else {
+                console.error('Falha ao ativar o funcionário. Por favor, tente novamente.');
+            }
+        } catch (error) {
+            console.error('Erro ao ativar o funcionário:', error);
+        }
+    };
+
     const gerarRelatorio = () => {
         const formatDate = (dateString) => {
             if (!dateString) return '--/--/----'; // Retorna uma string vazia se dateString for nulo
@@ -225,7 +254,7 @@ const ModalFuncionariosComponent = ({ onClose, funcionario }) => {
                         <p id={styles.fechar} onClick={onClose}>x</p>
                         <div className={styles.modal_buttons}>
                             <>
-                                <button className={styles.remove_button}>ATIVAR</button>
+                                <button className={styles.remove_button} onClick={ativarFuncionario}>ATIVAR</button>
                                 <button className={styles.relatorio_button} onClick={gerarRelatorio}>RELATÓRIO</button>
                             </>
                         </div>
