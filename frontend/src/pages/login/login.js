@@ -24,7 +24,7 @@ export default class Login extends React.Component {
     handleSubmit(event) {
         event.preventDefault();
         this.setState({ loginFailed: false }); 
-        const url = 'http://127.0.0.1:8000/api-token-auth/';
+        const url = 'http://192.168.7.17:8000/api-token-auth/';
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
