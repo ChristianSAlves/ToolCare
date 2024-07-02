@@ -67,8 +67,8 @@ const Emprestimo = () => {
             const token = localStorage.getItem('token');
             const filtered = await Promise.all(
                 emprestimos.map(async (emprestimo) => {
-                    const nomeFerramenta = await fetchNome(`http://192.168.7.17/ferramentas/${extractIdFromUrl(emprestimo.numSerie)}/`, token);
-                    const nomeFuncionario = await fetchNome(`http://192.168.7.17/funcionarios/${extractIdFromUrl(emprestimo.matriculaFuncionario)}/`, token);
+                    const nomeFerramenta = await fetchNome(`http://192.168.7.17:8000/ferramentas/${extractIdFromUrl(emprestimo.numSerie)}/`, token);
+                    const nomeFuncionario = await fetchNome(`http://192.168.7.17:8000/funcionarios/${extractIdFromUrl(emprestimo.matriculaFuncionario)}/`, token);
 
                     return {
                         ...emprestimo,
